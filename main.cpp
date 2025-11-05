@@ -10,4 +10,5 @@ int main(int argc, char *argv[])
     return a.exec();
     // test commit i push
     // test commit i push 2
+    // test commit  i push 3 kuba
 }
