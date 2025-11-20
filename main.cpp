@@ -13,8 +13,6 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();*/
     QCoreApplication a(argc, argv);
-
-    // 1. Definicja parametrów testowych
     double Kp_test = 4.5;
     double Ti_test = 0.8;
     double Td_test = 0.5;
@@ -33,7 +31,4 @@ int main(int argc, char *argv[])
     qDebug() << "-> Rozpoczynanie zapisu do pliku JSON...";
     menadzer.zapisz_konfiguracje();
     qDebug() << "   Zapis wykonany pomyślnie.";
-
-    return 0;
-
 }
