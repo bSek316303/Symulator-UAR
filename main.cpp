@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     double Kp_test = 4.5;
     double Ti_test = 0.8;
     double Td_test = 0.5;
-    std::vector<double> A_test = {1.5, 0.2, 6.4};
-    std::vector<double> B_test = {0.0, 0.5, 0.5};
+    std::vector<double> A_test = {1.5, 0.2, 6.4,7.5};
+    std::vector<double> B_test = {0.0, 0.5, 0.5,0.6};
     int opoznienie_test = 2;
     double szum_test = 0.05;
 

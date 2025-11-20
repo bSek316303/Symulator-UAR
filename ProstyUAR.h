@@ -29,14 +29,16 @@ public:
     }
     double get_taktowanie() const;
     double get_m_okres() const;
-    RegulatorPID get_regulator() const
+    RegulatorPID& get_regulator()
     {
         return m_regulator;
     }
-    ModelARX get_ARX() const
+
+    ModelARX& get_ARX()
     {
         return m_ARX;
     }
+
 };
 
 

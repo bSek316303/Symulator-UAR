@@ -34,7 +34,10 @@ public:
     void set_ograniaczenia_wyjscia_ARX(bool wlaczone, double min, double max) {
         prostyUar.get_ARX().set_ograniczenie_wyjscia(wlaczone, min, max);
     }
-    void set_szum(double szum, bool czy_wlaczony) {}
+    void set_szum(double szum, bool czy_wlaczony) {
+        prostyUar.get_ARX().set_szum(szum);           // jeśli masz taką metodę
+        prostyUar.get_ARX().set_czy_wlaczony_szum(czy_wlaczony);
+    }
 };
 
 #endif // MENADZERUAR_H
