@@ -17,20 +17,11 @@ double ModelARX::sprawdzanie_ograniczenia_wyjscia(double y) const {
 }
 
 ModelARX::ModelARX(const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
-    :A(A_p), B(B_p), opoznienie(opoznienie_p), szum(szum_p)
+    :opoznienie(opoznienie_p)
 {
-    if (A.empty() || B.empty())
-    {
-        throw std::invalid_argument("Wielomiany nie moga byc puste");
-    }
-    if (opoznienie < 1)
-    {
-        throw std::invalid_argument("Opoznienie wieksze od 1");
-    }
-    if (A.size() != B.size())
-    {
-        throw std::invalid_argument("Wielomiany musza byc tego samego stopnia");
-    }
+    set_A(A_p);
+    set_B(B_p);
+    set_szum(szum_p);
     bufor_sterujacy.assign(opoznienie + B.size(), 0.0);
     bufor_wyjsciowy.assign(A.size(), 0.0);
     if (szum > 0.0)
@@ -57,10 +48,28 @@ void ModelARX::set_wyjscie_max(double wyjscie_max_p)
 void ModelARX::set_A(const std::vector<double>& A_p)
 {
     A = A_p;
+    if(B.size() != A.size())
+    {
+        B.assign(A.size(),0.0);
+    }
 }
 void ModelARX::set_B(const std::vector<double>& B_p)
 {
     B = B_p;
+    if(A.size() != B.size())
+    {
+        A.assign(B.size(),0.0);
+    }
+
+}
+void ModelARX::set_opoznienie(int opoznienie_p)
+{
+    if(opoznienie_p >= 1)
+    {
+        opoznienie = opoznienie_p;
+    }
+    else opoznienie = 1;
+
 }
 void ModelARX::set_sterowanie_min(double sterowanie_min_p)
 {
@@ -93,8 +102,6 @@ double ModelARX::symuluj(double nowe_sterowanie)
     }
     return y;
 }
-
-
 std::vector<double> ModelARX::get_A() const
 {
     return A;
@@ -139,4 +146,3 @@ int ModelARX::get_opoznienie() const
 {
     return opoznienie;
 }
-

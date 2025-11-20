@@ -34,6 +34,7 @@ public:
     void set_wyjscie_max(double wyjscie_max_p);
     void set_szum(double s) { szum = s; }
     void set_czy_wlaczony_szum(bool wl) { czy_wlaczony_szum = wl; }
+    void set_opoznienie(int opoznienie_p);
 
     double get_wyjscie_max()const;
     double get_wyjscie_min() const;

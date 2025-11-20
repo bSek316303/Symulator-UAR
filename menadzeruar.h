@@ -38,6 +38,10 @@ public:
         prostyUar.get_ARX().set_szum(szum);           // jeśli masz taką metodę
         prostyUar.get_ARX().set_czy_wlaczony_szum(czy_wlaczony);
     }
+    void set_opoznienie_ARX(int opoznienie_p)
+    {
+        prostyUar.get_ARX().set_opoznienie(opoznienie_p);
+    }
 };
 
 #endif // MENADZERUAR_H
