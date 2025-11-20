@@ -10,6 +10,7 @@ class Obsluga_pliku
 public:
     Obsluga_pliku();
     void zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,const RegulatorPID& pid)const ;
+    QJsonDocument wczytajKonfiguracje();
 };
 
 #endif // OBSLUGA_PLIKU_H

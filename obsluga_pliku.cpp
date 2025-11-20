@@ -74,6 +74,22 @@ void Obsluga_pliku::zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,
     plik.write(jsonData);
     plik.close();
 }
+QJsonDocument Obsluga_pliku::wczytajKonfiguracje()
+{
+    QFile plik("default_config.json");
 
+    if(!plik.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() <<"Nie mozna otworzyc pliku" << plik.error();
+    }
+    QByteArray dane_json = plik.readAll();
+    plik.close();
+    if (dane_json.isEmpty()) {
+        qDebug() << "Plik JSON jest pusty.";
+    }
+    QJsonDocument dane;
+    dane = QJsonDocument::fromJson(dane_json);
+    return dane;
+}
 
 

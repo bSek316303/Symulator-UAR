@@ -38,6 +38,14 @@ public:
     {
         return m_ARX;
     }
+    void set_taktowanie(double taktowanie)
+    {
+        m_taktowanie = taktowanie;
+    }
+    void set_okres(double okres)
+    {
+        m_okres = okres;
+    }
 
 };
 

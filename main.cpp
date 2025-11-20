@@ -30,4 +30,6 @@ int main(int argc, char *argv[])
     menadzer.set_ograniaczenia_wyjscia_ARX(true, -100.0, 100.0);
     menadzer.set_opoznienie_ARX(opoznienie_test);
     menadzer.zapisz_konfiguracje();
+
+    menadzer.zastosuj_konfiguracje();
 }
