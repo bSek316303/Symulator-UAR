@@ -18,18 +18,18 @@ int main(int argc, char *argv[])
     double Kp_test = 4.5;
     double Ti_test = 0.8;
     double Td_test = 0.5;
-    std::vector<double> A_test = {0.8, -0.2};
-    std::vector<double> B_test = {0.0, 0.5};
+    std::vector<double> A_test = {1.5, 0.2, 6.4};
+    std::vector<double> B_test = {0.0, 0.5, 0.5};
     int opoznienie_test = 2;
     double szum_test = 0.05;
 
     MenadzerUAR menadzer;
-    menadzer.setPidParameters(Kp_test, Ti_test, Td_test);
-    menadzer.setPidIntegralMode(RegulatorPID::LiczCalke::Wew);
-    menadzer.setArxCoefficients(A_test, B_test);
-    menadzer.setArxNoise(szum_test, true);
-    menadzer.setArxControlLimits(true, -5.0, 5.0);
-    menadzer.setArxOutputLimits(true, -100.0, 100.0);
+    menadzer.set_parametry_PID(Kp_test, Ti_test, Td_test);
+    menadzer.set_pid_tryb(RegulatorPID::LiczCalke::Wew);
+    menadzer.set_parametry_ARX(A_test, B_test);
+    menadzer.set_szum(szum_test, true);
+    menadzer.set_ograniczenia_sterowania_ARX(true, -5.0, 5.0);
+    menadzer.set_ograniaczenia_wyjscia_ARX(true, -100.0, 100.0);
     qDebug() << "-> Rozpoczynanie zapisu do pliku JSON...";
     menadzer.zapisz_konfiguracje();
     qDebug() << "   Zapis wykonany pomyślnie.";
