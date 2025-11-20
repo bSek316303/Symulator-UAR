@@ -1,4 +1,5 @@
 #include "obsluga_pliku.h"
+#include "main.h"
 
 Obsluga_pliku::Obsluga_pliku() {}
 
@@ -60,7 +61,16 @@ void Obsluga_pliku::zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,
 
     QByteArray jsonData = dokument.toJson(QJsonDocument::Indented);
 
-    QFile plik("default_config.json");
+    QString sciezka = QCoreApplication::applicationDirPath() + "/default_config.json";
+
+    QFile plik(sciezka);
+
+    if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qCritical() << "BLAD KRYTYCZNY: Nie mozna otworzyc pliku do zapisu!";
+        qCritical() << "Sciezka probowana:" << plik.fileName();
+        qCritical() << "Powód:" << plik.errorString();
+        return;
+    }
     plik.write(jsonData);
     plik.close();
 }

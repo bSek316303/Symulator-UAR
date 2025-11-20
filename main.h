@@ -8,4 +8,5 @@
 #include<QJsonObject>
 #include<QJsonArray>
 #include<QJsonDocument>
+#include<QCoreApplication>
 #include<QFile>

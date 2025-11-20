@@ -40,31 +40,31 @@ ModelARX::ModelARX(const std::vector<double>& A_p, const std::vector<double>& B_
 }
 void ModelARX::set_ograniczenie_sterowania(bool czy_wlaczone, double sterowanie_min_p, double sterowanie_max_p)
 {
-    ograniczenie_sterowania = czy_wlaczone;
-    sterowanie_min = sterowanie_min_p;
-    sterowanie_max = sterowanie_max_p;
+    this->ograniczenie_sterowania = czy_wlaczone;
+    this->sterowanie_min = sterowanie_min_p;
+    this->sterowanie_max = sterowanie_max_p;
 }
 void ModelARX::set_ograniczenie_wyjscia(bool czy_wlaczone, double wyjscie_min_p, double wyjscie_max_p)
 {
-    ograniczenie_wyjscia = czy_wlaczone;
-    wyjscie_min = wyjscie_min_p;
-    wyjscie_max = wyjscie_max_p;
+    this->ograniczenie_wyjscia = czy_wlaczone;
+    this->wyjscie_min = wyjscie_min_p;
+    this->wyjscie_max = wyjscie_max_p;
 }
 void ModelARX::set_wyjscie_max(double wyjscie_max_p)
 {
-    wyjscie_max = wyjscie_max_p;
+    this->wyjscie_max = wyjscie_max_p;
 }
 void ModelARX::set_A(const std::vector<double>& A_p)
 {
-    A = A_p;
+    this->A = A_p;
 }
 void ModelARX::set_B(const std::vector<double>& B_p)
 {
-    B = B_p;
+    this->B = B_p;
 }
 void ModelARX::set_sterowanie_min(double sterowanie_min_p)
 {
-    sterowanie_min = sterowanie_min_p;
+    this->sterowanie_min = sterowanie_min_p;
 }
 double ModelARX::symuluj(double nowe_sterowanie)
 {
@@ -97,11 +97,11 @@ double ModelARX::symuluj(double nowe_sterowanie)
 
 std::vector<double> ModelARX::get_A() const
 {
-    return A;
+    return this->A;
 }
 std::vector<double> ModelARX::get_B() const
 {
-    return B;
+    return this->B;
 }
 double ModelARX::get_sterowanie_min() const
 {
