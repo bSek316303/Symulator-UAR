@@ -9,12 +9,24 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ../../../../Desktop/Projekt_pk/modelARX.cpp \
+    Generator.cpp \
+    ProstyUAR.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    menadzeruar.cpp \
+    modelARX.cpp \
+    obsluga_pliku.cpp \
+    regulatorPID.cpp
 
 HEADERS += \
-    mainwindow.h
+    Generator.h \
+    ProstyUAR.h \
+    main.h \
+    mainwindow.h \
+    menadzeruar.h \
+    modelARX.h \
+    obsluga_pliku.h \
+    regulatorPID.h
 
 FORMS += \
     mainwindow.ui
