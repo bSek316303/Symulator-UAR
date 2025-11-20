@@ -135,4 +135,8 @@ bool ModelARX::get_czy_wlaczony_szum() const
 {
     return czy_wlaczony_szum;
 }
+int ModelARX::get_opoznienie() const
+{
+    return opoznienie;
+}
 

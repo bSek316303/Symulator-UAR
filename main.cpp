@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "main.h"
 #include "ProstyUAR.h"
+#include "menadzeruar.h"
 
 #include <QApplication>
 
@@ -13,22 +14,26 @@ int main(int argc, char *argv[])
     return a.exec();*/
     QCoreApplication a(argc, argv);
 
-    double Kp_test = 2.5;
+    // 1. Definicja parametrów testowych
+    double Kp_test = 4.5;
     double Ti_test = 0.8;
-    double Td_test = 0.1;
+    double Td_test = 0.5;
     std::vector<double> A_test = {0.8, -0.2};
     std::vector<double> B_test = {0.0, 0.5};
     int opoznienie_test = 2;
     double szum_test = 0.05;
 
-    ProstyUAR testUAR(Kp_test, Ti_test, Td_test, A_test, B_test, opoznienie_test, szum_test);
+    MenadzerUAR menadzer;
+    menadzer.setPidParameters(Kp_test, Ti_test, Td_test);
+    menadzer.setPidIntegralMode(RegulatorPID::LiczCalke::Wew);
+    menadzer.setArxCoefficients(A_test, B_test);
+    menadzer.setArxNoise(szum_test, true);
+    menadzer.setArxControlLimits(true, -5.0, 5.0);
+    menadzer.setArxOutputLimits(true, -100.0, 100.0);
+    qDebug() << "-> Rozpoczynanie zapisu do pliku JSON...";
+    menadzer.zapisz_konfiguracje();
+    qDebug() << "   Zapis wykonany pomyślnie.";
 
-    testUAR.get_ARX().set_ograniczenie_sterowania(true, -5.0, 5.0);
-    testUAR.get_ARX().set_ograniczenie_wyjscia(true, -100.0, 100.0);
-
-    QString sciezkaPliku = "test_uar_config.json";
-
-    testUAR.zapis_do_pliku(testUAR, sciezkaPliku);
     return 0;
 
 }

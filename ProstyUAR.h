@@ -12,6 +12,7 @@ class ProstyUAR {
     ModelARX m_ARX;
 
 public:
+    ProstyUAR(){};
     ProstyUAR(double Kp, double Ti, double Td, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
         : m_regulator(Kp, Ti, Td), m_ARX(A_p, B_p, opoznienie_p, szum_p), ostatniSygWy(0.0)
     {
@@ -27,6 +28,8 @@ public:
         ostatniSygWy = sygWy;
         return sygWy;
     }
+    double get_taktowanie() const;
+    double get_m_okres() const;
     RegulatorPID get_regulator() const
     {
         return m_regulator;
@@ -35,8 +38,7 @@ public:
     {
         return m_ARX;
     }
-    QJsonObject Model_UAR_to_json() const;
-    void zapis_do_pliku(const ProstyUAR& uar, const QString& sciezka_do_pliku);
 };
+
 
 

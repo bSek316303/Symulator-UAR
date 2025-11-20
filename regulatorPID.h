@@ -20,6 +20,7 @@ private:
     bool ZeroweTi();
     bool ZeroweTi(double Ti);
 public:
+    RegulatorPID(){};
     RegulatorPID(double Kp);
     RegulatorPID(double Kp, double Ti);
     RegulatorPID(double Kp, double Ti, double Td);
@@ -34,5 +35,4 @@ public:
     double getKp() const;
     double getTi() const;
     double getTd() const;
-    QJsonObject Regulator_PID_to_json()const;
 };

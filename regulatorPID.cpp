@@ -64,15 +64,5 @@ double RegulatorPID::getKp() const { return m_Kp; }
 double RegulatorPID::getTi() const { return m_Ti; }
 double RegulatorPID::getTd() const { return m_Td; }
 
-QJsonObject RegulatorPID::Regulator_PID_to_json()const
-{
-    QJsonObject regulator_pid;
-
-    regulator_pid["Kp"] = m_Kp;
-    regulator_pid["Ti"] = m_Ti;
-    regulator_pid["Td"] = m_Td;
-
-    return regulator_pid;
-}
 
 

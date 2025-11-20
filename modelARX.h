@@ -23,6 +23,7 @@ class ModelARX {
     double sprawdzanie_ograniczenia_wyjscia(double y) const;
 
 public:
+    ModelARX(){};
     ModelARX(const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p = 0, double szum_p = 0);
     double symuluj(double nowe_sterowanie);
     void set_ograniczenie_sterowania(bool czy_wlaczone, double sterowanie_min_p, double sterowanie_max_p);
@@ -42,5 +43,6 @@ public:
     bool get_czy_wlaczony_szum()const;
     std::vector<double> get_B()const;
     std::vector<double> get_A()const;
-    QJsonObject Model_ARX_to_Json() const;
+    int get_opoznienie() const;
+
 };
