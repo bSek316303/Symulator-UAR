@@ -28,7 +28,5 @@ int main(int argc, char *argv[])
     menadzer.set_szum(szum_test, true);
     menadzer.set_ograniczenia_sterowania_ARX(true, -5.0, 5.0);
     menadzer.set_ograniaczenia_wyjscia_ARX(true, -100.0, 100.0);
-    qDebug() << "-> Rozpoczynanie zapisu do pliku JSON...";
     menadzer.zapisz_konfiguracje();
-    qDebug() << "   Zapis wykonany pomyślnie.";
 }
