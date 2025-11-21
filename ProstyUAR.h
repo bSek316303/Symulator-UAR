@@ -7,13 +7,13 @@
 class ProstyUAR {
     double m_taktowanie;
     double m_okres;
-    double ostatniSygWy;
+    double m_ostatniSygWy;
     RegulatorPID m_regulator;
     ModelARX m_ARX;
 
 public:
     ProstyUAR(double Kp, double Ti, double Td, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
-        : m_regulator(Kp, Ti, Td), m_ARX(A_p, B_p, opoznienie_p, szum_p), ostatniSygWy(0.0)
+        : m_regulator(Kp, Ti, Td), m_ARX(A_p, B_p, opoznienie_p, szum_p), m_ostatniSygWy(0.0)
     {
     }
     ProstyUAR(ModelARX arx, RegulatorPID regulator)
@@ -21,10 +21,10 @@ public:
     {
     }
     double symuluj(double sygWe) {
-        double uchyb = sygWe - ostatniSygWy;
+        double uchyb = sygWe - m_ostatniSygWy;
         double sygSter = m_regulator.symuluj(uchyb);
         double sygWy = m_ARX.symuluj(sygSter);
-        ostatniSygWy = sygWy;
+        m_ostatniSygWy = sygWy;
         return sygWy;
     }
     double get_taktowanie() const;
