@@ -20,7 +20,7 @@ RegulatorPID::RegulatorPID(double Kp, double Ti)
 RegulatorPID::RegulatorPID(double Kp, double Ti, double Td)
     : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_poprzedniSygWe(0)
 {}
-void RegulatorPID::ustawKp(double noweKp) { m_Kp = noweKp;  }
+void RegulatorPID::setWzmocnienie(double noweKp) { m_Kp = noweKp;  }
 void RegulatorPID::setStalaRozn(double noweTd) { m_Td = noweTd;  }
 
 //Calkujacy

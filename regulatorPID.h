@@ -24,7 +24,7 @@ public:
     RegulatorPID(double Kp);
     RegulatorPID(double Kp, double Ti);
     RegulatorPID(double Kp, double Ti, double Td);
-    void ustawKp(double noweKp);
+    void setWzmocnienie(double noweKp);
     void setStalaRozn(double noweTd);
 
     void resetujPamiec();
