@@ -13,7 +13,7 @@ SOURCES += \
     ProstyUAR.cpp \
     main.cpp \
     mainwindow.cpp \
-    menadzeruar.cpp \
+    menedzerUAR.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
     regulatorPID.cpp
@@ -23,7 +23,7 @@ HEADERS += \
     ProstyUAR.h \
     main.h \
     mainwindow.h \
-    menadzeruar.h \
+    menedzerUAR.h \
     modelARX.h \
     obsluga_pliku.h \
     regulatorPID.h
