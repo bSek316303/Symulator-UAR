@@ -28,7 +28,7 @@ public:
         return sygWy;
     }
     double get_taktowanie() const;
-    double get_m_okres() const;
+    double get_okres() const;
     RegulatorPID& get_regulator()
     {
         return m_regulator;
