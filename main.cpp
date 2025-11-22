@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "main.h"
 #include "ProstyUAR.h"
-#include "menadzeruar.h"
+#include "menedzerUAR.h"
 
 #include <QApplication>
 

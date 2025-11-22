@@ -14,6 +14,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menedzerUAR.cpp \
+    menedzer_symulacji.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
     regulatorPID.cpp
@@ -24,6 +25,7 @@ HEADERS += \
     main.h \
     mainwindow.h \
     menedzerUAR.h \
+    menedzer_symulacji.h \
     modelARX.h \
     obsluga_pliku.h \
     regulatorPID.h

@@ -1,0 +1,53 @@
+#pragma once
+#include "qdebug.h"
+#include <QObject>
+#include <memory>
+#include <array>
+#include <utility>
+#include <map>
+#include <QTimer>
+class menedzer_symulacji
+{
+public:
+    enum class wykresy {
+        wykres_uar,
+        wykres_uchybu,
+        wykres_sterowania,
+        wykres_skladowych_pid
+    };
+private:
+
+    std::unique_ptr<QTimer> stoper = std::make_unique<QTimer>(new QTimer());
+    inline static constexpr std::array<wykresy, 4> tab_wykresow = {wykresy::wykres_uar, wykresy::wykres_uchybu, wykresy::wykres_sterowania, wykresy::wykres_skladowych_pid};
+    std::pair<double, double> generuj_dane_wykres_uar();
+    std::pair<double, double> generuj_dane_wykres_uchybu();
+    std::pair<double, double> generuj_dane_wykres_sterowania();
+    std::pair<double, double> generuj_dane_Wykres_skladowych_pid();
+    std::map<wykresy, std::pair<double, double>(menedzer_symulacji::*)()> tab_funkcji_obliczania = { {wykresy::wykres_uar, &menedzer_symulacji::generuj_dane_wykres_uar},
+                                                                                                     {wykresy::wykres_uchybu, &menedzer_symulacji::generuj_dane_wykres_uchybu},
+                                                                                                     {wykresy::wykres_sterowania, &menedzer_symulacji::generuj_dane_wykres_sterowania},
+                                                                                                     {wykresy::wykres_skladowych_pid, &menedzer_symulacji::generuj_dane_Wykres_skladowych_pid}};
+
+    std::pair<double, double> aktualizuj_dane_wykres_uar();
+    std::pair<double, double> aktualizuj_dane_wykres_uchybu();
+    std::pair<double, double> aktualizuj_dane_wykres_sterowania();
+    std::pair<double, double> aktualizuj_dane_Wykres_skladowych_pid();
+    std::map<wykresy, std::pair<double, double>(menedzer_symulacji::*)()> tab_funkcji_aktualizacji = { {wykresy::wykres_uar, &menedzer_symulacji::aktualizuj_dane_wykres_uar},
+                                                                                                       {wykresy::wykres_uchybu, &menedzer_symulacji::aktualizuj_dane_wykres_uchybu},
+                                                                                                       {wykresy::wykres_sterowania, &menedzer_symulacji::aktualizuj_dane_wykres_sterowania},
+                                                                                                       {wykresy::wykres_skladowych_pid, &menedzer_symulacji::aktualizuj_dane_Wykres_skladowych_pid}};
+public:
+
+    menedzer_symulacji();
+
+    std::pair<double, double> obliczWartosci(wykresy wyk){
+        return (this->*tab_funkcji_obliczania[wyk])();
+    }
+    void aktualizujWykres(wykresy wyk, std::pair<double, double> wartosci){
+        //tymczasowo konsola
+        qDebug() << "Os X: " << wartosci.first << " Os Y: " << wartosci.second << "\n";
+    }
+    void setInterwal(int time_in_ms){
+        stoper->setInterval(time_in_ms);
+    }
+};
