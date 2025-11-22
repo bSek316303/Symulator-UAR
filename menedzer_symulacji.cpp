@@ -2,4 +2,5 @@
 #include <QTimer>
 
 menedzer_symulacji::menedzer_symulacji(){
+
 }

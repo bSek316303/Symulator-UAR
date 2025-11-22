@@ -46,6 +46,9 @@ public:
     {
         m_okres = okres;
     }
+    double get_ostatni_syg_wy(){
+        return m_ostatniSygWy;
+    }
 
 };
 
