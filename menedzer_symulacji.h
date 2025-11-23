@@ -31,7 +31,9 @@ private:
     std::pair<double, double> generuj_dane_wykres_uchybu(double sygWe, double czas){
         return std::make_pair(sygWe - m_uar.get_ostatni_syg_wy(), czas);
     }
-    std::pair<double, double> generuj_dane_wykres_sterowania(double sygWe, double czas);
+    std::pair<double, double> generuj_dane_wykres_sterowania(double sygWe, double czas){
+        return std::make_pair(m_uar.get_regulator().getLastP() + m_uar.get_regulator().getLastI() + m_uar.get_regulator().getLastD(), czas);
+    }
     std::pair<double, double> generuj_dane_Wykres_skladowych_pid(double sygWe, double czas);
     std::map<wykresy, std::pair<double, double>(menedzer_symulacji::*)(double, double)> tab_funkcji_obliczania = { {wykresy::wykres_uar, &menedzer_symulacji::generuj_dane_wykres_uar},
                                                                                                      {wykresy::wykres_uchybu, &menedzer_symulacji::generuj_dane_wykres_uchybu},
@@ -51,11 +53,10 @@ public:
     menedzer_symulacji(ProstyUAR uar, Generator gen)
         : m_uar(uar), m_gen(gen)
     {
-
     }
 
-    std::pair<double, double> obliczWartosci(wykresy wyk){
-        return (this->*tab_funkcji_obliczania[wyk])();
+    std::pair<double, double> obliczWartosci(wykresy wyk, double sygWy, double interwal){
+        return (this->*tab_funkcji_obliczania[wyk])(sygWy, interwal);
     }
     void aktualizujWykres(wykresy wyk, std::pair<double, double> wartosci){
         //tymczasowo konsola

@@ -7,12 +7,11 @@
 
 int main(int argc, char *argv[])
 {
-    /* Zakomentowałem do testu zapisu 20.11.2025
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();*/
-    QCoreApplication a(argc, argv);
+    return a.exec();
+
     double Kp_test = 4.5;
     double Ti_test = 0.8;
     double Td_test = 0.5;

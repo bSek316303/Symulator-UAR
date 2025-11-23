@@ -1,6 +1,6 @@
+
 #ifndef OBSLUGA_PLIKU_H
 #define OBSLUGA_PLIKU_H
-#include "main.h"
 #include "ProstyUAR.h"
 class Obsluga_pliku
 {
@@ -12,5 +12,6 @@ public:
     void zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,const RegulatorPID& pid)const ;
     QJsonDocument wczytajKonfiguracje();
 };
+
 
 #endif // OBSLUGA_PLIKU_H

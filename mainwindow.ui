@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1165</width>
-    <height>607</height>
+    <width>1300</width>
+    <height>588</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,13 +17,13 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>0</y>
-      <width>361</width>
-      <height>521</height>
+      <x>10</x>
+      <y>10</y>
+      <width>321</width>
+      <height>511</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="control_layout">
      <item>
       <widget class="QLabel" name="lbl_opcje_arx">
        <property name="text">
@@ -209,28 +209,28 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
        <item>
-        <widget class="QDoubleSpinBox" name="spbbx_amplituda"/>
-       </item>
-       <item>
         <widget class="QLabel" name="lbl_amplituda">
          <property name="text">
           <string>Amplituda:</string>
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="spbbx_amplituda"/>
+       </item>
       </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_9">
-       <item>
-        <widget class="QDoubleSpinBox" name="spnbx_stala_skladowa"/>
-       </item>
        <item>
         <widget class="QLabel" name="lbl_stala_skladowa">
          <property name="text">
           <string>Stała składowa:</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="spnbx_stala_skladowa"/>
        </item>
       </layout>
      </item>
@@ -250,18 +250,16 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="btn_test">
+   <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>150</y>
-      <width>75</width>
-      <height>24</height>
+      <x>329</x>
+      <y>9</y>
+      <width>951</width>
+      <height>511</height>
      </rect>
     </property>
-    <property name="text">
-     <string>test_btn</string>
-    </property>
+    <layout class="QVBoxLayout" name="chart_layout"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -269,7 +267,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1165</width>
+     <width>1300</width>
      <height>22</height>
     </rect>
    </property>
