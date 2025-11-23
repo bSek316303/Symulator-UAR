@@ -259,7 +259,7 @@
       <height>511</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="chart_layout"/>
+    <layout class="QVBoxLayout" name="chart_layout" stretch=""/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -51,25 +51,15 @@ MainWindow::MainWindow(QWidget *parent)
     chart_uar->addSeries(series_out);
     chart_uar->addSeries(series_gen);
 
-    QChartView* widok_uar = new QChartView(chart_uar);
-    widok_uar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-
     QChart* chart_uchyb = new QChart();
 
     QLineSeries* series_uchyb = new QLineSeries();
     chart_uar->addSeries(series_uchyb);
 
-    QChartView* widok_uchyb = new QChartView(chart_uchyb);
-
-
     QChart* chart_ster = new QChart();
 
     QLineSeries* series_ster = new QLineSeries();
-    chart_ster->addSeries(series_ster);
-
-    QChartView* widok_ster = new QChartView(chart_ster);
-
+    chart_ster->addSeries(series_ster);  
 
     QChart* chart_pid = new QChart();
 
@@ -81,12 +71,10 @@ MainWindow::MainWindow(QWidget *parent)
     chart_pid->addSeries(seriesI);
     chart_pid->addSeries(seriesD);
 
+    QChartView* widok_uar = new QChartView(chart_uar);
+    QChartView* widok_uchyb = new QChartView(chart_uchyb);
+    QChartView* widok_ster = new QChartView(chart_ster);
     QChartView* widok_pid = new QChartView(chart_pid);
-
-    widok_uar->setMinimumSize(600, 400);
-    widok_uchyb->setMinimumSize(600, 400);
-    widok_ster->setMinimumSize(600, 400);
-    widok_pid->setMinimumSize(600, 400);
 
     widok_uar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widok_uchyb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
