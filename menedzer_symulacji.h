@@ -34,7 +34,10 @@ private:
     std::pair<double, double> generuj_dane_wykres_sterowania(double sygWe, double czas){
         return std::make_pair(m_uar.get_regulator().getLastP() + m_uar.get_regulator().getLastI() + m_uar.get_regulator().getLastD(), czas);
     }
-    std::pair<double, double> generuj_dane_Wykres_skladowych_pid(double sygWe, double czas);
+    std::pair<double, double> generuj_dane_Wykres_skladowych_pid(double sygWe, double czas){
+
+    }
+
     std::map<wykresy, std::pair<double, double>(menedzer_symulacji::*)(double, double)> tab_funkcji_obliczania = { {wykresy::wykres_uar, &menedzer_symulacji::generuj_dane_wykres_uar},
                                                                                                      {wykresy::wykres_uchybu, &menedzer_symulacji::generuj_dane_wykres_uchybu},
                                                                                                      {wykresy::wykres_sterowania, &menedzer_symulacji::generuj_dane_wykres_sterowania},
