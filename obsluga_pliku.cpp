@@ -61,7 +61,7 @@ void Obsluga_pliku::zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,
 
     QByteArray jsonData = dokument.toJson(QJsonDocument::Indented);
 
-    QString sciezka = QCoreApplication::applicationDirPath() + "/default_config.json";
+    QString sciezka = QCoreApplication::applicationDirPath() + "/konfiguracja.json";
 
     QFile plik(sciezka);
 
