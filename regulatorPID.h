@@ -14,6 +14,7 @@ private:
     double m_last_P;
     double m_last_I;
     double m_last_D;
+    double m_ostatni_sygWy;
     //calkujacy
     double m_epsilon = 1e-4;
     static LiczCalke LiczCalk; // do zmiany przy implementacji gui
@@ -38,7 +39,8 @@ public:
     double getKp() const;
     double getTi() const;
     double getTd() const;
-    double getLastP();
-    double getLastI();
-    double getLastD();
+    double get_ostatni_P();
+    double get_ostatni_I();
+    double get_ostatni_D();
+    double get_ostatni_sygWy();
 };

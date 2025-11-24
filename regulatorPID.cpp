@@ -65,9 +65,8 @@ double RegulatorPID::getKp() const { return m_Kp; }
 double RegulatorPID::getTi() const { return m_Ti; }
 double RegulatorPID::getTd() const { return m_Td; }
 
-double RegulatorPID::getLastP() { return m_last_P; }
-double RegulatorPID::getLastI() { return m_last_I; }
-double RegulatorPID::getLastD() { return m_last_D; }
-
-
+double RegulatorPID::get_ostatni_P() { return m_last_P; }
+double RegulatorPID::get_ostatni_I() { return m_last_I; }
+double RegulatorPID::get_ostatni_D() { return m_last_D; }
+double RegulatorPID::get_ostatni_sygWy() {return m_ostatni_sygWy;}
 
