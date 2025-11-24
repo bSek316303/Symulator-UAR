@@ -1,6 +1,6 @@
 #include "ProstyUAR.h"
 
-double ProstyUAR::get_m_okres() const
+double ProstyUAR::get_okres() const
 {
     return m_okres;
 }

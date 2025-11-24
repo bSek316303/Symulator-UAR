@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui widgets charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +13,8 @@ SOURCES += \
     ProstyUAR.cpp \
     main.cpp \
     mainwindow.cpp \
-    menadzeruar.cpp \
+    menedzerUAR.cpp \
+    menedzer_symulacji.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
     regulatorPID.cpp
@@ -23,7 +24,8 @@ HEADERS += \
     ProstyUAR.h \
     main.h \
     mainwindow.h \
-    menadzeruar.h \
+    menedzerUAR.h \
+    menedzer_symulacji.h \
     modelARX.h \
     obsluga_pliku.h \
     regulatorPID.h

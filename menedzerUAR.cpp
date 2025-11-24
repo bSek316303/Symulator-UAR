@@ -1,4 +1,4 @@
-#include "menadzeruar.h"
+#include "menedzerUAR.h"
 #include "ProstyUAR.h"
 
 MenadzerUAR::MenadzerUAR()
@@ -90,9 +90,15 @@ void MenadzerUAR::zastosuj_konfiguracje()
     this->wczytaj_konfiguracje(dane);
 }
 void MenadzerUAR::set_parametry_PID(double Kp, double Ti, double Td) {
+<<<<<<< HEAD:menadzeruar.cpp
     prostyUar->get_regulator().ustawKp(Kp);
     prostyUar->get_regulator().setStalaCalk(Ti);
     prostyUar->get_regulator().setStalaRozn(Td);
+=======
+    prostyUar.get_regulator().setWzmocnienie(Kp);
+    prostyUar.get_regulator().setStalaCalk(Ti);
+    prostyUar.get_regulator().setStalaRozn(Td);
+>>>>>>> 62e983f94937164f6e0c18406fee5f491c1f5730:menedzerUAR.cpp
 }
 void MenadzerUAR::set_pid_tryb(RegulatorPID::LiczCalke mode) {
     prostyUar->get_regulator().setLiczCalke(mode);

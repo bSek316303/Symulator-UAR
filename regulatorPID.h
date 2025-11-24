@@ -1,5 +1,5 @@
 #pragma once
-#include "main.h"
+
 class RegulatorPID {
 public:
     enum class LiczCalke {
@@ -11,6 +11,9 @@ private:
     double m_Kp;
     double m_Ti;
     double m_Td;
+    double m_last_P;
+    double m_last_I;
+    double m_last_D;
     //calkujacy
     double m_epsilon = 1e-4;
     static LiczCalke LiczCalk; // do zmiany przy implementacji gui
@@ -24,7 +27,7 @@ public:
     RegulatorPID(double Kp);
     RegulatorPID(double Kp, double Ti);
     RegulatorPID(double Kp, double Ti, double Td);
-    void ustawKp(double noweKp);
+    void setWzmocnienie(double noweKp);
     void setStalaRozn(double noweTd);
 
     void resetujPamiec();
@@ -35,4 +38,7 @@ public:
     double getKp() const;
     double getTi() const;
     double getTd() const;
+    double getLastP();
+    double getLastI();
+    double getLastD();
 };

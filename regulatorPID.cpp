@@ -1,4 +1,6 @@
 #include "regulatorPID.h"
+#include <cmath>
+#include <cstdlib>
 
 RegulatorPID::LiczCalke RegulatorPID::LiczCalk = RegulatorPID::LiczCalke::Zew;
 
@@ -20,7 +22,7 @@ RegulatorPID::RegulatorPID(double Kp, double Ti)
 RegulatorPID::RegulatorPID(double Kp, double Ti, double Td)
     : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_poprzedniSygWe(0)
 {}
-void RegulatorPID::ustawKp(double noweKp) { m_Kp = noweKp;  }
+void RegulatorPID::setWzmocnienie(double noweKp) { m_Kp = noweKp;  }
 void RegulatorPID::setStalaRozn(double noweTd) { m_Td = noweTd;  }
 
 //Calkujacy
@@ -41,28 +43,31 @@ void RegulatorPID::setLiczCalke(LiczCalke noweLiczCalk) {
 }
 
 double RegulatorPID::symuluj(double sygWe) { // Sposob na testy -> jezeli chcemy przetestowac tylko jedna czesc to pozostale stale ustawiamy na 0.0
-    double sygWy = 0.0;
     //proporcja
-    sygWy += sygWe * m_Kp;
+    m_last_P = sygWe * m_Kp;
     //rozniczka
-    sygWy += m_Td * (sygWe - m_poprzedniSygWe);
+    m_last_D = m_Td * (sygWe - m_poprzedniSygWe);
     m_poprzedniSygWe = sygWe;
     //calka
     if (!ZeroweTi()) {
         if (LiczCalk == LiczCalke::Wew) {
             m_wartosci += sygWe / m_Ti;
-            sygWy += m_wartosci;
+            m_last_I = m_wartosci;
         }
         else {
             m_wartosci += sygWe;
-            sygWy += m_wartosci / m_Ti;
+            m_last_I = m_wartosci / m_Ti;
         }
     }
-    return sygWy;
+    return m_last_P + m_last_I + m_last_D;
 }
 double RegulatorPID::getKp() const { return m_Kp; }
 double RegulatorPID::getTi() const { return m_Ti; }
 double RegulatorPID::getTd() const { return m_Td; }
+
+double RegulatorPID::getLastP() { return m_last_P; }
+double RegulatorPID::getLastI() { return m_last_I; }
+double RegulatorPID::getLastD() { return m_last_D; }
 
 
 

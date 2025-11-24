@@ -41,7 +41,7 @@ QJsonObject Obsluga_pliku::ProstyUAR_to_Json(const ProstyUAR& prosty_uar) const
 {
     QJsonObject obiekt_UAR;
     obiekt_UAR["Taktowanie_ms"] = prosty_uar.get_taktowanie();
-    obiekt_UAR["Okres_rzeczywisty_s"] = prosty_uar.get_m_okres();
+    obiekt_UAR["Okres_rzeczywisty_s"] = prosty_uar.get_okres();
     return obiekt_UAR;
 }
 
@@ -91,5 +91,6 @@ QJsonDocument Obsluga_pliku::wczytajKonfiguracje()
     dane = QJsonDocument::fromJson(dane_json);
     return dane;
 }
+
 
 

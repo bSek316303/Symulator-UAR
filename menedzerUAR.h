@@ -1,5 +1,5 @@
-#ifndef MENADZERUAR_H
-#define MENADZERUAR_H
+#ifndef MENEDZERUAR_H
+#define MENEDZERUAR_H
 #include "ProstyUAR.h"
 #include "obsluga_pliku.h"
 
@@ -23,4 +23,4 @@ public:
     void set_opoznienie_ARX(int opoznienie_p);
 };
 
-#endif // MENADZERUAR_H
+#endif // MENEDZERUAR_H
