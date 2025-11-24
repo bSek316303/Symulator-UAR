@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout* glownyLayout = new QHBoxLayout();
     glownyLayout->addLayout(ui->chart_layout, 4);
     glownyLayout->addLayout(ui->control_layout,1);
-     ui->centralwidget->setLayout(glownyLayout);
+    ui->centralwidget->setLayout(glownyLayout);
     //charts
     QChart* chart_uar = new QChart();
     chart_uar->setTitle("Wykres wyjscia UAR i generatora");

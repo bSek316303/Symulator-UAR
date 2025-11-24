@@ -1,9 +1,7 @@
 #pragma once
 #include "ProstyUAR.h"
-#include "qdebug.h"
 #include <QObject>
 #include <array>
-#include <utility>
 #include <QTimer>
 #include "ProstyUAR.h"
 #include "Generator.h"
@@ -44,8 +42,8 @@ public:
         connect(stoper, &QTimer::timeout, this, &menedzer_symulacji::krok_wykresu);
     }
 
-    void krok_wykresu(wykresy wyk, double interwal){
-        double sygSter = m_gen.generuj(interwal, m_rodzajSygnalu);
+    void krok_wykresu(){
+        double sygSter = m_gen.generuj(stoper->interval(), m_rodzajSygnalu);
         double sygWy = m_uar.symuluj(sygSter);
         RegulatorPID reg = m_uar.get_regulator();
         aktualizuj_wykres_uar(sygSter, sygWy);

@@ -256,10 +256,10 @@
       <x>329</x>
       <y>9</y>
       <width>951</width>
-      <height>511</height>
+      <height>531</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="chart_layout" stretch=""/>
+    <layout class="QVBoxLayout" name="chart_layout"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

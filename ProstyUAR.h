@@ -1,6 +1,4 @@
 #pragma once
-#include "main.h"
-#include "Generator.h"
 #include "regulatorPID.h"
 #include "ModelARX.h"
 

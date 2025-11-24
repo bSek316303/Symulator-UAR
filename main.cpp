@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     return a.exec();
-
+    /*
     double Kp_test = 4.5;
     double Ti_test = 0.8;
     double Td_test = 0.5;
@@ -31,4 +31,5 @@ int main(int argc, char *argv[])
     menadzer.zapisz_konfiguracje();
 
     menadzer.zastosuj_konfiguracje();
+*/
 }
