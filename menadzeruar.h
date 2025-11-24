@@ -5,7 +5,7 @@
 
 class MenadzerUAR
 {
-    ProstyUAR prostyUar;
+    ProstyUAR* prostyUar;
     Obsluga_pliku oblsugaPliku;
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
 public:
