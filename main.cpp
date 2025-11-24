@@ -7,15 +7,15 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    /*QApplication a(argc, argv);
     MainWindow w;
     w.show();
     return a.exec();
-    /*
+    */
     double Kp_test = 4.5;
     double Ti_test = 0.8;
     double Td_test = 0.5;
-    std::vector<double> A_test = {1.5, 0.2, 6.0,7.5};
+    std::vector<double> A_test = {1.5, 0.2, 5.7,7.5};
     std::vector<double> B_test = {0.0, 0.1, 0.5,0.6};
     int opoznienie_test = 2;
     double szum_test = 0.05;
@@ -31,5 +31,5 @@ int main(int argc, char *argv[])
     menadzer.zapisz_konfiguracje();
 
     menadzer.zastosuj_konfiguracje();
-*/
+
 }
