@@ -18,10 +18,21 @@ MainWindow::MainWindow(QWidget *parent)
     ProstyUAR instancjaTestowa(testARX, testPID);
     Generator gen(3,3,3);
 
-    QHBoxLayout* glownyLayout = new QHBoxLayout();
+    QWidget* glownyWidget = new QWidget(this);
+    QHBoxLayout* glownyLayout = new QHBoxLayout(glownyWidget);
+
+    QChartView* chart_widget = new QChartView();
+    QWidget* control_widget = new QWidget();
+
+    ui->chart_layout->addWidget(chart_widget);
+    ui->control_layout->addWidget(control_widget);
+
     glownyLayout->addLayout(ui->chart_layout, 4);
     glownyLayout->addLayout(ui->control_layout,1);
     ui->centralwidget->setLayout(glownyLayout);
+
+    chart_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    control_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     //charts
     QChart* chart_uar = new QChart();
     chart_uar->setTitle("Wykres wyjscia UAR i generatora");
