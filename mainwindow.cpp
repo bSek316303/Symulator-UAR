@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     QChartView* chart_widget = new QChartView();
     QWidget* control_widget = new QWidget();
-
     ui->chart_layout->addWidget(chart_widget);
     ui->control_layout->addWidget(control_widget);
 
