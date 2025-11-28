@@ -9,7 +9,7 @@ class MenadzerUAR
     Obsluga_pliku oblsugaPliku;
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
 public:
-    MenadzerUAR();
+    MenadzerUAR(ProstyUAR * uar);
     void zapisz_konfiguracje();
     void wczytaj_konfiguracje(const QJsonDocument& dane_json);
     void zastosuj_konfiguracje();

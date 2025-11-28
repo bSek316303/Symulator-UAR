@@ -1,7 +1,7 @@
 #include "menedzerUAR.h"
 #include "ProstyUAR.h"
 
-MenadzerUAR::MenadzerUAR(){};
+MenadzerUAR::MenadzerUAR(ProstyUAR* uar){};
 void MenadzerUAR::zapisz_konfiguracje()
 {
     ProstyUAR uar = *this->prostyUar;
