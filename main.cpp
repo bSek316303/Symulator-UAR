@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     int opoznienie_test = 2;
     double szum_test = 0.05;
 
-    MenadzerUAR menadzer;
+    MenadzerUAR menadzer();
     menadzer.set_parametry_PID(Kp_test, Ti_test, Td_test);
     menadzer.set_pid_tryb(RegulatorPID::LiczCalke::Wew);
     menadzer.set_parametry_ARX(A_test, B_test);

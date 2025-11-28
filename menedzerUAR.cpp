@@ -90,9 +90,6 @@ void MenadzerUAR::set_parametry_PID(double Kp, double Ti, double Td) {
     prostyUar->get_regulator().setWzmocnienie(Kp);
     prostyUar->get_regulator().setStalaCalk(Ti);
     prostyUar->get_regulator().setStalaRozn(Td);
-    prostyUar->get_regulator().setWzmocnienie(Kp);
-    prostyUar->get_regulator().setStalaCalk(Ti);
-    prostyUar->get_regulator().setStalaRozn(Td);
 }
 void MenadzerUAR::set_pid_tryb(RegulatorPID::LiczCalke mode) {
     prostyUar->get_regulator().setLiczCalke(mode);
