@@ -17,7 +17,8 @@ SOURCES += \
     menedzer_symulacji.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
-    regulatorPID.cpp
+    regulatorPID.cpp \
+    testy.cpp
 
 HEADERS += \
     Generator.h \
@@ -28,7 +29,8 @@ HEADERS += \
     menedzer_symulacji.h \
     modelARX.h \
     obsluga_pliku.h \
-    regulatorPID.h
+    regulatorPID.h \
+    testy.h
 
 FORMS += \
     mainwindow.ui
