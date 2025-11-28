@@ -1,10 +1,7 @@
 #include "menedzerUAR.h"
 #include "ProstyUAR.h"
 
-MenadzerUAR::MenadzerUAR()
-    : prostyUar(new ProstyUAR(1.0, 0.0, 0.0, {1.0, -0.5}, {0.0, 0.6}, 1, 0.0)),
-    oblsugaPliku()
-{}
+MenadzerUAR::MenadzerUAR(){};
 void MenadzerUAR::zapisz_konfiguracje()
 {
     ProstyUAR uar = *this->prostyUar;
