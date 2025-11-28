@@ -66,9 +66,7 @@ void Obsluga_pliku::zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,
     QFile plik(sciezka);
 
     if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qCritical() << "BLAD KRYTYCZNY: Nie mozna otworzyc pliku do zapisu!";
-        qCritical() << "Sciezka probowana:" << plik.fileName();
-        qCritical() << "Powód:" << plik.errorString();
+        qCritical() << "Nie mozna otworzyc pliku do zapisu!";
         return;
     }
     plik.write(jsonData);
