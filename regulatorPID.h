@@ -17,7 +17,7 @@ private:
     double m_ostatni_sygWy;
     //calkujacy
     double m_epsilon = 1e-4;
-    static LiczCalke LiczCalk; // do zmiany przy implementacji gui
+    LiczCalke LiczCalk; // do zmiany przy implementacji gui
     double m_wartosci = 0.0;
     //rozniczkujacy
     double m_poprzedniSygWe;
@@ -25,9 +25,9 @@ private:
     bool ZeroweTi(double Ti);
 public:
     RegulatorPID(){};
-    RegulatorPID(double Kp);
-    RegulatorPID(double Kp, double Ti);
-    RegulatorPID(double Kp, double Ti, double Td);
+    RegulatorPID(double Kp, LiczCalke sposob);
+    RegulatorPID(double Kp, double Ti, LiczCalke sposob);
+    RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob);
     void setWzmocnienie(double noweKp);
     void setStalaRozn(double noweTd);
 

@@ -11,16 +11,16 @@ bool RegulatorPID::ZeroweTi(double Ti) {
     return std::abs(Ti) < m_epsilon;
 }
 
-RegulatorPID::RegulatorPID(double Kp)
-    : m_Kp(Kp), m_Ti(0.0), m_Td(0.0), m_poprzedniSygWe(0)
+RegulatorPID::RegulatorPID(double Kp, LiczCalke sposob)
+    : m_Kp(Kp), m_Ti(0.0), m_Td(0.0), m_poprzedniSygWe(0), liczCalk(sposob)
 {}
 
-RegulatorPID::RegulatorPID(double Kp, double Ti)
-    : m_Kp(Kp), m_Ti(Ti), m_Td(0.0), m_poprzedniSygWe(0)
+RegulatorPID::RegulatorPID(double Kp, double Ti, LiczCalke sposob)
+    : m_Kp(Kp), m_Ti(Ti), m_Td(0.0), m_poprzedniSygWe(0), LiczCalk(sposob)
 {}
 
-RegulatorPID::RegulatorPID(double Kp, double Ti, double Td)
-    : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_poprzedniSygWe(0)
+RegulatorPID::RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob)
+    : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_poprzedniSygWe(0), LiczCalk(sposob)
 {}
 void RegulatorPID::setWzmocnienie(double noweKp) { m_Kp = noweKp;  }
 void RegulatorPID::setStalaRozn(double noweTd) { m_Td = noweTd;  }

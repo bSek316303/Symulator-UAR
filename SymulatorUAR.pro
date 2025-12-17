@@ -13,6 +13,7 @@ SOURCES += \
     ProstyUAR.cpp \
     main.cpp \
     mainwindow.cpp \
+    menedzer.cpp \
     menedzerUAR.cpp \
     menedzer_symulacji.cpp \
     modelARX.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     ProstyUAR.h \
     main.h \
     mainwindow.h \
+    menedzer.h \
     menedzerUAR.h \
     menedzer_symulacji.h \
     modelARX.h \

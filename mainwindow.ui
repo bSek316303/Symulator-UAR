@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="layout_arx">
        <item>
         <widget class="QLabel" name="lbl_nastawy_arx">
          <property name="text">
@@ -57,7 +57,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="layout_wzmocnienie">
        <item>
         <widget class="QLabel" name="lbl_wzmocnienie">
          <property name="text">
@@ -71,7 +71,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="layout_rozniczka">
        <item>
         <widget class="QLabel" name="lbl_stala_calkowania">
          <property name="text">
@@ -85,7 +85,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <layout class="QHBoxLayout" name="layout_calka">
        <item>
         <widget class="QLabel" name="lbl_stala_rozniczkowania">
          <property name="text">
@@ -99,7 +99,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <layout class="QHBoxLayout" name="layout_pid_zaawansowane">
        <item>
         <widget class="QGroupBox" name="grpbx_czy_ti_w_calce">
          <property name="title">
@@ -134,7 +134,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QVBoxLayout" name="layout_reset_pamieci">
          <item>
           <widget class="QLabel" name="lbl_reset_pamieci">
            <property name="text">
@@ -168,7 +168,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_12">
+      <layout class="QHBoxLayout" name="layout_typ_sygnalu">
        <item>
         <widget class="QLabel" name="lbl_typsygnalu">
          <property name="text">
@@ -193,7 +193,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <layout class="QHBoxLayout" name="layout_okres">
        <item>
         <widget class="QLabel" name="lbl_okres">
          <property name="text">
@@ -207,7 +207,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
+      <layout class="QHBoxLayout" name="layout_amplituda">
        <item>
         <widget class="QLabel" name="lbl_amplituda">
          <property name="text">
@@ -221,7 +221,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
+      <layout class="QHBoxLayout" name="layout_stala_skladowa">
        <item>
         <widget class="QLabel" name="lbl_stala_skladowa">
          <property name="text">
@@ -235,7 +235,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_11">
+      <layout class="QHBoxLayout" name="layout_wypelnienie">
        <item>
         <widget class="QLabel" name="lbl_wypelnienie">
          <property name="text">
@@ -297,7 +297,7 @@
      <x>0</x>
      <y>0</y>
      <width>1300</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

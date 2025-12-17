@@ -10,8 +10,8 @@ class ProstyUAR {
     ModelARX m_ARX;
 
 public:
-    ProstyUAR(double Kp, double Ti, double Td, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
-        : m_regulator(Kp, Ti, Td), m_ARX(A_p, B_p, opoznienie_p, szum_p), m_ostatniSygWy(0.0)
+    ProstyUAR(double Kp, double Ti, double Td, RegulatorPID::LiczCalke sposob, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
+        : m_regulator(Kp, Ti, Td, sposob), m_ARX(A_p, B_p, opoznienie_p, szum_p), m_ostatniSygWy(0.0)
     {
     }
     ProstyUAR(ModelARX arx, RegulatorPID regulator)
@@ -46,6 +46,9 @@ public:
     }
     double get_ostatni_syg_wy(){
         return m_ostatniSygWy;
+    }
+    void set_pid_params(double Kp, double Ti, double Td, RegulatorPID::LiczCalke sposob){
+
     }
 
 };
