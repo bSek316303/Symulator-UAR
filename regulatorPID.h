@@ -28,11 +28,11 @@ public:
     RegulatorPID(double Kp, LiczCalke sposob);
     RegulatorPID(double Kp, double Ti, LiczCalke sposob);
     RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob);
-    void setWzmocnienie(double noweKp);
-    void setStalaRozn(double noweTd);
+    void set_kp(double noweKp);
+    void set_td(double noweTd);
 
     void resetujPamiec();
-    void setStalaCalk(double noweTi);
+    void set_ti(double noweTi);
     void setLiczCalke(LiczCalke LiczCalk);
     double symuluj(double sygWe);
 

@@ -13,10 +13,11 @@ public:
     double m_A;
     double m_S;
     double m_P;
+    Generator::Sygnaly m_sygnal;
     int i = 0;
 public:
-    Generator(double A, double S, double P = 0.0)
-        : m_S(S)
+    Generator(double A, double S, double P = 0.0, Generator::Sygnaly sygnal = Generator::Sygnaly::prostokatny)
+        : m_S(S), m_sygnal(sygnal)
     {
         setWypelnienie(P);
         setAmplituda(A);
@@ -32,13 +33,13 @@ public:
         else if (m_P < 0.0)
             m_P = 0.0;
     }
-    double generuj(int T, Sygnaly rodzajSygnalu) {
+    double generuj(int T) {
         double sygWy;
-        if (rodzajSygnalu == Sygnaly::sinusoidalny) {
+        if (m_sygnal == Sygnaly::sinusoidalny) {
             sygWy = m_A * std::sin((i % T) * 2.0 * M_PI / T) + m_S;
             // uwaga, w przypadku potrzeby szybszego liczenia sinusa lub większej dokładności zmienić biblioteke z funkcją sin
         }
-        else if (rodzajSygnalu == Sygnaly::prostokatny) {
+        else if (m_sygnal == Sygnaly::prostokatny) {
             if (i++ % T < m_P * T) sygWy  = m_A + m_S;
             else sygWy = m_S;
         }

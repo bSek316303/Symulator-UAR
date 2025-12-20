@@ -18,20 +18,22 @@ SOURCES += \
     menedzer_symulacji.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
+    pidconfig.cpp \
     regulatorPID.cpp \
     testy.cpp
 
 HEADERS += \
     Generator.h \
     ProstyUAR.h \
-    main.h \
     mainwindow.h \
     menedzer.h \
     menedzerUAR.h \
     menedzer_symulacji.h \
     modelARX.h \
     obsluga_pliku.h \
+    pidconfig.h \
     regulatorPID.h \
+    stale.h \
     testy.h
 
 FORMS += \

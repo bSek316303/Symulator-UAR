@@ -20,6 +20,12 @@ public:
 private slots:
     void on_btn_nastawy_arx_clicked();
 
+    void on_spnbx_wzmocnienie_valueChanged(double arg1);
+
+    void on_spnbx_stal_calkowania_valueChanged(double arg1);
+
+    void on_spnbx_stala_rozniczkowania_valueChanged(double arg1);
+
 private:
     Ui::MainWindow *ui;
 };

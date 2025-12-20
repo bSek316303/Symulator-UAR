@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include "ProstyUAR.h"
 #include "Generator.h"
+#include "pidconfig.h"
+
+
 #include <QtCharts/QtCharts>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
@@ -13,10 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    RegulatorPID testPID(1.0, 2.0, 0.2);
-    ModelARX testARX({ -0.4 }, { 0.6 }, 1);
-    ProstyUAR instancjaTestowa(testARX, testPID);
-    Generator gen(3,3,3);
 
     QWidget* glownyWidget = new QWidget(this);
     QHBoxLayout* glownyLayout = new QHBoxLayout(glownyWidget);
@@ -103,6 +102,24 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_btn_nastawy_arx_clicked()
+{
+
+}
+
+
+void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1)
+{
+
+}
+
+
+void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1)
+{
+
+}
+
+
+void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1)
 {
 
 }
