@@ -1,16 +1,15 @@
 #ifndef PIDCONFIG_H
 #define PIDCONFIG_H
-#include <functional>
+#include "config.h"
 
-class PIDConfig
+class PIDConfig: public Config
 {
 private:
-    using obserwator = std::function<void(PIDConfig&)>;
     double m_Kp;
     double m_Ti;
     double m_Td;
     obserwator m_obserwator;
-    void powiadom();
+    void powiadom() override;
 public:
     PIDConfig();
     void set_kp(double value);
@@ -19,7 +18,7 @@ public:
     double get_kp();
     double get_ti();
     double get_td();
-    void set_obserwator(obserwator obserwator);
+    void set_obserwator(obserwator obserwator) override;
 };
 
 #endif // PIDCONFIG_H

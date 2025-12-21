@@ -11,6 +11,9 @@ CONFIG += c++17
 SOURCES += \
     Generator.cpp \
     ProstyUAR.cpp \
+    arxconfig.cpp \
+    config.cpp \
+    genconfig.cpp \
     main.cpp \
     mainwindow.cpp \
     menedzer.cpp \
@@ -25,6 +28,9 @@ SOURCES += \
 HEADERS += \
     Generator.h \
     ProstyUAR.h \
+    arxconfig.h \
+    config.h \
+    genconfig.h \
     mainwindow.h \
     menedzer.h \
     menedzerUAR.h \
