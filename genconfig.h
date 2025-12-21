@@ -10,10 +10,16 @@ private:
     double m_S;
     double m_P;
     Generator::Sygnaly m_sygnal;
-    void powiadom() override;
 public:
     GENConfig();
-    void set_obserwator(obserwator obserwator) override;
+    void set_a(double a);
+    void set_s(double s);
+    void set_p(double p);
+    void set_syg(Generator::Sygnaly sygnal);
+    double get_a() const;
+    double get_s() const;
+    double get_p() const;
+    Generator::Sygnaly get_syg() const;
 
 };
 

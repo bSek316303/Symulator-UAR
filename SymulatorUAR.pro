@@ -12,13 +12,11 @@ SOURCES += \
     Generator.cpp \
     ProstyUAR.cpp \
     arxconfig.cpp \
-    config.cpp \
     genconfig.cpp \
     main.cpp \
     mainwindow.cpp \
     menedzer.cpp \
     menedzerUAR.cpp \
-    menedzer_symulacji.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
     pidconfig.cpp \
@@ -34,7 +32,6 @@ HEADERS += \
     mainwindow.h \
     menedzer.h \
     menedzerUAR.h \
-    menedzer_symulacji.h \
     modelARX.h \
     obsluga_pliku.h \
     pidconfig.h \

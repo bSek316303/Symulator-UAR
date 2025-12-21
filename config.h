@@ -6,10 +6,16 @@ class Config
 {
 protected:
     using obserwator = std::function<void(Config&)>;
+    obserwator m_obserwator;
 public:
     Config();
-    virtual void powiadom() = 0;
-    virtual void set_obserwator(obserwator obserwator) = 0;
+    virtual ~Config() = default;
+    void powiadom(){
+        m_obserwator(*this);
+    }
+    void set_obserwator(obserwator obserwator){
+        m_obserwator = obserwator;
+    }
 };
 
 #endif // CONFIG_H

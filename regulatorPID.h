@@ -17,7 +17,7 @@ private:
     double m_ostatni_sygWy;
     //calkujacy
     double m_epsilon = 1e-4;
-    LiczCalke LiczCalk; // do zmiany przy implementacji gui
+    LiczCalke m_sposob; // do zmiany przy implementacji gui
     double m_wartosci = 0.0;
     //rozniczkujacy
     double m_poprzedniSygWe;

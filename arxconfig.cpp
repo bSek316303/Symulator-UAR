@@ -2,6 +2,15 @@
 
 ARXConfig::ARXConfig() {}
 
-void ARXConfig::set_obserwator(obserwator obserwator){
-    m_obserwator = std::move(obserwator);
+void ARXConfig::set_a(std::vector<double> a){
+    m_A = a;
+}
+void ARXConfig::set_b(std::vector<double> b){
+    m_B = b;
+}
+std::vector<double> ARXConfig::get_a() const{
+    return m_A;
+}
+std::vector<double> ARXConfig::get_b() const{
+    return m_B;
 }

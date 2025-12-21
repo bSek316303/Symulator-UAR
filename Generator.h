@@ -33,6 +33,12 @@ public:
         else if (m_P < 0.0)
             m_P = 0.0;
     }
+    void setSygnal(Generator::Sygnaly nowySygnal){
+        m_sygnal = nowySygnal;
+    }
+    void setStalaSkladowa(double nowaStala){
+        m_S = nowaStala;
+    }
     double generuj(int T) {
         double sygWy;
         if (m_sygnal == Sygnaly::sinusoidalny) {
