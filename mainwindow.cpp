@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ProstyUAR.h"
-#include "Generator.h"
-#include "pidconfig.h"
 
 
 #include <QtCharts/QtCharts>

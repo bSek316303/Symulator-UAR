@@ -1,7 +1,10 @@
+/*
 #ifndef MENEDZERUAR_H
 #define MENEDZERUAR_H
 #include "ProstyUAR.h"
 #include "obsluga_pliku.h"
+#include "qjsonarray.h"
+#include <qvector>
 
 class MenadzerUAR
 {
@@ -24,3 +27,4 @@ public:
 };
 
 #endif // MENEDZERUAR_H
+*/

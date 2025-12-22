@@ -9,22 +9,15 @@ bool RegulatorPID::ZeroweTi(double Ti) {
     return std::abs(Ti) < m_epsilon;
 }
 
-RegulatorPID::RegulatorPID(double Kp, LiczCalke sposob)
-    : m_Kp(Kp), m_Ti(0.0), m_Td(0.0), m_poprzedniSygWe(0), m_sposob(sposob)
-{}
-
-RegulatorPID::RegulatorPID(double Kp, double Ti, LiczCalke sposob)
-    : m_Kp(Kp), m_Ti(Ti), m_Td(0.0), m_poprzedniSygWe(0), m_sposob(sposob)
-{}
-
-RegulatorPID::RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob)
-    : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_poprzedniSygWe(0), m_sposob(sposob)
+RegulatorPID::RegulatorPID(double Kp, double Ti = 0.0, double Td = 0.0, LiczCalke sposob = RegulatorPID::LiczCalke::Zew)
+    : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_sposob(sposob), m_poprzedniSygWe(0.0)
 {}
 void RegulatorPID::set_kp(double noweKp) { m_Kp = noweKp;  }
 void RegulatorPID::set_td(double noweTd) { m_Td = noweTd;  }
 
 //Calkujacy
-void RegulatorPID::resetujPamiec() { m_wartosci = 0.0; }
+void RegulatorPID::resetujPamiecCalki() { m_wartosci = 0.0; }
+void RegulatorPID::resetujPamiecRozniczki() { m_poprzedniSygWe = 0.0; }
 void RegulatorPID::set_ti(double noweTi) { m_Ti = noweTi; }
 void RegulatorPID::setLiczCalke(LiczCalke noweLiczCalk) {
     // Ustawia czy uchyb jest dzielony w sumie czy wartosc sumy jest dzielona przez uchyb

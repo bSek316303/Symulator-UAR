@@ -1,7 +1,8 @@
-
 #ifndef OBSLUGA_PLIKU_H
 #define OBSLUGA_PLIKU_H
 #include "ProstyUAR.h"
+#include <QJsonDocument>
+
 class Obsluga_pliku
 {
     QJsonObject Model_ARX_to_Json(const ModelARX& model_arx) const;

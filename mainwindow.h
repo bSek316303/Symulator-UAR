@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "pidconfig.h"
+#include "arxconfig.h"
+#include "genconfig.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +19,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    PIDConfig& get_pid() {
+        return pidconfig;
+    }
+    ARXConfig& get_arx(){
+        return arxconfig;
+    }
+    GENConfig& get_gen(){
+        return genconfig;
+    }
 
 private slots:
     void on_btn_nastawy_arx_clicked();
@@ -28,5 +40,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    PIDConfig pidconfig;
+    ARXConfig arxconfig;
+    GENConfig genconfig;
+
 };
 #endif // MAINWINDOW_H

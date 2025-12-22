@@ -1,15 +1,11 @@
 #pragma once
 #include <stdexcept>
-#define _USE_MATH_DEFINES
 #include <cmath>
-#include <corecrt_math_defines.h>
+#include "stale.h"
 
 class Generator {
 public:
-    enum class Sygnaly {
-        sinusoidalny,
-        prostokatny
-    };
+    enum class Sygnaly { sinusoidalny, prostokatny };
     double m_A;
     double m_S;
     double m_P;

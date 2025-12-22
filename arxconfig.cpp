@@ -1,6 +1,8 @@
 #include "arxconfig.h"
 
-ARXConfig::ARXConfig() {}
+ARXConfig::ARXConfig()
+    : m_A(POCZ_A), m_B(POCZ_B)
+{}
 
 void ARXConfig::set_a(std::vector<double> a){
     m_A = a;

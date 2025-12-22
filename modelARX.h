@@ -1,5 +1,6 @@
-#include "main.h"
 #pragma once
+#include <vector>
+#include <deque>
 
 class ModelARX {
     std::vector<double> A;

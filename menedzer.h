@@ -23,16 +23,17 @@ private:
 
     // AKTUALIZOWANIE WYKRESÓW.
     void aktualizuj_wykres_uar(double gen, double uar){
-
+        gen = 1;
+        uar = 1;
     }
     void aktualizuj_wykres_uchyb(double uchyb){
-
+        uchyb = 1;
     }
     void aktualizuj_wykres_ster(double ster){
-
+        ster = 1;
     }
     void aktualizuj_wykres_pid(double p, double i, double d){
-
+        p = 1; i = 1; d = 1;
     }
 
 
@@ -42,6 +43,7 @@ private:
         m_uar.get_regulator().set_kp(pid->get_kp());
         m_uar.get_regulator().set_ti(pid->get_ti());
         m_uar.get_regulator().set_td(pid->get_td());
+        m_uar.get_regulator().setLiczCalke(RegulatorPID::LiczCalke(pid->get_licz_calke()));
     }
 
     void set_parametry_arx(Config& cfg){
@@ -55,7 +57,7 @@ private:
         m_gen.setAmplituda(gen->get_a());
         m_gen.setWypelnienie(gen->get_p());
         m_gen.setStalaSkladowa(gen->get_s());
-        m_gen.setSygnal(gen->get_syg());
+        m_gen.setSygnal(Generator::Sygnaly(gen->get_syg()));
     }
     // TODO Poprawić wartswę abstrakcji ARXConfig, aby przyjmowała pozostałe parametry
 public:
@@ -68,9 +70,14 @@ public:
 
         // Ustawienie abstrakcji do wspólpracy z GUI.
         pid_cfg.set_obserwator(std::bind(&menedzer::set_parametry_pid, this, std::placeholders::_1));
+        pid_cfg.set_obserwator_calki(std::bind(&menedzer::resetuj_pamiec_calki, this));
+        pid_cfg.set_obserwator_rozniczki(std::bind(&menedzer::resetuj_pamiec_rozniczki, this));
         arx_cfg.set_obserwator(std::bind(&menedzer::set_parametry_arx, this, std::placeholders::_1));
         gen_cfg.set_obserwator(std::bind(&menedzer::set_parametry_generator, this, std::placeholders::_1));
     }
+
+    void resetuj_pamiec_calki() { m_uar.get_regulator().resetujPamiecCalki(); }
+    void resetuj_pamiec_rozniczki() { m_uar.get_regulator().resetujPamiecRozniczki(); }
 
     void krok_wykresu(){
         double sygSter = m_gen.generuj(stoper->interval());

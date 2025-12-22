@@ -1,6 +1,8 @@
 #include "genconfig.h"
 
-GENConfig::GENConfig() {}
+GENConfig::GENConfig()
+    : m_A(POCZ_AMP), m_S(POCZ_S), m_P(POCZ_P), m_sygnal(POCZ_SYGNAL)
+{}
 
 void GENConfig::set_a(double a){
     m_A = a;
@@ -11,8 +13,8 @@ void GENConfig::set_s(double s){
 void GENConfig::set_p(double p){
     m_P = p;
 }
-void GENConfig::set_syg(Generator::Sygnaly sygnal){
-    m_sygnal = sygnal;
+void GENConfig::set_syg(int value){
+    m_sygnal = value;
 }
 double GENConfig::get_a() const {
     return m_A;
@@ -23,7 +25,7 @@ double GENConfig::get_s() const {
 double GENConfig::get_p() const {
     return m_P;
 }
-Generator::Sygnaly GENConfig::get_syg() const {
+int GENConfig::get_syg() const {
     return m_sygnal;
 }
 

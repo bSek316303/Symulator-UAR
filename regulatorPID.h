@@ -2,10 +2,7 @@
 
 class RegulatorPID {
 public:
-    enum class LiczCalke {
-        Zew,
-        Wew
-    };
+    enum class LiczCalke { Zew, Wew };
 private:
     friend class testyPID;
     double m_Kp;
@@ -24,14 +21,12 @@ private:
     bool ZeroweTi();
     bool ZeroweTi(double Ti);
 public:
-    RegulatorPID(){};
-    RegulatorPID(double Kp, LiczCalke sposob);
-    RegulatorPID(double Kp, double Ti, LiczCalke sposob);
     RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob);
     void set_kp(double noweKp);
     void set_td(double noweTd);
 
-    void resetujPamiec();
+    void resetujPamiecCalki();
+    void resetujPamiecRozniczki();
     void set_ti(double noweTi);
     void setLiczCalke(LiczCalke LiczCalk);
     double symuluj(double sygWe);

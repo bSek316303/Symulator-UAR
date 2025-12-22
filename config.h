@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 #include <functional>
+#include <stale.h>
 
 class Config
 {
@@ -8,7 +9,7 @@ protected:
     using obserwator = std::function<void(Config&)>;
     obserwator m_obserwator;
 public:
-    Config();
+    Config(){}
     virtual ~Config() = default;
     void powiadom(){
         m_obserwator(*this);
