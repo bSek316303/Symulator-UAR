@@ -8,18 +8,18 @@
 
 struct konfiguracjaWykresu {
     QString tytul;
-    QString xOpis = "Czas";
-    QString yOpis = "Wartość";
+    QString xOpis;
+    QString yOpis;
     QVector<QString> serie; // od 1 do 3 serii
 };
 
 class fabryka_wykresow {
 public:
-    static QChart* stworz_wykres(const konfiguracjaWykresu& cfg);
+    static std::tuple<QChart*, std::vector<QLineSeries*>, QValueAxis*, QValueAxis*> stworz_wykres(const konfiguracjaWykresu& cfg);
 
 private:
     static QLineSeries* stworz_serie(const QString& nazwa_serii);
-    static void ustaw_osie(QChart* wykres, const QString& xOpis, const QString& y0pis);
+    static std::pair<QValueAxis*, QValueAxis*> ustaw_osie(QChart* wykres, const QString& xOpis, const QString& y0pis);
 };
 
 #endif // FABRYKA_WYKRESOW_H

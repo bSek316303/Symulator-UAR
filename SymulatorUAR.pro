@@ -22,6 +22,7 @@ SOURCES += \
     obsluga_pliku.cpp \
     pidconfig.cpp \
     regulatorPID.cpp \
+    sim_handler.cpp \
     testy.cpp
 
 HEADERS += \
@@ -38,6 +39,7 @@ HEADERS += \
     obsluga_pliku.h \
     pidconfig.h \
     regulatorPID.h \
+    sim_handler.h \
     stale.h \
     testy.h
 

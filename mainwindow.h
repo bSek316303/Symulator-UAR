@@ -5,6 +5,7 @@
 #include "pidconfig.h"
 #include "arxconfig.h"
 #include "genconfig.h"
+#include "sim_handler.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +28,9 @@ public:
     }
     GENConfig& get_gen(){
         return genconfig;
+    }
+    sim_handler& get_sim_handler() {
+        return sim_handler;
     }
     void set_wartosci_domyslne();
 
@@ -57,11 +61,20 @@ private slots:
 
     void on_rdiobtn_sin_toggled(bool checked);
 
+    void on_spnbx_taktowanie_valueChanged(int arg1);
+
+    void on_spnbx_okres_valueChanged(double arg1);
+
+    void on_btn_stop_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     PIDConfig pidconfig;
     ARXConfig arxconfig;
     GENConfig genconfig;
+    sim_handler sim_handler;
 
 };
 #endif // MAINWINDOW_H

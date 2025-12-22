@@ -1,3 +1,4 @@
+/*
 #ifndef OBSLUGA_PLIKU_H
 #define OBSLUGA_PLIKU_H
 #include "ProstyUAR.h"
@@ -16,3 +17,4 @@ public:
 
 
 #endif // OBSLUGA_PLIKU_H
+*/

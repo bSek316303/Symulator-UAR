@@ -7,28 +7,21 @@
 #include "genconfig.h"
 #include <QTimer>
 
-class menedzer: public QObject {
-    Q_OBJECT
+
+struct dane_do_wykresow{
+    double uar;
+    double gen;
+    double uchyb;
+    double ster;
+    double p;
+    double i;
+    double d;
+};
+
+class menedzer {
 private:
     ProstyUAR m_uar;
     Generator m_gen;
-    QTimer* stoper;
-
-    // AKTUALIZOWANIE WYKRESÓW.
-    void aktualizuj_wykres_uar(double gen, double uar){
-        gen = 1;
-        uar = 1;
-    }
-    void aktualizuj_wykres_uchyb(double uchyb){
-        uchyb = 1;
-    }
-    void aktualizuj_wykres_ster(double ster){
-        ster = 1;
-    }
-    void aktualizuj_wykres_pid(double p, double i, double d){
-        p = 1; i = 1; d = 1;
-    }
-
 
     // USTAWIANIE PARAMETRÓW.
     void set_parametry_pid(Config& cfg){
@@ -50,6 +43,7 @@ private:
         m_gen.setAmplituda(gen->get_a());
         m_gen.setWypelnienie(gen->get_p());
         m_gen.setStalaSkladowa(gen->get_s());
+        m_gen.setOkres(gen->get_okres());
         m_gen.setSygnal(Generator::Sygnaly(gen->get_syg()));
     }
     // TODO Poprawić wartswę abstrakcji ARXConfig, aby przyjmowała pozostałe parametry
@@ -58,9 +52,6 @@ public:
     explicit menedzer(ProstyUAR uar, Generator gen, PIDConfig& pid_cfg, ARXConfig& arx_cfg, GENConfig& gen_cfg)
         : m_uar(uar), m_gen(gen)
     {
-        stoper = new QTimer(this);
-        connect(stoper, &QTimer::timeout, this, &menedzer::krok_wykresu);
-
         // Ustawienie abstrakcji do wspólpracy z GUI.
         pid_cfg.set_obserwator(std::bind(&menedzer::set_parametry_pid, this, std::placeholders::_1));
         pid_cfg.set_obserwator_calki(std::bind(&menedzer::resetuj_pamiec_calki, this));
@@ -72,23 +63,23 @@ public:
     void resetuj_pamiec_calki() { m_uar.get_regulator().resetujPamiecCalki(); }
     void resetuj_pamiec_rozniczki() { m_uar.get_regulator().resetujPamiecRozniczki(); }
 
-    void krok_wykresu(){
-        double sygSter = m_gen.generuj(stoper->interval());
+    dane_do_wykresow krok_wykresu(double interwal){
+        // Symulacja
+        double sygSter = m_gen.generuj(interwal);
         double sygWy = m_uar.symuluj(sygSter);
         RegulatorPID& reg = m_uar.get_regulator();
-        aktualizuj_wykres_uar(sygSter, sygWy);
-        aktualizuj_wykres_uchyb(sygSter- m_uar.get_ostatni_syg_wy());
-        aktualizuj_wykres_ster(reg.get_ostatni_sygWy());
-        aktualizuj_wykres_pid(reg.get_ostatni_P(), reg.get_ostatni_I(),reg.get_ostatni_D());
-    }
-    void set_interwal(int time_in_ms){
-        stoper->setInterval(time_in_ms);
-    }
-    void zacznij_symulacje(){
 
-    }
-    void zakoncz_symulacje(){
+        // Pakowanie danych
+        dane_do_wykresow wynik;
+        wynik.uar = sygWy;
+        wynik.gen = sygSter;
+        wynik.uchyb = sygSter - m_uar.get_ostatni_syg_wy();
+        wynik.ster = m_uar.get_ostatni_syg_wy();
+        wynik.p = reg.get_ostatni_P();
+        wynik.i = reg.get_ostatni_I();
+        wynik.d = reg.get_ostatni_D();
 
+        return wynik;
     }
 };
 

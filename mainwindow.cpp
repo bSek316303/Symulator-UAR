@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "fabryka_wykresow.h"
-#include <QtCharts/QtCharts>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
 #include <QtCharts/QValueAxis>
@@ -18,38 +17,66 @@ void MainWindow::set_wartosci_domyslne(){
     else ui->rdio_poza_calka->setChecked(true);
     if(POCZ_SYGNAL) ui->rdiobtn_square->setChecked(true);
     else ui->rdiobtn_sin->setChecked(true);
+    ui->spnbx_okres->setValue(POCZ_OKRES);
+    ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , sim_handler()
 {
     ui->setupUi(this);
+    ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // Tworzenie wykresów.
 
-    // Wykresy.
     konfiguracjaWykresu uar_cfg;
     uar_cfg.tytul = "wykres generatora i UAR";
     uar_cfg.serie = { "Generator", "UAR" };
-
-    QChart* wykres_uar = fabryka_wykresow::stworz_wykres(uar_cfg);
+    auto paczka = fabryka_wykresow::stworz_wykres(uar_cfg);
+    for(auto* x: std::get<1>(paczka)){
+        sim_handler.dodaj_serie(x);
+    }
+    QChart* wykres_uar = std::get<0>(paczka);
+    sim_handler.dodaj_wykres(wykres_uar);
+    sim_handler.dodaj_os_x(std::get<2>(paczka));
+    sim_handler.dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu uchyb_cfg;
     uchyb_cfg.tytul = "wykres uchybu";
     uchyb_cfg.serie.append("Uchyb");
-
-    QChart* wykres_uchyb = fabryka_wykresow::stworz_wykres(uchyb_cfg);
+    paczka = fabryka_wykresow::stworz_wykres(uchyb_cfg);
+    for(auto* x: std::get<1>(paczka)){
+        sim_handler.dodaj_serie(x);
+    }
+    QChart* wykres_uchyb = std::get<0>(paczka);
+    sim_handler.dodaj_wykres(wykres_uchyb);
+    sim_handler.dodaj_os_x(std::get<2>(paczka));
+    sim_handler.dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu ster_cfg;
     ster_cfg.tytul = "wykres wartosci sterujacej";
     ster_cfg.serie.append("serie");
-
-    QChart* wykres_ster = fabryka_wykresow::stworz_wykres(ster_cfg);
+    paczka = fabryka_wykresow::stworz_wykres(ster_cfg);
+    for(auto* x: std::get<1>(paczka)){
+        sim_handler.dodaj_serie(x);
+    }
+    QChart* wykres_ster = std::get<0>(paczka);
+    sim_handler.dodaj_wykres(wykres_ster);
+    sim_handler.dodaj_os_x(std::get<2>(paczka));
+    sim_handler.dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu pid_cfg;
     pid_cfg.tytul = "wykres PID";
     pid_cfg.serie = { "P", "I", "D" };
-
-    QChart* wykres_pid = fabryka_wykresow::stworz_wykres(pid_cfg);
+    paczka = fabryka_wykresow::stworz_wykres(pid_cfg);
+    for(auto* x: std::get<1>(paczka)){
+        sim_handler.dodaj_serie(x);
+    }
+    QChart* wykres_pid = std::get<0>(paczka);
+    sim_handler.dodaj_wykres(wykres_pid);
+    sim_handler.dodaj_os_x(std::get<2>(paczka));
+    sim_handler.dodaj_os_y(std::get<3>(paczka));
 
     // Widoki wykresów.
     QChartView* widok_uar = new QChartView(wykres_uar);
@@ -62,10 +89,14 @@ MainWindow::MainWindow(QWidget *parent)
     widok_ster->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widok_pid->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    ui->chart_layout->addWidget(widok_uar,2);
-    ui->chart_layout->addWidget(widok_uchyb,1);
-    ui->chart_layout->addWidget(widok_ster,1);
-    ui->chart_layout->addWidget(widok_pid,1);
+    ui->chart_layout->addWidget(widok_uar,4);
+    ui->chart_layout->addWidget(widok_uchyb,3);
+    ui->chart_layout->addWidget(widok_ster,3);
+    ui->chart_layout->addWidget(widok_pid,3);
+
+    // Wartości MIN/MAX
+    ui->spnbx_taktowanie->setMinimum(10);
+    ui->spnbx_taktowanie->setMaximum(1000);
 }
 
 MainWindow::~MainWindow()
@@ -94,4 +125,30 @@ void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) { genconfig.s
 void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) { genconfig.set_p(arg1); }
 void MainWindow::on_rdiobtn_square_toggled(bool checked) { if(checked) genconfig.set_syg(1); }
 void MainWindow::on_rdiobtn_sin_toggled(bool checked) { if(checked) genconfig.set_syg(0); }
+void MainWindow::on_spnbx_okres_valueChanged(double arg1) {
+    genconfig.set_okres(arg1);
+    sim_handler.set_zakres_osi_x(arg1);
+}
+
+void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
+    if (arg1 > 1000) arg1 = 1000;
+    else if (arg1 < 10) arg1 = 10;
+    sim_handler.set_interwal(arg1);
+}
+
+std::string sciezka_na_pulpit(const std::string& nazwa_pliku) {
+    const char* userProfile = std::getenv("USERPROFILE");
+    if (!userProfile) {
+        return nazwa_pliku; // fallback – katalog roboczy
+    }
+
+    return std::string(userProfile) + "\\Desktop\\" + nazwa_pliku;
+}
+
+void MainWindow::on_btn_stop_clicked() {
+    std::string path = sciezka_na_pulpit("wyniki_symulacji.csv");
+    sim_handler.get_stoper().stop();
+    sim_handler.zapisz_do_pliku_csv(path);
+}
+void MainWindow::on_pushButton_2_clicked() { sim_handler.get_stoper().start(); }
 

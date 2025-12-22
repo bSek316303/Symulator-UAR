@@ -1,5 +1,6 @@
 #include "obsluga_pliku.h"
 #include "main.h"
+/*
 
 Obsluga_pliku::Obsluga_pliku() {}
 
@@ -89,6 +90,7 @@ QJsonDocument Obsluga_pliku::wczytajKonfiguracje()
     dane = QJsonDocument::fromJson(dane_json);
     return dane;
 }
+*/
 
 
 

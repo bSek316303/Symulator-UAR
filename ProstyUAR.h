@@ -25,8 +25,6 @@ public:
         m_ostatniSygWy = sygWy;
         return sygWy;
     }
-    double get_taktowanie() const;
-    double get_okres() const;
     RegulatorPID& get_regulator()
     {
         return m_regulator;
@@ -35,14 +33,6 @@ public:
     ModelARX& get_ARX()
     {
         return m_ARX;
-    }
-    void set_taktowanie(double taktowanie)
-    {
-        m_taktowanie = taktowanie;
-    }
-    void set_okres(double okres)
-    {
-        m_okres = okres;
     }
     double get_ostatni_syg_wy(){
         return m_ostatniSygWy;
