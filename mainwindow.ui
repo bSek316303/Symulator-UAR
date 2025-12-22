@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>321</width>
-      <height>542</height>
+      <height>566</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="control_layout">
@@ -216,7 +216,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="spbbx_amplituda"/>
+        <widget class="QDoubleSpinBox" name="spnbx_amplituda"/>
        </item>
       </layout>
      </item>
@@ -297,7 +297,7 @@
      <x>0</x>
      <y>0</y>
      <width>1300</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

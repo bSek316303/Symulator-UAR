@@ -12,6 +12,7 @@ SOURCES += \
     Generator.cpp \
     ProstyUAR.cpp \
     arxconfig.cpp \
+    fabryka_wykresow.cpp \
     genconfig.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     ProstyUAR.h \
     arxconfig.h \
     config.h \
+    fabryka_wykresow.h \
     genconfig.h \
     mainwindow.h \
     menedzer.h \

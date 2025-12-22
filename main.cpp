@@ -17,6 +17,7 @@ int main (int argc, char *argv[]){
 
     MainWindow w;
     menedzer menedzer(uar, gen, w.get_pid(), w.get_arx(), w.get_gen());
+    w.set_wartosci_domyslne();
     w.show();
     return a.exec();
 }

@@ -1,12 +1,24 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-
+#include "fabryka_wykresow.h"
 #include <QtCharts/QtCharts>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
 #include <QtCharts/QValueAxis>
 #include <QPainter>
+
+void MainWindow::set_wartosci_domyslne(){
+    ui->spnbx_wzmocnienie->setValue(POCZ_KP);
+    ui->spnbx_stal_calkowania->setValue(POCZ_TI);
+    ui->spnbx_stala_rozniczkowania->setValue(POCZ_TD);
+    ui->spnbx_amplituda->setValue(POCZ_AMP);
+    ui->spnbx_wypelnienie->setValue(POCZ_P);
+    ui->spnbx_stala_skladowa->setValue(POCZ_S);
+    if(POCZ_LICZ_CALKE) ui->rdio_w_calce->setChecked(true);
+    else ui->rdio_poza_calka->setChecked(true);
+    if(POCZ_SYGNAL) ui->rdiobtn_square->setChecked(true);
+    else ui->rdiobtn_sin->setChecked(true);
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,73 +26,36 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QWidget* glownyWidget = new QWidget(this);
-    QHBoxLayout* glownyLayout = new QHBoxLayout(glownyWidget);
+    // Wykresy.
+    konfiguracjaWykresu uar_cfg;
+    uar_cfg.tytul = "wykres generatora i UAR";
+    uar_cfg.serie = { "Generator", "UAR" };
 
-    QChartView* chart_widget = new QChartView();
-    QWidget* control_widget = new QWidget();
-    ui->chart_layout->addWidget(chart_widget);
-    ui->control_layout->addWidget(control_widget);
+    QChart* wykres_uar = fabryka_wykresow::stworz_wykres(uar_cfg);
 
-    glownyLayout->addLayout(ui->chart_layout, 4);
-    glownyLayout->addLayout(ui->control_layout,1);
-    ui->centralwidget->setLayout(glownyLayout);
+    konfiguracjaWykresu uchyb_cfg;
+    uchyb_cfg.tytul = "wykres uchybu";
+    uchyb_cfg.serie.append("Uchyb");
 
-    chart_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    control_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //charts
-    QChart* chart_uar = new QChart();
-    chart_uar->setTitle("Wykres wyjscia UAR i generatora");
-    chart_uar->legend()->setVisible(false);
-    chart_uar->legend()->setAlignment(Qt::AlignBottom);
-    chart_uar->setMargins(QMargins(10, 10, 10, 10));
-    chart_uar->setBackgroundRoundness(1);
+    QChart* wykres_uchyb = fabryka_wykresow::stworz_wykres(uchyb_cfg);
 
-    QValueAxis* osX_uar = new QValueAxis();
-    osX_uar->setTitleText("czas [s]");
-    osX_uar->setRange(-20, 20);
-    chart_uar->addAxis(osX_uar, Qt::AlignBottom);
+    konfiguracjaWykresu ster_cfg;
+    ster_cfg.tytul = "wykres wartosci sterujacej";
+    ster_cfg.serie.append("serie");
 
-    QValueAxis* osY_uar = new QValueAxis();
-    osY_uar->setTitleText("wartości");
-    osY_uar->setRange(0, 10);
-    chart_uar->addAxis(osY_uar, Qt::AlignLeft);
+    QChart* wykres_ster = fabryka_wykresow::stworz_wykres(ster_cfg);
 
-    QLineSeries* series_out = new QLineSeries();
-    series_out->attachAxis(osX_uar);
-    series_out->attachAxis(osY_uar);
+    konfiguracjaWykresu pid_cfg;
+    pid_cfg.tytul = "wykres PID";
+    pid_cfg.serie = { "P", "I", "D" };
 
-    QLineSeries* series_gen = new QLineSeries();
-    series_gen->attachAxis(osX_uar);
-    series_gen->attachAxis(osY_uar);
+    QChart* wykres_pid = fabryka_wykresow::stworz_wykres(pid_cfg);
 
-    chart_uar->addSeries(series_out);
-    chart_uar->addSeries(series_gen);
-
-    QChart* chart_uchyb = new QChart();
-
-    QLineSeries* series_uchyb = new QLineSeries();
-    chart_uar->addSeries(series_uchyb);
-
-    QChart* chart_ster = new QChart();
-
-    QLineSeries* series_ster = new QLineSeries();
-    chart_ster->addSeries(series_ster);  
-
-    QChart* chart_pid = new QChart();
-
-    QLineSeries* seriesP = new QLineSeries();
-    QLineSeries* seriesI = new QLineSeries();
-    QLineSeries* seriesD = new QLineSeries();
-
-    chart_pid->addSeries(seriesP);
-    chart_pid->addSeries(seriesI);
-    chart_pid->addSeries(seriesD);
-
-    QChartView* widok_uar = new QChartView(chart_uar);
-    QChartView* widok_uchyb = new QChartView(chart_uchyb);
-    QChartView* widok_ster = new QChartView(chart_ster);
-    QChartView* widok_pid = new QChartView(chart_pid);
+    // Widoki wykresów.
+    QChartView* widok_uar = new QChartView(wykres_uar);
+    QChartView* widok_uchyb = new QChartView(wykres_uchyb);
+    QChartView* widok_ster = new QChartView(wykres_ster);
+    QChartView* widok_pid = new QChartView(wykres_pid);
 
     widok_uar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widok_uchyb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -98,26 +73,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// Przycisk ARX.
 void MainWindow::on_btn_nastawy_arx_clicked()
 {
 
 }
 
+// Przyciski PID.
+void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) { pidconfig.set_kp(arg1); }
+void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1) { pidconfig.set_ti(arg1); }
+void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1){ pidconfig.set_td(arg1); }
+void MainWindow::on_btn_resetuj_pamiec_calki_clicked() { pidconfig.powiadom_o_resecie_pamieci_calki(); }
+void MainWindow::on_btn_reset_pamieci_rozniczki_clicked() { pidconfig.powiadom_o_resecie_pamieci_rozniczki(); }
+void MainWindow::on_rdio_w_calce_toggled(bool checked) { if(checked) pidconfig.set_licz_calke(1); }
+void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) pidconfig.set_licz_calke(0); }
 
-void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1)
-{
-
-}
-
-
-void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1)
-{
-
-}
-
-
-void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1)
-{
-
-}
+// Przyciski Generator.
+void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) { genconfig.set_a(arg1); }
+void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) { genconfig.set_s(arg1); }
+void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) { genconfig.set_p(arg1); }
+void MainWindow::on_rdiobtn_square_toggled(bool checked) { if(checked) genconfig.set_syg(1); }
+void MainWindow::on_rdiobtn_sin_toggled(bool checked) { if(checked) genconfig.set_syg(0); }
 

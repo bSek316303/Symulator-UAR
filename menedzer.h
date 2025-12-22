@@ -9,13 +9,6 @@
 
 class menedzer: public QObject {
     Q_OBJECT
-public:
-    enum class wykresy {
-        wykres_uar,
-        wykres_uchybu,
-        wykres_sterowania,
-        wykres_skladowych_pid
-    };
 private:
     ProstyUAR m_uar;
     Generator m_gen;
