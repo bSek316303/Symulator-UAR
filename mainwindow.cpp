@@ -89,6 +89,11 @@ MainWindow::MainWindow(QWidget *parent)
     widok_ster->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widok_pid->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    widok_uar->setRenderHint(QPainter::Antialiasing);
+    widok_uchyb->setRenderHint(QPainter::Antialiasing);
+    widok_ster->setRenderHint(QPainter::Antialiasing);
+    widok_pid->setRenderHint(QPainter::Antialiasing);
+
     ui->chart_layout->addWidget(widok_uar,4);
     ui->chart_layout->addWidget(widok_uchyb,3);
     ui->chart_layout->addWidget(widok_ster,3);
@@ -123,11 +128,16 @@ void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) pidconfig
 void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) { genconfig.set_a(arg1); }
 void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) { genconfig.set_s(arg1); }
 void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) { genconfig.set_p(arg1); }
-void MainWindow::on_rdiobtn_square_toggled(bool checked) { if(checked) genconfig.set_syg(1); }
-void MainWindow::on_rdiobtn_sin_toggled(bool checked) { if(checked) genconfig.set_syg(0); }
+void MainWindow::on_rdiobtn_square_toggled(bool checked) {
+    if(checked) genconfig.set_syg(1);
+    ui->rdiobtn_sin->setChecked(false);
+}
+void MainWindow::on_rdiobtn_sin_toggled(bool checked) {
+    if(checked) genconfig.set_syg(0);
+    ui->rdiobtn_square->setChecked(false);
+}
 void MainWindow::on_spnbx_okres_valueChanged(double arg1) {
     genconfig.set_okres(arg1);
-    sim_handler.set_zakres_osi_x(arg1);
 }
 
 void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){

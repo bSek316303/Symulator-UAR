@@ -32,6 +32,9 @@ private:
             tab_osi_y[index]->setMax(tab_max[index]);
         }
     }
+
+    int steps_low;
+    int steps_high;
 public:
     void zapisz_do_pliku_csv(const std::string& nazwa_pliku){
         double dt = stoper->interval() / 1000;
@@ -64,6 +67,7 @@ public:
         stoper->setInterval(POCZ_TAKTOWANIE);
         connect(stoper, &QTimer::timeout, this, &sim_handler::krok);
         tab_danych.reserve(2000);
+        zakres_osi_x = POCZ_ZAKRES_X;
     }
     QTimer& get_stoper() { return *stoper; }
     void set_menedzer(menedzer* m) { m_menedzer = m; }
@@ -73,19 +77,16 @@ public:
         tab_max.push_back(0);
         tab_min.push_back(0);
     }
-    void dodaj_os_x(QValueAxis* os) { tab_osi_x.push_back(os); }
-    void dodaj_os_y(QValueAxis* os) { tab_osi_y.push_back(os); os->setRange(-100, 100); }
-    void set_zakres_osi_x(double okres) {
-        for(auto& x: tab_osi_x){
-            x->setRange(0, 10 * okres);
-        }
-        zakres_osi_x = 50 * okres;
+    void dodaj_os_x(QValueAxis* os) {
+        tab_osi_x.push_back(os);
+        os->setRange(0, zakres_osi_x);
     }
-    void zwieksz_zakres_osi_x(double okres){
+    void dodaj_os_y(QValueAxis* os) { tab_osi_y.push_back(os); os->setRange(-100, 100); }
+    void zwieksz_zakres_osi_x(){
         int stary_zakres = zakres_osi_x;
-        zakres_osi_x += okres * 20;
+        zakres_osi_x += zakres_osi_x / 2;
         for(auto& x: tab_osi_x){
-            x->setRange(stary_zakres, zakres_osi_x);
+            x->setRange(stary_zakres / 2, zakres_osi_x);
         }
     }
     // Symulacja
@@ -96,6 +97,7 @@ public:
     }
     void zacznij_symulacje() { stoper->start(); }
     void zakoncz_symulacje() { stoper->stop(); }
+    /*
     void krok(){
         int czas = (licznik_krokow++ * stoper->interval()) / 1000;
         qDebug() << "krok: " << licznik_krokow;
@@ -115,8 +117,21 @@ public:
         //skaluj_wykres_y(dane.i, 3);
         tab_serii[6]->append(czas, dane.d);
         //skaluj_wykres_y(dane.d, 3);
-        if(czas > zakres_osi_x - 1){
-            zwieksz_zakres_osi_x(stoper->interval());
+        qDebug() << "czas: " << czas;
+        qDebug() << "zakres: " << zakres_osi_x;
+        if(czas >= zakres_osi_x){
+            zwieksz_zakres_osi_x();
+        }
+    }
+*/
+    void krok(){
+        double czas = static_cast<double>(licznik_krokow++ * stoper->interval()) / 1000.0;
+        qDebug() << "czas: " << czas;
+        dane_do_wykresow dane = m_menedzer->krok_wykresu(stoper->interval());
+        //tab_danych.push_back(dane);
+        tab_serii[1]->append(czas, dane.gen);
+        if(czas >= zakres_osi_x){
+            zwieksz_zakres_osi_x();
         }
     }
 };

@@ -14,7 +14,7 @@ public:
     int i = 0;
 public:
     Generator(double okres, double A, double S, double P = 0.0, Generator::Sygnaly sygnal = Generator::Sygnaly::prostokatny)
-        : m_okres(okres), m_S(S), m_sygnal(sygnal)
+        : m_S(S), m_sygnal(sygnal), m_okres(okres)
     {
         setWypelnienie(P);
         setAmplituda(A);
@@ -30,15 +30,11 @@ public:
         else if (m_P < 0.0)
             m_P = 0.0;
     }
-    void setSygnal(Generator::Sygnaly nowySygnal){
-        m_sygnal = nowySygnal;
-    }
-    void setStalaSkladowa(double nowaStala){
-        m_S = nowaStala;
-    }
-    void setOkres(double okres){
-        m_okres = okres;
-    }
+    void setSygnal(Generator::Sygnaly nowySygnal){ m_sygnal = nowySygnal; }
+    void setStalaSkladowa(double nowaStala){ m_S = nowaStala; }
+    void setOkres(double okres){ m_okres = okres; }
+    int get_okres() const{ return m_okres; }
+
     double generuj(int T) {
         int okres_dyskretny = static_cast<int>(m_okres / (T / 1000.0));
         double sygWy;
