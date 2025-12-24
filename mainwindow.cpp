@@ -157,8 +157,8 @@ std::string sciezka_na_pulpit(const std::string& nazwa_pliku) {
 
 void MainWindow::on_btn_stop_clicked() {
     std::string path = sciezka_na_pulpit("wyniki_symulacji.csv");
-    sim_handler.get_stoper().stop();
+    sim_handler.zakoncz_symulacje();
     sim_handler.zapisz_do_pliku_csv(path);
 }
-void MainWindow::on_pushButton_2_clicked() { sim_handler.get_stoper().start(); }
+void MainWindow::on_pushButton_2_clicked() { sim_handler.zacznij_symulacje(); }
 

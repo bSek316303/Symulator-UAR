@@ -6,6 +6,7 @@
 #include <QtCharts/QtCharts>
 #include <QDebug>
 #include <fstream>
+#include <chrono>
 
 class sim_handler: public QObject
 {
@@ -22,14 +23,51 @@ private:
     int licznik_krokow = 0;
     int zakres_osi_x;
     std::vector<dane_do_wykresow> tab_danych;
-    void skaluj_wykres_y(double value, int index){
-        if(tab_min[index] > value){
-            tab_min[index] = value;
-            tab_osi_y[index]->setMin(tab_min[index]);
+    void skaluj_wykresy_y(dane_do_wykresow dane){
+        // Wykres 1
+        double min_dane = (dane.uar < dane.gen) ? dane.uar : dane.gen;
+        double max_dane = (dane.uar > dane.gen) ? dane.uar : dane.gen;
+        if(tab_min[0] > min_dane){
+            tab_min[0] = min_dane;
+            tab_osi_y[0]->setMin(min_dane);
         }
-        else if(tab_min[index] < value){
-            tab_max[index] = value;
-            tab_osi_y[index]->setMax(tab_max[index]);
+        if(tab_max[0] < max_dane){
+            tab_max[0] = max_dane;
+            tab_osi_y[0]->setMax(max_dane);
+        }
+
+        // Wykres 2
+        double dane_min_max = dane.uchyb;
+        if(tab_min[1] > dane_min_max){
+            tab_min[1] = dane_min_max;
+            tab_osi_y[1]->setMin(dane_min_max);
+        }
+        else if(tab_max[1] < dane_min_max){
+            tab_max[1] = dane_min_max;
+            tab_osi_y[1]->setMax(dane_min_max);
+        }
+
+        // Wykres 3
+        dane_min_max = dane.ster;
+        if(tab_min[2] > dane_min_max){
+            tab_min[2] = dane_min_max;
+            tab_osi_y[2]->setMin(dane_min_max);
+        }
+        else if(tab_max[2] < dane_min_max){
+            tab_max[2] = dane_min_max;
+            tab_osi_y[2]->setMax(dane_min_max);
+        }
+
+        // Wykres 4
+        min_dane = std::max({dane.p, dane.i, dane.d});
+        max_dane = std::min({dane.p, dane.i, dane.d});
+        if(tab_min[3] > min_dane){
+            tab_min[3] = min_dane;
+            tab_osi_y[3]->setMin(min_dane);
+        }
+        if(tab_max[3] < max_dane){
+            tab_max[3] = max_dane;
+            tab_osi_y[3]->setMax(max_dane);
         }
     }
 
@@ -95,35 +133,42 @@ public:
         if(time_in_ms < 10) time_in_ms = 10;
         stoper->setInterval(time_in_ms);
     }
-    void zacznij_symulacje() { stoper->start(); }
+    void zacznij_symulacje() {
+        qDebug() << "test czasowy";
+        test_czasowy();
+    }
     void zakoncz_symulacje() { stoper->stop(); }
-    /*
+    void test_czasowy(){
+        using clock = std::chrono::high_resolution_clock;
+        auto start = clock::now();
+        for(int i = 0; i < 1000; i++){
+            krok();
+        }
+        auto koniec = clock::now();
+        std::chrono::duration<double> elapsed = koniec - start;
+        qDebug() << "Czas 1000 wykonan: " << elapsed.count() << " s\n";
+        qDebug() << "Sredni czas jednego wykonania: "
+                  << elapsed.count() / 1000 << " s\n";
+    }
     void krok(){
         int czas = (licznik_krokow++ * stoper->interval()) / 1000;
-        qDebug() << "krok: " << licznik_krokow;
         dane_do_wykresow dane = m_menedzer->krok_wykresu(stoper->interval());
-        tab_danych.push_back(dane);
+        skaluj_wykresy_y(dane);
+        //tab_danych.push_back(dane);
+        /*
         tab_serii[0]->append(czas, dane.uar);
-        //skaluj_wykres_y(dane.uar, 0);
         tab_serii[1]->append(czas, dane.gen);
-        //skaluj_wykres_y(dane.gen, 0);
         tab_serii[2]->append(czas, dane.uchyb);
-        //skaluj_wykres_y(dane.uchyb, 1);
         tab_serii[3]->append(czas, dane.ster);
-        //skaluj_wykres_y(dane.ster, 2);
         tab_serii[4]->append(czas, dane.p);
-        //skaluj_wykres_y(dane.p, 3);
         tab_serii[5]->append(czas, dane.i);
-        //skaluj_wykres_y(dane.i, 3);
         tab_serii[6]->append(czas, dane.d);
-        //skaluj_wykres_y(dane.d, 3);
-        qDebug() << "czas: " << czas;
-        qDebug() << "zakres: " << zakres_osi_x;
+        */
         if(czas >= zakres_osi_x){
             zwieksz_zakres_osi_x();
         }
     }
-*/
+    /* Sam generator
     void krok(){
         double czas = static_cast<double>(licznik_krokow++ * stoper->interval()) / 1000.0;
         qDebug() << "czas: " << czas;
@@ -134,6 +179,7 @@ public:
             zwieksz_zakres_osi_x();
         }
     }
+*/
 };
 
 #endif // SIM_HANDLER_H

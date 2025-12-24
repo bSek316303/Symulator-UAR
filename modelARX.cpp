@@ -28,6 +28,8 @@ ModelARX::ModelARX(const std::vector<double>& A_p, const std::vector<double>& B_
     {
         czy_wlaczony_szum = true;
     }
+    idx_ster = 0;
+    idx_wyjscie = 0;
 }
 void ModelARX::set_ograniczenie_sterowania(bool czy_wlaczone, double sterowanie_min_p, double sterowanie_max_p)
 {
@@ -75,6 +77,7 @@ void ModelARX::set_sterowanie_min(double sterowanie_min_p)
 {
     sterowanie_min = sterowanie_min_p;
 }
+/*
 double ModelARX::symuluj(double nowe_sterowanie)
 {
     nowe_sterowanie = sprawdzanie_ograniczenia_sterowania(nowe_sterowanie);
@@ -102,6 +105,40 @@ double ModelARX::symuluj(double nowe_sterowanie)
     }
     return y;
 }
+*/
+double ModelARX::symuluj(double nowe_sterowanie) //Wersja "zoptymalizowana"
+{
+    // 1. ograniczenie sterowania
+    nowe_sterowanie = sprawdzanie_ograniczenia_sterowania(nowe_sterowanie);
+
+    // 2. zapis sterowania do bufora ring
+    bufor_sterujacy[idx_ster] = nowe_sterowanie;
+    idx_ster = (idx_ster + 1) % bufor_sterujacy.size();
+
+    // 3. obliczenie wyjścia
+    double y = 0.0;
+    for (size_t i = 0; i < A.size(); ++i)
+    {
+        // indeksowanie ring bufferów
+        size_t idx_wy = (idx_wyjscie + i) % bufor_wyjsciowy.size();
+        y -= A[i] * bufor_wyjsciowy[idx_wy];
+
+        size_t idx_st = (idx_ster + i + opoznienie) % bufor_sterujacy.size();
+        y += B[i] * bufor_sterujacy[idx_st];
+    }
+
+    if (czy_wlaczony_szum)
+        y += szum;
+
+    y = sprawdzanie_ograniczenia_wyjscia(y);
+
+    // 4. zapis wyjścia do bufora ring
+    bufor_wyjsciowy[idx_wyjscie] = y;
+    idx_wyjscie = (idx_wyjscie + 1) % bufor_wyjsciowy.size();
+
+    return y;
+}
+
 std::vector<double> ModelARX::get_A() const
 {
     return A;
