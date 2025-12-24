@@ -18,18 +18,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, sim_handler* simhandler, QWidget *parent = nullptr);
     ~MainWindow();
-    PIDConfig& get_pid() {
+    PIDConfig* get_pid() {
         return pidconfig;
     }
-    ARXConfig& get_arx(){
+    ARXConfig* get_arx(){
         return arxconfig;
     }
-    GENConfig& get_gen(){
+    GENConfig* get_gen(){
         return genconfig;
     }
-    sim_handler& get_sim_handler() {
+    sim_handler* get_sim_handler() {
         return sim_handler;
     }
     void set_wartosci_domyslne();
@@ -71,10 +71,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    PIDConfig pidconfig;
-    ARXConfig arxconfig;
-    GENConfig genconfig;
-    sim_handler sim_handler;
+    PIDConfig* pidconfig;
+    ARXConfig* arxconfig;
+    GENConfig* genconfig;
+    sim_handler* sim_handler;
 
 };
 #endif // MAINWINDOW_H

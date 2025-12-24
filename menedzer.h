@@ -49,15 +49,15 @@ private:
     // TODO Poprawić wartswę abstrakcji ARXConfig, aby przyjmowała pozostałe parametry
 public:
 
-    explicit menedzer(ProstyUAR uar, Generator gen, PIDConfig& pid_cfg, ARXConfig& arx_cfg, GENConfig& gen_cfg)
+    explicit menedzer(ProstyUAR uar, Generator gen, PIDConfig* pid_cfg, ARXConfig* arx_cfg, GENConfig* gen_cfg)
         : m_uar(uar), m_gen(gen)
     {
         // Ustawienie abstrakcji do wspólpracy z GUI.
-        pid_cfg.set_obserwator(std::bind(&menedzer::set_parametry_pid, this, std::placeholders::_1));
-        pid_cfg.set_obserwator_calki(std::bind(&menedzer::resetuj_pamiec_calki, this));
-        pid_cfg.set_obserwator_rozniczki(std::bind(&menedzer::resetuj_pamiec_rozniczki, this));
-        arx_cfg.set_obserwator(std::bind(&menedzer::set_parametry_arx, this, std::placeholders::_1));
-        gen_cfg.set_obserwator(std::bind(&menedzer::set_parametry_generator, this, std::placeholders::_1));
+        pid_cfg->set_obserwator(std::bind(&menedzer::set_parametry_pid, this, std::placeholders::_1));
+        pid_cfg->set_obserwator_calki(std::bind(&menedzer::resetuj_pamiec_calki, this));
+        pid_cfg->set_obserwator_rozniczki(std::bind(&menedzer::resetuj_pamiec_rozniczki, this));
+        arx_cfg->set_obserwator(std::bind(&menedzer::set_parametry_arx, this, std::placeholders::_1));
+        gen_cfg->set_obserwator(std::bind(&menedzer::set_parametry_generator, this, std::placeholders::_1));
     }
 
     void resetuj_pamiec_calki() { m_uar.get_regulator().resetujPamiecCalki(); }

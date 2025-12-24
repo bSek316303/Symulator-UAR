@@ -11,13 +11,14 @@ int main (int argc, char *argv[]){
     PIDConfig pidconfig;
     ARXConfig arxconfig;
     GENConfig genconfig;
+    sim_handler simhandler;
 
     ProstyUAR uar(POCZ_KP, POCZ_TI, POCZ_TD, RegulatorPID::LiczCalke(POCZ_LICZ_CALKE), POCZ_A, POCZ_B, POCZ_OPOZNIENIE, POCZ_SZUM);
     Generator gen(POCZ_OKRES, POCZ_AMP, POCZ_S, POCZ_P, Generator::Sygnaly(POCZ_SYGNAL));
 
-    MainWindow w;
+    MainWindow w(&pidconfig, &arxconfig, &genconfig, &simhandler);
     menedzer menedzer(uar, gen, w.get_pid(), w.get_arx(), w.get_gen());
-    w.get_sim_handler().set_menedzer(&menedzer);
+    w.get_sim_handler()->set_menedzer(&menedzer);
     w.set_wartosci_domyslne();
     w.show();
     return a.exec();
