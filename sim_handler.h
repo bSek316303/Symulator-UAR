@@ -28,46 +28,46 @@ private:
         double min_dane = (dane.uar < dane.gen) ? dane.uar : dane.gen;
         double max_dane = (dane.uar > dane.gen) ? dane.uar : dane.gen;
         if(tab_min[0] > min_dane){
-            tab_min[0] = min_dane;
-            tab_osi_y[0]->setMin(min_dane);
+            tab_min[0] = min_dane * 1.15;
+            tab_osi_y[0]->setMin(tab_min[0]);
         }
         if(tab_max[0] < max_dane){
-            tab_max[0] = max_dane;
-            tab_osi_y[0]->setMax(max_dane);
+            tab_max[0] = max_dane * 1.15;
+            tab_osi_y[0]->setMax(tab_max[0]);
         }
 
         // Wykres 2
         double dane_min_max = dane.uchyb;
         if(tab_min[1] > dane_min_max){
-            tab_min[1] = dane_min_max;
-            tab_osi_y[1]->setMin(dane_min_max);
+            tab_min[1] = dane_min_max * 1.15;
+            tab_osi_y[1]->setMin(tab_min[1]);
         }
         else if(tab_max[1] < dane_min_max){
-            tab_max[1] = dane_min_max;
-            tab_osi_y[1]->setMax(dane_min_max);
+            tab_max[1] = dane_min_max * 1.15;
+            tab_osi_y[1]->setMax(tab_max[1]);
         }
 
         // Wykres 3
         dane_min_max = dane.ster;
         if(tab_min[2] > dane_min_max){
-            tab_min[2] = dane_min_max;
-            tab_osi_y[2]->setMin(dane_min_max);
+            tab_min[2] = dane_min_max * 1.15;
+            tab_osi_y[2]->setMin(tab_min[2]);
         }
         else if(tab_max[2] < dane_min_max){
-            tab_max[2] = dane_min_max;
-            tab_osi_y[2]->setMax(dane_min_max);
+            tab_max[2] = dane_min_max * 1.15;
+            tab_osi_y[2]->setMax(tab_max[2]);
         }
 
         // Wykres 4
-        min_dane = std::max({dane.p, dane.i, dane.d});
-        max_dane = std::min({dane.p, dane.i, dane.d});
+        max_dane = std::max({dane.p, dane.i, dane.d});
+        min_dane = std::min({dane.p, dane.i, dane.d});
         if(tab_min[3] > min_dane){
-            tab_min[3] = min_dane;
-            tab_osi_y[3]->setMin(min_dane);
+            tab_min[3] = min_dane * 1.15;
+            tab_osi_y[3]->setMin(tab_min[3]);
         }
         if(tab_max[3] < max_dane){
-            tab_max[3] = max_dane;
-            tab_osi_y[3]->setMax(max_dane);
+            tab_max[3] = max_dane * 1.15;
+            tab_osi_y[3]->setMax(tab_max[3]);
         }
     }
 
@@ -134,8 +134,7 @@ public:
         stoper->setInterval(time_in_ms);
     }
     void zacznij_symulacje() {
-        qDebug() << "test czasowy";
-        test_czasowy();
+        stoper->start();
     }
     void zakoncz_symulacje() { stoper->stop(); }
     void test_czasowy(){
@@ -151,11 +150,10 @@ public:
                   << elapsed.count() / 1000 << " s\n";
     }
     void krok(){
-        int czas = (licznik_krokow++ * stoper->interval()) / 1000;
+        double czas = static_cast<double>(licznik_krokow++ * stoper->interval()) / 1000.0;;
         dane_do_wykresow dane = m_menedzer->krok_wykresu(stoper->interval());
         skaluj_wykresy_y(dane);
         //tab_danych.push_back(dane);
-        /*
         tab_serii[0]->append(czas, dane.uar);
         tab_serii[1]->append(czas, dane.gen);
         tab_serii[2]->append(czas, dane.uchyb);
@@ -163,7 +161,6 @@ public:
         tab_serii[4]->append(czas, dane.p);
         tab_serii[5]->append(czas, dane.i);
         tab_serii[6]->append(czas, dane.d);
-        */
         if(czas >= zakres_osi_x){
             zwieksz_zakres_osi_x();
         }
