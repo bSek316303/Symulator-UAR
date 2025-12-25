@@ -5,19 +5,20 @@
 class ModelARX {
     std::vector<double> A;
     std::vector<double> B;
-    //std::deque<double> bufor_sterujacy;
-    //std::deque<double> bufor_wyjsciowy;
+    std::deque<double> bufor_sterujacy;
+    std::deque<double> bufor_wyjsciowy;
 
     bool czy_wlaczony_szum = false;
     double szum;
     int opoznienie;
 
     //do testu
+    /*
     size_t idx_ster;
     size_t idx_wyjscie;
     std::vector<double> bufor_sterujacy;
     std::vector<double> bufor_wyjsciowy;
-
+    */
     bool ograniczenie_sterowania = true;
     double sterowanie_min = -10.0;
     double sterowanie_max = 10.0;

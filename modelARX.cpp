@@ -28,8 +28,8 @@ ModelARX::ModelARX(const std::vector<double>& A_p, const std::vector<double>& B_
     {
         czy_wlaczony_szum = true;
     }
-    idx_ster = 0;
-    idx_wyjscie = 0;
+    //idx_ster = 0;
+    //idx_wyjscie = 0;
 }
 void ModelARX::set_ograniczenie_sterowania(bool czy_wlaczone, double sterowanie_min_p, double sterowanie_max_p)
 {
@@ -77,7 +77,7 @@ void ModelARX::set_sterowanie_min(double sterowanie_min_p)
 {
     sterowanie_min = sterowanie_min_p;
 }
-/*
+
 double ModelARX::symuluj(double nowe_sterowanie)
 {
     nowe_sterowanie = sprawdzanie_ograniczenia_sterowania(nowe_sterowanie);
@@ -105,7 +105,7 @@ double ModelARX::symuluj(double nowe_sterowanie)
     }
     return y;
 }
-*/
+/*
 double ModelARX::symuluj(double nowe_sterowanie) //Wersja "zoptymalizowana"
 {
     // 1. ograniczenie sterowania
@@ -138,6 +138,7 @@ double ModelARX::symuluj(double nowe_sterowanie) //Wersja "zoptymalizowana"
 
     return y;
 }
+*/
 
 std::vector<double> ModelARX::get_A() const
 {
