@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     Generator.cpp \
     ProstyUAR.cpp \
+    arx_dialog.cpp \
     arxconfig.cpp \
     fabryka_wykresow.cpp \
     genconfig.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 HEADERS += \
     Generator.h \
     ProstyUAR.h \
+    arx_dialog.h \
     arxconfig.h \
     config.h \
     fabryka_wykresow.h \
@@ -44,6 +46,7 @@ HEADERS += \
     testy.h
 
 FORMS += \
+    arx_dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

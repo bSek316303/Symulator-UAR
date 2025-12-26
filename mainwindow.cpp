@@ -11,6 +11,7 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_stal_calkowania->setValue(POCZ_TI);
     ui->spnbx_stala_rozniczkowania->setValue(POCZ_TD);
     ui->spnbx_amplituda->setValue(POCZ_AMP);
+    ui->spnbx_amplituda->setMinimum(0.0);
     ui->spnbx_wypelnienie->setValue(POCZ_P);
     ui->spnbx_stala_skladowa->setValue(POCZ_S);
     if(POCZ_LICZ_CALKE) ui->rdio_w_calce->setChecked(true);
@@ -18,7 +19,9 @@ void MainWindow::set_wartosci_domyslne(){
     if(POCZ_SYGNAL) ui->rdiobtn_square->setChecked(true);
     else ui->rdiobtn_sin->setChecked(true);
     ui->spnbx_okres->setValue(POCZ_OKRES);
+    ui->spnbx_okres->setMinimum(0.0);
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
+    ui->spnbx_taktowanie->setRange(10, 1000);
 }
 
 MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, class sim_handler* simhandler, QWidget *parent)
