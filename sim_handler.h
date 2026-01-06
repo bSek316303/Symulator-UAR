@@ -20,8 +20,10 @@ private:
     std::vector<QValueAxis*> tab_osi_y;
     std::vector<double> tab_max;
     std::vector<double> tab_min;
+    double czas;
     int licznik_krokow = 0;
     int zakres_osi_x;
+    int czas_aktualizacji_wykresu;
     std::vector<dane_do_wykresow> tab_danych;
     void skaluj_wykresy_y(dane_do_wykresow dane){
         // Wykres 1
@@ -70,9 +72,6 @@ private:
             tab_osi_y[3]->setMax(tab_max[3]);
         }
     }
-
-    int steps_low;
-    int steps_high;
 public:
     void zapisz_do_pliku_csv(const std::string& nazwa_pliku){
         double dt = stoper->interval() / 1000;
@@ -106,6 +105,7 @@ public:
         connect(stoper, &QTimer::timeout, this, &sim_handler::krok);
         tab_danych.reserve(2000);
         zakres_osi_x = POCZ_ZAKRES_X;
+        czas_aktualizacji_wykresu = zakres_osi_x;
     }
     QTimer& get_stoper() { return *stoper; }
     void set_menedzer(menedzer* m) { m_menedzer = m; }
@@ -120,22 +120,20 @@ public:
         os->setRange(0, zakres_osi_x);
     }
     void dodaj_os_y(QValueAxis* os) { tab_osi_y.push_back(os); os->setRange(-100, 100); }
-    void zwieksz_zakres_osi_x(){
-        int stary_zakres = zakres_osi_x;
-        zakres_osi_x += zakres_osi_x / 2;
-        for(auto& x: tab_osi_x){
-            x->setRange(stary_zakres / 2, zakres_osi_x);
-        }
+    void set_czas_wykresu(int nowyCzas){
+        zakres_osi_x = nowyCzas;
+        if(!licznik_krokow) for(auto& x: tab_osi_x){ x->setRange(0, zakres_osi_x); }
+        else for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2); }
+        czas_aktualizacji_wykresu = zakres_osi_x;
     }
+    void zwieksz_zakres_osi_x(double czas){ for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x / 2,czas + zakres_osi_x / 2); } }
     // Symulacja
     void set_interwal(int time_in_ms){
         if(time_in_ms > 1000) time_in_ms = 1000;
         if(time_in_ms < 10) time_in_ms = 10;
         stoper->setInterval(time_in_ms);
     }
-    void zacznij_symulacje() {
-        stoper->start();
-    }
+    void zacznij_symulacje() { stoper->start(); }
     void zakoncz_symulacje() { stoper->stop(); }
     void test_czasowy(){
         using clock = std::chrono::high_resolution_clock;
@@ -150,7 +148,7 @@ public:
                   << elapsed.count() / 1000 << " s\n";
     }
     void krok(){
-        double czas = static_cast<double>(licznik_krokow++ * stoper->interval()) / 1000.0;;
+        czas = static_cast<double>(licznik_krokow++ * stoper->interval()) / 1000.0;;
         dane_do_wykresow dane = m_menedzer->krok_wykresu(stoper->interval());
         skaluj_wykresy_y(dane);
         //tab_danych.push_back(dane);
@@ -161,8 +159,9 @@ public:
         tab_serii[4]->append(czas, dane.p);
         tab_serii[5]->append(czas, dane.i);
         tab_serii[6]->append(czas, dane.d);
-        if(czas >= zakres_osi_x){
-            zwieksz_zakres_osi_x();
+        if(czas >= czas_aktualizacji_wykresu){
+            czas_aktualizacji_wykresu += zakres_osi_x / 2;
+            zwieksz_zakres_osi_x(czas);
         }
     }
     /* Sam generator

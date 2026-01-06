@@ -22,7 +22,7 @@ constexpr double POCZ_P = 1.0;
 constexpr int POCZ_SYGNAL = 0;
 constexpr double POCZ_OKRES = 1.0;
 constexpr int POCZ_TAKTOWANIE = 200;
-constexpr double POCZ_ZAKRES_X = 10.0;
+constexpr int POCZ_ZAKRES_X = 10;
 */
 
 // Stabilne dane
@@ -43,7 +43,7 @@ constexpr double POCZ_P = 1.0;
 constexpr int POCZ_SYGNAL = 0;
 constexpr double POCZ_OKRES = 1.0;
 constexpr int POCZ_TAKTOWANIE = 200;
-constexpr double POCZ_ZAKRES_X = 10.0;
+constexpr int POCZ_ZAKRES_X = 10;
 
 
 #endif // STALE_H

@@ -67,7 +67,11 @@ private slots:
 
     void on_btn_stop_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_btn_start_clicked();
+
+    void on_btn_reset_clicked();
+
+    void on_spnbx_czas_wykresu_valueChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

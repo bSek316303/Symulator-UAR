@@ -18,6 +18,8 @@ void MainWindow::set_wartosci_domyslne(){
     else ui->rdio_poza_calka->setChecked(true);
     if(POCZ_SYGNAL) ui->rdiobtn_square->setChecked(true);
     else ui->rdiobtn_sin->setChecked(true);
+    ui->spnbx_czas_wykresu->setValue(POCZ_ZAKRES_X);
+    ui->spnbx_czas_wykresu->setRange(5, 500);
     ui->spnbx_okres->setValue(POCZ_OKRES);
     ui->spnbx_okres->setMinimum(0.0);
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
@@ -169,5 +171,11 @@ void MainWindow::on_btn_stop_clicked() {
     sim_handler->zakoncz_symulacje();
     sim_handler->zapisz_do_pliku_csv(path);
 }
-void MainWindow::on_pushButton_2_clicked() { sim_handler->zacznij_symulacje(); }
+void MainWindow::on_btn_start_clicked() { sim_handler->zacznij_symulacje(); }
+
+void MainWindow::on_btn_reset_clicked()
+{
+    //TODO
+}
+void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
 
