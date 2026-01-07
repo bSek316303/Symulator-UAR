@@ -71,13 +71,13 @@ public:
 
         // Pakowanie danych
         dane_do_wykresow dane;
-        wynik.uar = sygWy;
-        wynik.gen = sygSter;
-        wynik.uchyb = sygSter - m_uar.get_ostatni_syg_wy();
-        wynik.ster = m_uar.get_ostatni_syg_wy();
-        wynik.p = reg.get_ostatni_P();
-        wynik.i = reg.get_ostatni_I();
-        wynik.d = reg.get_ostatni_D();
+        dane.uar = sygWy;
+        dane.gen = sygSter;
+        dane.uchyb = sygSter - m_uar.get_ostatni_syg_wy();
+        dane.ster = m_uar.get_ostatni_syg_wy();
+        dane.p = reg.get_ostatni_P();
+        dane.i = reg.get_ostatni_I();
+        dane.d = reg.get_ostatni_D();
 
         return dane;
     }
