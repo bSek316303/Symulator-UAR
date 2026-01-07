@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>376</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,7 +53,14 @@
          <item>
           <widget class="QPushButton" name="a_confirm">
            <property name="text">
-            <string>Dodaj współczynnik</string>
+            <string>Dodaj</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="remove_a">
+           <property name="text">
+            <string>Usuń</string>
            </property>
           </widget>
          </item>
@@ -120,7 +127,14 @@
          <item>
           <widget class="QPushButton" name="b_confirm">
            <property name="text">
-            <string>Dodaj współczynnik</string>
+            <string>Dodaj </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="remove_b">
+           <property name="text">
+            <string>Usuń</string>
            </property>
           </widget>
          </item>

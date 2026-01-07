@@ -12,6 +12,16 @@ void ARXConfig::set_b(std::vector<double> b){
     m_B = b;
     powiadom();
 }
+void ARXConfig::set_opoznienie(double opoznienie)
+{
+    m_opoznienie = opoznienie;
+    powiadom();
+}
+void ARXConfig::set_zaklocenie(double zaklocenie)
+{
+    m_zaklocenie = zaklocenie;
+    powiadom();
+}
 std::vector<double> ARXConfig::get_a() const{
     return m_A;
 }
