@@ -1,23 +1,19 @@
 #pragma once
 #include "regulatorPID.h"
-#include "ModelARX.h"
+#include "modelARX.h"
 
 class ProstyUAR {
-    double m_taktowanie;
-    double m_okres;
     double m_ostatniSygWy;
     RegulatorPID m_regulator;
     ModelARX m_ARX;
 
 public:
-    ProstyUAR(double Kp, double Ti, double Td, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
-        : m_regulator(Kp, Ti, Td), m_ARX(A_p, B_p, opoznienie_p, szum_p), m_ostatniSygWy(0.0)
-    {
-    }
+    ProstyUAR(double Kp, double Ti, double Td, RegulatorPID::LiczCalke sposob, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
+        : m_ostatniSygWy(0.0), m_regulator(Kp, Ti, Td, sposob), m_ARX(A_p, B_p, opoznienie_p, szum_p)
+    {}
     ProstyUAR(ModelARX arx, RegulatorPID regulator)
         : m_regulator(std::move(regulator)), m_ARX(std::move(arx))
-    {
-    }
+    {}
     double symuluj(double sygWe) {
         double uchyb = sygWe - m_ostatniSygWy;
         double sygSter = m_regulator.symuluj(uchyb);
@@ -25,30 +21,7 @@ public:
         m_ostatniSygWy = sygWy;
         return sygWy;
     }
-    double get_taktowanie() const;
-    double get_okres() const;
-    RegulatorPID& get_regulator()
-    {
-        return m_regulator;
-    }
-
-    ModelARX& get_ARX()
-    {
-        return m_ARX;
-    }
-    void set_taktowanie(double taktowanie)
-    {
-        m_taktowanie = taktowanie;
-    }
-    void set_okres(double okres)
-    {
-        m_okres = okres;
-    }
-    double get_ostatni_syg_wy(){
-        return m_ostatniSygWy;
-    }
-
+    RegulatorPID& get_regulator() { return m_regulator; }
+    ModelARX& get_ARX() { return m_ARX; }
+    double get_ostatni_syg_wy(){ return m_ostatniSygWy; }
 };
-
-
-

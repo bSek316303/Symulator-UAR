@@ -1,3 +1,4 @@
+/*
 #include "menedzerUAR.h"
 #include "ProstyUAR.h"
 
@@ -118,4 +119,5 @@ void MenadzerUAR::set_opoznienie_ARX(int opoznienie_p)
 {
     prostyUar->get_ARX().set_opoznienie(opoznienie_p);
 }
+*/
 

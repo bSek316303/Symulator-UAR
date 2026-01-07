@@ -11,28 +11,42 @@ CONFIG += c++17
 SOURCES += \
     Generator.cpp \
     ProstyUAR.cpp \
+    arx_dialog.cpp \
+    arxconfig.cpp \
+    fabryka_wykresow.cpp \
+    genconfig.cpp \
     main.cpp \
     mainwindow.cpp \
+    menedzer.cpp \
     menedzerUAR.cpp \
-    menedzer_symulacji.cpp \
     modelARX.cpp \
     obsluga_pliku.cpp \
+    pidconfig.cpp \
     regulatorPID.cpp \
+    sim_handler.cpp \
     testy.cpp
 
 HEADERS += \
     Generator.h \
     ProstyUAR.h \
-    main.h \
+    arx_dialog.h \
+    arxconfig.h \
+    config.h \
+    fabryka_wykresow.h \
+    genconfig.h \
     mainwindow.h \
+    menedzer.h \
     menedzerUAR.h \
-    menedzer_symulacji.h \
     modelARX.h \
     obsluga_pliku.h \
+    pidconfig.h \
     regulatorPID.h \
+    sim_handler.h \
+    stale.h \
     testy.h
 
 FORMS += \
+    arx_dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

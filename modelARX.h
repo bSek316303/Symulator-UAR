@@ -1,5 +1,6 @@
-#include "main.h"
 #pragma once
+#include <vector>
+#include <deque>
 
 class ModelARX {
     std::vector<double> A;
@@ -11,6 +12,13 @@ class ModelARX {
     double szum;
     int opoznienie;
 
+    //do testu
+    /*
+    size_t idx_ster;
+    size_t idx_wyjscie;
+    std::vector<double> bufor_sterujacy;
+    std::vector<double> bufor_wyjsciowy;
+    */
     bool ograniczenie_sterowania = true;
     double sterowanie_min = -10.0;
     double sterowanie_max = 10.0;

@@ -2,8 +2,6 @@
 #include <cmath>
 #include <cstdlib>
 
-RegulatorPID::LiczCalke RegulatorPID::LiczCalk = RegulatorPID::LiczCalke::Zew;
-
 bool RegulatorPID::ZeroweTi() {
     return std::abs(m_Ti) < m_epsilon;
 }
@@ -11,26 +9,19 @@ bool RegulatorPID::ZeroweTi(double Ti) {
     return std::abs(Ti) < m_epsilon;
 }
 
-RegulatorPID::RegulatorPID(double Kp)
-    : m_Kp(Kp), m_Ti(0.0), m_Td(0.0), m_poprzedniSygWe(0)
+RegulatorPID::RegulatorPID(double Kp, double Ti = 0.0, double Td = 0.0, LiczCalke sposob = RegulatorPID::LiczCalke::Zew)
+    : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_sposob(sposob), m_poprzedniSygWe(0.0)
 {}
-
-RegulatorPID::RegulatorPID(double Kp, double Ti)
-    : m_Kp(Kp), m_Ti(Ti), m_Td(0.0), m_poprzedniSygWe(0)
-{}
-
-RegulatorPID::RegulatorPID(double Kp, double Ti, double Td)
-    : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_poprzedniSygWe(0)
-{}
-void RegulatorPID::setWzmocnienie(double noweKp) { m_Kp = noweKp;  }
-void RegulatorPID::setStalaRozn(double noweTd) { m_Td = noweTd;  }
+void RegulatorPID::set_kp(double noweKp) { m_Kp = noweKp;  }
+void RegulatorPID::set_td(double noweTd) { m_Td = noweTd;  }
 
 //Calkujacy
-void RegulatorPID::resetujPamiec() { m_wartosci = 0.0; }
-void RegulatorPID::setStalaCalk(double noweTi) { m_Ti = noweTi; }
+void RegulatorPID::resetujPamiecCalki() { m_wartosci = 0.0; }
+void RegulatorPID::resetujPamiecRozniczki() { m_poprzedniSygWe = 0.0; }
+void RegulatorPID::set_ti(double noweTi) { m_Ti = noweTi; }
 void RegulatorPID::setLiczCalke(LiczCalke noweLiczCalk) {
     // Ustawia czy uchyb jest dzielony w sumie czy wartosc sumy jest dzielona przez uchyb
-    if (noweLiczCalk == LiczCalk) return;
+    if (noweLiczCalk == m_sposob) return;
     if (noweLiczCalk == LiczCalke::Wew) {
         if (!ZeroweTi())
             m_wartosci /= m_Ti; // Zew -> Wew
@@ -39,7 +30,7 @@ void RegulatorPID::setLiczCalke(LiczCalke noweLiczCalk) {
         if (!ZeroweTi())
             m_wartosci *= m_Ti; // Wew -> Zew
     }
-    LiczCalk = noweLiczCalk;
+    m_sposob = noweLiczCalk;
 }
 
 double RegulatorPID::symuluj(double sygWe) { // Sposob na testy -> jezeli chcemy przetestowac tylko jedna czesc to pozostale stale ustawiamy na 0.0
@@ -50,7 +41,7 @@ double RegulatorPID::symuluj(double sygWe) { // Sposob na testy -> jezeli chcemy
     m_poprzedniSygWe = sygWe;
     //calka
     if (!ZeroweTi()) {
-        if (LiczCalk == LiczCalke::Wew) {
+        if (m_sposob == LiczCalke::Wew) {
             m_wartosci += sygWe / m_Ti;
             m_last_I = m_wartosci;
         }

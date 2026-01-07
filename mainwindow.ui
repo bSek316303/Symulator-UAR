@@ -6,298 +6,316 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
-    <height>588</height>
+    <width>1192</width>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>321</width>
-      <height>542</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="control_layout">
-     <item>
-      <widget class="QLabel" name="lbl_opcje_arx">
-       <property name="text">
-        <string>Opcje dla: model ARX</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="lbl_nastawy_arx">
-         <property name="text">
-          <string>nastawy ARX:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_nastawy_arx">
-         <property name="text">
-          <string>nastawy ARX</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="lbl_opcje_pid">
-       <property name="text">
-        <string>Opcje dla: Regulator PID</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="lbl_wzmocnienie">
-         <property name="text">
-          <string>Wzmocnienie: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="spnbx_wzmocnienie"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <widget class="QLabel" name="lbl_stala_calkowania">
-         <property name="text">
-          <string>Stała całkowania:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="spnbx_stal_calkowania"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QLabel" name="lbl_stala_rozniczkowania">
-         <property name="text">
-          <string>Stała różniczkowania:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="spnbx_stala_rozniczkowania"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <widget class="QGroupBox" name="grpbx_czy_ti_w_calce">
-         <property name="title">
-          <string>Dzielenie:</string>
-         </property>
-         <widget class="QRadioButton" name="rdio_w_calce">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>89</width>
-            <height>20</height>
-           </rect>
-          </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="main_layout" stretch="1,4">
+      <item>
+       <layout class="QVBoxLayout" name="control_layout">
+        <item>
+         <widget class="QLabel" name="lbl_opcje_arx">
           <property name="text">
-           <string>W całce</string>
+           <string>Opcje dla: model ARX</string>
           </property>
          </widget>
-         <widget class="QRadioButton" name="rdio_poza_calka">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>50</y>
-            <width>89</width>
-            <height>20</height>
-           </rect>
-          </property>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_arx">
+          <item>
+           <widget class="QLabel" name="lbl_nastawy_arx">
+            <property name="text">
+             <string>nastawy ARX:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_nastawy_arx">
+            <property name="text">
+             <string>nastawy ARX</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="lbl_opcje_pid">
           <property name="text">
-           <string>Poza całką</string>
+           <string>Opcje dla: Regulator PID</string>
           </property>
          </widget>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QLabel" name="lbl_reset_pamieci">
-           <property name="text">
-            <string>reset pamięci:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_resetuj_pamiec_calki">
-           <property name="text">
-            <string>całki</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_reset_pamieci_rozniczki">
-           <property name="text">
-            <string>różniczki</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="lbl_opcje_generatora">
-       <property name="text">
-        <string>Opcje dla: Generator funkcji</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_12">
-       <item>
-        <widget class="QLabel" name="lbl_typsygnalu">
-         <property name="text">
-          <string>typ sygnału: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rdiobtn_square">
-         <property name="text">
-          <string>Prostokątny</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="rdiobtn_sin">
-         <property name="text">
-          <string>Sinusoidalny</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLabel" name="lbl_okres">
-         <property name="text">
-          <string>Okres:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="spnbx_okres"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_8">
-       <item>
-        <widget class="QLabel" name="lbl_amplituda">
-         <property name="text">
-          <string>Amplituda:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="spbbx_amplituda"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
-       <item>
-        <widget class="QLabel" name="lbl_stala_skladowa">
-         <property name="text">
-          <string>Stała składowa:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="spnbx_stala_skladowa"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_11">
-       <item>
-        <widget class="QLabel" name="lbl_wypelnienie">
-         <property name="text">
-          <string>wypełnienie:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="spnbx_wypelnienie"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>PushButton</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="text">
-            <string>PushButton</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>329</x>
-      <y>9</y>
-      <width>951</width>
-      <height>511</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="chart_layout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
-     </property>
-    </layout>
-   </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_wzmocnienie">
+          <item>
+           <widget class="QLabel" name="lbl_wzmocnienie">
+            <property name="text">
+             <string>Wzmocnienie: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_wzmocnienie"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_rozniczka">
+          <item>
+           <widget class="QLabel" name="lbl_stala_calkowania">
+            <property name="text">
+             <string>Stała całkowania:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_stal_calkowania"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_calka">
+          <item>
+           <widget class="QLabel" name="lbl_stala_rozniczkowania">
+            <property name="text">
+             <string>Stała różniczkowania:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_stala_rozniczkowania"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_pid_zaawansowane">
+          <item>
+           <widget class="QGroupBox" name="grpbx_czy_ti_w_calce">
+            <property name="title">
+             <string>Dzielenie:</string>
+            </property>
+            <widget class="QRadioButton" name="rdio_w_calce">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>20</y>
+               <width>89</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>W całce</string>
+             </property>
+            </widget>
+            <widget class="QRadioButton" name="rdio_poza_calka">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>50</y>
+               <width>89</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Poza całką</string>
+             </property>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="layout_reset_pamieci">
+            <item>
+             <widget class="QLabel" name="lbl_reset_pamieci">
+              <property name="text">
+               <string>reset pamięci:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_resetuj_pamiec_calki">
+              <property name="text">
+               <string>całki</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_reset_pamieci_rozniczki">
+              <property name="text">
+               <string>różniczki</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="lbl_opcje_generatora">
+          <property name="text">
+           <string>Opcje dla: Generator funkcji i symulacja</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_typ_sygnalu">
+          <item>
+           <widget class="QLabel" name="lbl_typsygnalu">
+            <property name="text">
+             <string>typ sygnału: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rdiobtn_square">
+            <property name="text">
+             <string>Prostokątny</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rdiobtn_sin">
+            <property name="text">
+             <string>Sinusoidalny</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_czas_wykresu">
+          <item>
+           <widget class="QLabel" name="lbl_czas_wykresu">
+            <property name="text">
+             <string>Czas na wykresie:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spnbx_czas_wykresu"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_okres">
+          <item>
+           <widget class="QLabel" name="lbl_okres">
+            <property name="text">
+             <string>Okres:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_okres"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_taktowanie">
+          <item>
+           <widget class="QLabel" name="lbl_taktowanie">
+            <property name="text">
+             <string>Taktowanie:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spnbx_taktowanie"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_amplituda">
+          <item>
+           <widget class="QLabel" name="lbl_amplituda">
+            <property name="text">
+             <string>Amplituda:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_amplituda"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_stala_skladowa">
+          <item>
+           <widget class="QLabel" name="lbl_stala_skladowa">
+            <property name="text">
+             <string>Stała składowa:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_stala_skladowa"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_wypelnienie">
+          <item>
+           <widget class="QLabel" name="lbl_wypelnienie">
+            <property name="text">
+             <string>wypełnienie:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spnbx_wypelnienie"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_start_stop">
+          <item>
+           <widget class="QPushButton" name="btn_reset">
+            <property name="text">
+             <string>Reset</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_stop">
+            <property name="text">
+             <string>Stop</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_start">
+            <property name="text">
+             <string>Start</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="chart_layout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
-     <height>21</height>
+     <width>1192</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
