@@ -70,7 +70,7 @@ public:
         RegulatorPID& reg = m_uar.get_regulator();
 
         // Pakowanie danych
-        dane_do_wykresow wynik;
+        dane_do_wykresow dane;
         wynik.uar = sygWy;
         wynik.gen = sygSter;
         wynik.uchyb = sygSter - m_uar.get_ostatni_syg_wy();
@@ -79,7 +79,7 @@ public:
         wynik.i = reg.get_ostatni_I();
         wynik.d = reg.get_ostatni_D();
 
-        return wynik;
+        return dane;
     }
 };
 
