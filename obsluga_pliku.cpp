@@ -65,7 +65,7 @@ void Obsluga_pliku::zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,
 
     QFile plik(sciezka);
 
-    if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (!plik.open(QIODevice::WriteOnly)) {
         qCritical() << "Nie mozna otworzyc pliku do zapisu!";
         return;
     }
