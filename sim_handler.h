@@ -138,9 +138,7 @@ public:
     void test_czasowy(){
         using clock = std::chrono::high_resolution_clock;
         auto start = clock::now();
-        for(int i = 0; i < 1000; i++){
-            krok();
-        }
+        for(int i = 0; i < 1000; i++){ krok(); }
         auto koniec = clock::now();
         std::chrono::duration<double> elapsed = koniec - start;
         qDebug() << "Czas 1000 wykonan: " << elapsed.count() << " s\n";
