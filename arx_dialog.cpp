@@ -12,3 +12,9 @@ arx_dialog::~arx_dialog()
 {
     delete ui;
 }
+
+void arx_dialog::dodaj_do_listy(QTextBrowser lista_wspolczynnikow, QDoubleSpinBox wsp)
+{
+    QString pom_value = QString::number(wsp.value()) + ", ";
+    lista_wspolczynnikow.append(pom_value);
+}

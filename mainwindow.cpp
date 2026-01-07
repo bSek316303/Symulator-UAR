@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "arx_dialog.h"
 #include "ui_mainwindow.h"
 #include "fabryka_wykresow.h"
 #include <QtCharts/QLineSeries>
@@ -123,6 +124,9 @@ MainWindow::~MainWindow()
 // Przycisk ARX.
 void MainWindow::on_btn_nastawy_arx_clicked()
 {
+    arx_dialog *dialog = new arx_dialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 
 }
 
