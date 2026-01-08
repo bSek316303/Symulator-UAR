@@ -1,7 +1,7 @@
 #ifndef STALE_H
 #define STALE_H
 #include <vector>
-#define _USE_MATH_DEFINES
+//#define _USE_MATH_DEFINES
 #include <corecrt_math_defines.h>
 
 /*
