@@ -161,25 +161,8 @@ void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
     sim_handler->set_interwal(arg1);
 }
 
-std::string sciezka_na_pulpit(const std::string& nazwa_pliku) {
-    const char* userProfile = std::getenv("USERPROFILE");
-    if (!userProfile) {
-        return nazwa_pliku; // fallback – katalog roboczy
-    }
-
-    return std::string(userProfile) + "\\Desktop\\" + nazwa_pliku;
-}
-
-void MainWindow::on_btn_stop_clicked() {
-    std::string path = sciezka_na_pulpit("wyniki_symulacji.csv");
-    sim_handler->zakoncz_symulacje();
-    sim_handler->zapisz_do_pliku_csv(path);
-}
+void MainWindow::on_btn_stop_clicked() { sim_handler->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { sim_handler->zacznij_symulacje(); }
-
-void MainWindow::on_btn_reset_clicked()
-{
-    //TODO
-}
+void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
 void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
 
