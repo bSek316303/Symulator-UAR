@@ -28,3 +28,13 @@ std::vector<double> ARXConfig::get_a() const{
 std::vector<double> ARXConfig::get_b() const{
     return m_B;
 }
+
+double ARXConfig::get_opoznienie()
+{
+    return m_opoznienie;
+}
+
+double ARXConfig::get_szum()
+{
+    return m_zaklocenie;
+}

@@ -19,7 +19,10 @@ public:
     explicit arx_dialog(QWidget *parent = nullptr);
     ~arx_dialog();
     void zastosuj_konfiguracje();
-    void dodaj_do_listy(QTextBrowser *lista_wspolczynnikow, QDoubleSpinBox *wsp);
+    std::vector<double> get_wsp_a();
+    std::vector<double> get_wsp_b();
+    double get_opoznienie();
+    double get_zaklocenie();
 
 private slots:
     void on_a_confirm_clicked();
@@ -31,11 +34,13 @@ private slots:
     void on_remove_b_clicked();
 
 
+    void on_ok_arx_clicked();
+
 private:
     Ui::arx_dialog *ui;
     std::vector<double> wsp_a;
     std::vector<double> wsp_b;
-    double oponienie;
+    double opoznienie;
     double zaklocenia;
 };
 

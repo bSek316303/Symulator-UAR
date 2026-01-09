@@ -1,4 +1,5 @@
 #include "arx_dialog.h"
+#include "modelARX.h"
 #include "ui_arx_dialog.h"
 
 arx_dialog::arx_dialog(QWidget *parent)
@@ -12,11 +13,7 @@ arx_dialog::~arx_dialog()
 {
     delete ui;
 }
-void arx_dialog::dodaj_do_listy(QTextBrowser *lista_wspolczynnikow, QDoubleSpinBox *wsp)
-{
-    QString pom_value = QString::number(wsp->value()) + ", ";
-    lista_wspolczynnikow->append(pom_value);
-}
+
 
 void arx_dialog::on_a_confirm_clicked()
 {
@@ -56,5 +53,36 @@ void arx_dialog::on_remove_b_clicked()
             ui->widok_b->insertPlainText(QString::number(wartosc) + ", ");
         }
     }
+}
+
+std::vector<double> arx_dialog::get_wsp_a()
+{
+    return wsp_a;
+}
+
+std::vector<double> arx_dialog::get_wsp_b()
+{
+    return wsp_b;
+}
+
+double arx_dialog::get_opoznienie()
+{
+    return opoznienie;
+}
+
+double arx_dialog::get_zaklocenie()
+{
+    return zaklocenia;
+}
+
+void arx_dialog::on_ok_arx_clicked()
+{
+    opoznienie = ui->opoznienie_input->value();
+    zaklocenia = ui->zaklocenie_input->value();
+    ModelARX arx;
+    arx.set_A(wsp_a);
+    arx.set_B(wsp_b);
+    arx.set_opoznienie(int(get_opoznienie()));
+    arx.set_szum(get_zaklocenie());
 }
 

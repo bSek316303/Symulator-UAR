@@ -18,6 +18,8 @@ public:
     void set_zaklocenie(double zaklocenie);
     std::vector<double> get_a() const;
     std::vector<double> get_b() const;
+    double get_opoznienie();
+    double get_szum();
 };
 
 #endif // ARXCONFIG_H

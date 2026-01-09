@@ -36,6 +36,8 @@ private:
         auto* arx = dynamic_cast<ARXConfig*>(&cfg);
         m_uar.get_ARX().set_A(arx->get_a());
         m_uar.get_ARX().set_B(arx->get_b());
+        m_uar.get_ARX().set_opoznienie(arx->get_opoznienie());
+        m_uar.get_ARX().set_szum(arx->get_szum());
     }
 
     void set_parametry_generator(Config& cfg){
