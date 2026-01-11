@@ -2,14 +2,10 @@
 #include <cmath>
 #include <cstdlib>
 
-bool RegulatorPID::ZeroweTi() {
-    return std::abs(m_Ti) < m_epsilon;
-}
-bool RegulatorPID::ZeroweTi(double Ti) {
-    return std::abs(Ti) < m_epsilon;
-}
+bool RegulatorPID::ZeroweTi() { return std::abs(m_Ti) < m_epsilon; }
+bool RegulatorPID::ZeroweTi(double Ti) { return std::abs(Ti) < m_epsilon; }
 
-RegulatorPID::RegulatorPID(double Kp, double Ti = 0.0, double Td = 0.0, LiczCalke sposob = RegulatorPID::LiczCalke::Zew)
+RegulatorPID::RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob)
     : m_Kp(Kp), m_Ti(Ti), m_Td(Td), m_sposob(sposob), m_poprzedniSygWe(0.0)
 {}
 void RegulatorPID::set_kp(double noweKp) { m_Kp = noweKp;  }

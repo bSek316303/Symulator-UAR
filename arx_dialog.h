@@ -33,7 +33,6 @@ private slots:
 
     void on_remove_b_clicked();
 
-
     void on_ok_arx_clicked();
 
     void on_opoznienie_input_valueChanged(double arg1);

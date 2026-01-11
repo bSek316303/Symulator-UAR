@@ -21,13 +21,14 @@ private:
     bool ZeroweTi();
     bool ZeroweTi(double Ti);
 public:
-    RegulatorPID(double Kp, double Ti, double Td, LiczCalke sposob);
+    RegulatorPID(double Kp, double Ti = 0.0, double Td = 0.0, LiczCalke sposob = RegulatorPID::LiczCalke::Zew);
     void set_kp(double noweKp);
     void set_td(double noweTd);
+    void set_ti(double noweTi);
 
     void resetujPamiecCalki();
     void resetujPamiecRozniczki();
-    void set_ti(double noweTi);
+
     void setLiczCalke(LiczCalke LiczCalk);
     double symuluj(double sygWe);
 

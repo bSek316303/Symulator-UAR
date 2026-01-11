@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "menedzer.h"
 #include "stale.h"
-
 #include <QApplication>
 
 int main (int argc, char *argv[]){

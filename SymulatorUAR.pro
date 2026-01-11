@@ -24,7 +24,9 @@ SOURCES += \
     pidconfig.cpp \
     regulatorPID.cpp \
     sim_handler.cpp \
-    testy.cpp
+    testy.cpp \
+    testy_setterow.cpp \
+    testy_symulacji.cpp
 
 HEADERS += \
     Generator.h \
@@ -43,7 +45,9 @@ HEADERS += \
     regulatorPID.h \
     sim_handler.h \
     stale.h \
-    testy.h
+    testy.h \
+    testy_setterow.h \
+    testy_symulacji.h
 
 FORMS += \
     arx_dialog.ui \
