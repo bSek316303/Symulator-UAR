@@ -1,5 +1,5 @@
 #include "modelARX.h"
-
+#include <random>
 double ModelARX::sprawdzanie_ograniczenia_sterowania(double u) const {
     if (!ograniczenie_sterowania)
         return u;
@@ -50,19 +50,10 @@ void ModelARX::set_wyjscie_max(double wyjscie_max_p)
 void ModelARX::set_A(const std::vector<double>& A_p)
 {
     A = A_p;
-    if(B.size() != A.size())
-    {
-        B.assign(A.size(),0.0);
-    }
 }
 void ModelARX::set_B(const std::vector<double>& B_p)
 {
     B = B_p;
-    if(A.size() != B.size())
-    {
-        A.assign(B.size(),0.0);
-    }
-
 }
 void ModelARX::set_opoznienie(int opoznienie_p)
 {
@@ -82,28 +73,45 @@ double ModelARX::symuluj(double nowe_sterowanie)
 {
     nowe_sterowanie = sprawdzanie_ograniczenia_sterowania(nowe_sterowanie);
     bufor_sterujacy.push_front(nowe_sterowanie);
-    if (bufor_sterujacy.size() > B.size() + opoznienie)
-    {
+
+    size_t wymagany_rozmiar_u = B.size() + opoznienie;
+    while (bufor_sterujacy.size() > wymagany_rozmiar_u) {
         bufor_sterujacy.pop_back();
     }
+    while (bufor_sterujacy.size() < wymagany_rozmiar_u) {
+        bufor_sterujacy.push_back(0.0);
+    }
+    double suma_B = 0.0;
+    for (size_t i = 0; i < B.size(); i++) {
+        suma_B += B[i] * bufor_sterujacy[opoznienie + i];
+    }
 
-    double y = 0.0;
-    for (int i = 0; i < A.size(); i++)
-    {
-        y -= A[i] * bufor_wyjsciowy[i];
-        y += B[i] * bufor_sterujacy[i + opoznienie];
+    double suma_A = 0.0;
+    for (size_t i = 0; i < A.size(); i++) {
+        if (i < bufor_wyjsciowy.size()) {
+            suma_A += A[i] * bufor_wyjsciowy[i];
+        }
     }
-    if (czy_wlaczony_szum)
-    {
-        y += szum;
+
+    double yi = suma_B - suma_A;
+    if (czy_wlaczony_szum && szum > 0) {
+        static std::mt19937 gen(std::random_device{}());
+        std::normal_distribution<double> d(0.0, szum);
+        yi += d(gen);
     }
-    y = sprawdzanie_ograniczenia_wyjscia(y);
-    bufor_wyjsciowy.push_front(y);
-    if (bufor_wyjsciowy.size() > A.size())
-    {
+
+    yi = sprawdzanie_ograniczenia_wyjscia(yi);
+
+    bufor_wyjsciowy.push_front(yi);
+
+    while (bufor_wyjsciowy.size() > A.size()) {
         bufor_wyjsciowy.pop_back();
     }
-    return y;
+    while (bufor_wyjsciowy.size() < A.size() && A.size() > 0) {
+        bufor_wyjsciowy.push_back(0.0);
+    }
+
+    return yi;
 }
 /*
 double ModelARX::symuluj(double nowe_sterowanie) //Wersja "zoptymalizowana"
@@ -184,3 +192,4 @@ int ModelARX::get_opoznienie() const
 {
     return opoznienie;
 }
+

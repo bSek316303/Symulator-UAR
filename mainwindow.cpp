@@ -26,7 +26,6 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
     ui->spnbx_taktowanie->setRange(10, 1000);
 }
-
 MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, class sim_handler* simhandler, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -124,12 +123,16 @@ MainWindow::~MainWindow()
 // Przycisk ARX.
 void MainWindow::on_btn_nastawy_arx_clicked()
 {
-    arx_dialog *dialog = new arx_dialog(this);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
-
+    arx_dialog *okno = new arx_dialog(this);
+    okno->setAttribute(Qt::WA_DeleteOnClose);
+    connect(okno, &arx_dialog::accepted, this, [this, okno]() {
+        arxconfig->set_a(okno->get_wsp_a());
+        arxconfig->set_b(okno->get_wsp_b());
+        arxconfig->set_opoznienie(okno->get_opoznienie());
+        arxconfig->set_zaklocenie(okno->get_zaklocenie());
+    });
+    okno->show();
 }
-
 // Przyciski PID.
 void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) { pidconfig->set_kp(arg1); }
 void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1) { pidconfig->set_ti(arg1); }

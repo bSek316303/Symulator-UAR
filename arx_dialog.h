@@ -36,12 +36,16 @@ private slots:
 
     void on_ok_arx_clicked();
 
+    void on_opoznienie_input_valueChanged(double arg1);
+
+    void on_zaklocenie_input_valueChanged(double arg1);
+
 private:
     Ui::arx_dialog *ui;
     std::vector<double> wsp_a;
     std::vector<double> wsp_b;
-    double opoznienie;
-    double zaklocenia;
+    double opoznienie = 0;
+    double zaklocenia = 0;
 };
 
 #endif // ARX_DIALOG_H

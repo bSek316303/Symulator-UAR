@@ -77,12 +77,17 @@ double arx_dialog::get_zaklocenie()
 
 void arx_dialog::on_ok_arx_clicked()
 {
-    opoznienie = ui->opoznienie_input->value();
-    zaklocenia = ui->zaklocenie_input->value();
-    ModelARX arx;
-    arx.set_A(wsp_a);
-    arx.set_B(wsp_b);
-    arx.set_opoznienie(int(get_opoznienie()));
-    arx.set_szum(get_zaklocenie());
+    this->accept();
 }
+
+void arx_dialog::on_opoznienie_input_valueChanged(double arg1)
+{
+    opoznienie = arg1;
+}
+
+void arx_dialog::on_zaklocenie_input_valueChanged(double arg1)
+{
+    zaklocenia = arg1;
+}
+
 
