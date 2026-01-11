@@ -21,4 +21,5 @@ public:
     void setOkres(double okres);
     double get_okres() const;
     double generuj(int T);
+    void resetuj();
 };

@@ -57,3 +57,12 @@ double RegulatorPID::get_ostatni_I() { return m_last_I; }
 double RegulatorPID::get_ostatni_D() { return m_last_D; }
 double RegulatorPID::get_ostatni_sygWy() {return m_ostatni_sygWy;}
 
+void RegulatorPID::resetuj(){
+    m_last_P = 0.0;
+    m_last_I = 0.0;
+    m_last_D = 0.0;
+    m_ostatni_sygWy = 0.0;
+    m_wartosci = 0.0;
+    m_poprzedniSygWe = 0.0;
+}
+

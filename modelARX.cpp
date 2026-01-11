@@ -192,4 +192,7 @@ int ModelARX::get_opoznienie() const
 {
     return opoznienie;
 }
+void ModelARX::resetuj(){
+    //TODO
+}
 

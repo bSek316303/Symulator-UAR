@@ -31,6 +31,7 @@ public:
 
     void setLiczCalke(LiczCalke LiczCalk);
     double symuluj(double sygWe);
+    void resetuj();
 
     double getKp() const;
     double getTi() const;

@@ -35,3 +35,6 @@ double Generator::generuj(int T) {
     if (i == 5*okres_dyskretny) i = 0; // Zabezpieczenie przed przepełnieniem i
     return sygWy;
 }
+void Generator::resetuj(){
+    i = 0;
+}

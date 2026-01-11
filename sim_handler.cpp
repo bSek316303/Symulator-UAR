@@ -93,7 +93,6 @@ sim_handler::sim_handler() {
     stoper = new QTimer(this);
     stoper->setInterval(POCZ_TAKTOWANIE);
     connect(stoper, &QTimer::timeout, this, &sim_handler::krok);
-    tab_danych.reserve(2000);
     zakres_osi_x = POCZ_ZAKRES_X;
     aktualny_czas_wykresu = zakres_osi_x;
     czas = 0.0;
@@ -110,7 +109,10 @@ void sim_handler::dodaj_os_x(QValueAxis* os) {
     tab_osi_x.push_back(os);
     os->setRange(0, zakres_osi_x);
 }
-void sim_handler::dodaj_os_y(QValueAxis* os) { tab_osi_y.push_back(os); os->setRange(-100, 100); }
+void sim_handler::dodaj_os_y(QValueAxis* os) {
+    tab_osi_y.push_back(os);
+    os->setRange(-10, 10);
+}
 void sim_handler::set_interwal(int time_in_ms){
     if(time_in_ms > 1000) time_in_ms = 1000;
     if(time_in_ms < 10) time_in_ms = 10;
@@ -136,7 +138,17 @@ void sim_handler::set_czas_wykresu(double nowyCzas){
 void sim_handler::zacznij_symulacje() { stoper->start(); }
 void sim_handler::zakoncz_symulacje() { stoper->stop(); }
 void sim_handler::resetuj_symulacje() {
-    // TODO
+    stoper->stop();
+    m_menedzer->resetuj();
+    czas = 0.0;
+    aktualny_czas_wykresu = zakres_osi_x;
+    for(auto &wykres: tab_wykresow){
+        for (QAbstractSeries *abstractSeries : wykres->series()) {
+            QLineSeries *seria = qobject_cast<QLineSeries*>(abstractSeries);
+            if (!seria) continue;
+            seria->clear();
+        }
+    }
 }
 
 void sim_handler::test_czasowy(){

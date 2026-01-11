@@ -17,3 +17,8 @@ RegulatorPID& ProstyUAR::get_regulator() { return m_regulator; }
 ModelARX& ProstyUAR::get_ARX() { return m_ARX; }
 double ProstyUAR::get_ostatni_syg_wy(){ return m_ostatniSygWy; }
 
+void ProstyUAR::resetuj(){
+    m_ARX.resetuj();
+    m_regulator.resetuj();
+    m_ostatniSygWy = 0.0;
+}

@@ -14,4 +14,5 @@ public:
     RegulatorPID& get_regulator();
     ModelARX& get_ARX();
     double get_ostatni_syg_wy();
+    void resetuj();
 };

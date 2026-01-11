@@ -58,3 +58,8 @@ dane_do_wykresow menedzer::krok_wykresu(double interwal){
 
     return dane;
 }
+
+void menedzer::resetuj(){
+    m_uar.resetuj();
+    m_gen.resetuj();
+}

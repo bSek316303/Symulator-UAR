@@ -55,4 +55,5 @@ public:
     std::vector<double> get_B()const;
     std::vector<double> get_A()const;
     int get_opoznienie() const;
+    void resetuj();
 };

@@ -22,7 +22,6 @@ private:
     double czas;
     int zakres_osi_x;
     int aktualny_czas_wykresu;
-    std::vector<dane_do_wykresow> tab_danych;
 
     void skaluj_wykresy_po_appendzie(dane_do_wykresow dane);
     void zwieksz_zakres_osi_x(double czas);

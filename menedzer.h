@@ -29,5 +29,6 @@ public:
     void resetuj_pamiec_calki();
     void resetuj_pamiec_rozniczki();
     dane_do_wykresow krok_wykresu(double interwal);
+    void resetuj();
 };
 
