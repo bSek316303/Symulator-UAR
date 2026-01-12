@@ -1,4 +1,5 @@
 #include "modelARX.h"
+#include <QDebug>
 #include <random>
 double ModelARX::sprawdzanie_ograniczenia_sterowania(double u) const {
     if (!ograniczenie_sterowania)
@@ -193,6 +194,6 @@ int ModelARX::get_opoznienie() const
     return opoznienie;
 }
 void ModelARX::resetuj(){
-    //TODO
-}
+    std::fill(bufor_sterujacy.begin(), bufor_sterujacy.end(), 0.0);
+    std::fill(bufor_sterujacy.begin(), bufor_sterujacy.end(), 0.0);}
 
