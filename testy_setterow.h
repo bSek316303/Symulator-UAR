@@ -17,6 +17,9 @@ public:
 private:
     //testy arx dla ciebie kuba trzeba napisac testy do setterow z arx potem a uara i menedzera
     //testy regulator pid
+    bool test_ustawienia_parametrow_pid();
+    bool test_resetu_pamieci_roznicznki();
+    bool test_resetu_pamieci_calki();
     //testy generator
     //testy setterow w prosty uar
     //testy setterow w menedzer

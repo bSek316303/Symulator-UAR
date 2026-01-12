@@ -6,7 +6,7 @@ void menedzer::set_parametry_pid(Config& cfg){
     m_uar.get_regulator().set_kp(pid->get_kp());
     m_uar.get_regulator().set_ti(pid->get_ti());
     m_uar.get_regulator().set_td(pid->get_td());
-    m_uar.get_regulator().setLiczCalke(RegulatorPID::LiczCalke(pid->get_licz_calke()));
+    m_uar.get_regulator().set_licz_calke(RegulatorPID::LiczCalke(pid->get_licz_calke()));
 }
 
 void menedzer::set_parametry_arx(Config& cfg){
@@ -37,25 +37,23 @@ menedzer::menedzer(ProstyUAR uar, Generator gen, PIDConfig* pid_cfg, ARXConfig* 
     gen_cfg->set_obserwator(std::bind(&menedzer::set_parametry_generator, this, std::placeholders::_1));
 }
 
-void menedzer::resetuj_pamiec_calki() { m_uar.get_regulator().resetujPamiecCalki(); }
-void menedzer::resetuj_pamiec_rozniczki() { m_uar.get_regulator().resetujPamiecRozniczki(); }
+void menedzer::resetuj_pamiec_calki() { m_uar.get_regulator().resetuj_pamiec_calki(); }
+void menedzer::resetuj_pamiec_rozniczki() { m_uar.get_regulator().resetuj_pamiec_rozniczki(); }
 
 dane_do_wykresow menedzer::krok_wykresu(double interwal){
     // Symulacja
-    double sygSter = m_gen.generuj(interwal);
-    double sygWy = m_uar.symuluj(sygSter);
+    double wart_zad = m_gen.generuj(interwal);
+    double syg_wy = m_uar.symuluj(wart_zad);
     RegulatorPID& reg = m_uar.get_regulator();
-
     // Pakowanie danych
     dane_do_wykresow dane;
-    dane.uar = sygWy;
-    dane.gen = sygSter;
-    dane.uchyb = sygSter - m_uar.get_ostatni_syg_wy();
-    dane.ster = m_uar.get_ostatni_syg_wy();
+    dane.uar = syg_wy;
+    dane.gen = wart_zad;
+    dane.uchyb = m_uar.get_uchyb();
+    dane.ster = m_uar.get_syg_ster();
     dane.p = reg.get_ostatni_P();
     dane.i = reg.get_ostatni_I();
     dane.d = reg.get_ostatni_D();
-
     return dane;
 }
 

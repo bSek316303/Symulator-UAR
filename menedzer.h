@@ -5,6 +5,7 @@
 #include "pidconfig.h"
 #include "arxconfig.h"
 #include "genconfig.h"
+#include "testy_setterow.h"
 
 
 struct dane_do_wykresow{
@@ -18,6 +19,7 @@ struct dane_do_wykresow{
 };
 
 class menedzer {
+    friend class Testy_setterow;
 private:
     ProstyUAR m_uar;
     Generator m_gen;

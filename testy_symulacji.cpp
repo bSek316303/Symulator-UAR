@@ -256,11 +256,11 @@ bool Testy_symulacji::test_PI_skokJednostkowy_3() {
         for (int i = 0; i < LICZ_ITER; i++)
         {
             if (i == LICZ_ITER * 1 / 5) // przelaczenie na wew. liczenie calki - nie powinno być zauważalane;
-                instancjaTestowa.setLiczCalke(RegulatorPID::LiczCalke::Wew);
+                instancjaTestowa.set_licz_calke(RegulatorPID::LiczCalke::Wew);
             if (i == LICZ_ITER * 2 / 5) // zmiana stalej calkowania - powinna byc tylko zmiana nachylenia
                 instancjaTestowa.set_ti(5.0);
             if (i == LICZ_ITER * 3 / 5) // przelaczenie na zew. liczenie calki - nie powinno być zauważalane
-                instancjaTestowa.setLiczCalke(RegulatorPID::LiczCalke::Zew);
+                instancjaTestowa.set_licz_calke(RegulatorPID::LiczCalke::Zew);
             if (i == LICZ_ITER * 4 / 5) // zmiana stalej calkowania - powinien wsytapic skok wartosci i zmiana nachylenia
                 instancjaTestowa.set_ti(10.0);
             faktSygWy[i] = instancjaTestowa.symuluj(sygWe[i]);

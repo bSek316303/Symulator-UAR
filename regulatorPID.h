@@ -4,20 +4,21 @@ class RegulatorPID {
 public:
     enum class LiczCalke { Zew, Wew };
 private:
-    friend class testyPID;
+    friend class Testy_setterow;
     double m_Kp;
     double m_Ti;
     double m_Td;
+
     double m_last_P;
     double m_last_I;
     double m_last_D;
-    double m_ostatni_sygWy;
+
     //calkujacy
     double m_epsilon = 1e-4;
     LiczCalke m_sposob; // do zmiany przy implementacji gui
-    double m_wartosci = 0.0;
+    double m_wartosci;
     //rozniczkujacy
-    double m_poprzedniSygWe;
+    double m_poprzedni_syg_we;
     bool ZeroweTi();
     bool ZeroweTi(double Ti);
 public:
@@ -26,10 +27,10 @@ public:
     void set_td(double noweTd);
     void set_ti(double noweTi);
 
-    void resetujPamiecCalki();
-    void resetujPamiecRozniczki();
+    void resetuj_pamiec_calki();
+    void resetuj_pamiec_rozniczki();
 
-    void setLiczCalke(LiczCalke LiczCalk);
+    void set_licz_calke(LiczCalke LiczCalk);
     double symuluj(double sygWe);
     void resetuj();
 
@@ -39,5 +40,5 @@ public:
     double get_ostatni_P();
     double get_ostatni_I();
     double get_ostatni_D();
-    double get_ostatni_sygWy();
+    LiczCalke get_licz_calke();
 };
