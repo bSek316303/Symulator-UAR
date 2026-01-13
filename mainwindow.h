@@ -71,6 +71,10 @@ private slots:
 
     void on_comboBox_typ_sygnalu_currentIndexChanged(int index);
 
+    void on_zapisz_konfiguracje_clicked();
+
+    void on_wczytaj_konfiguracje_clicked();
+
 private:
     Ui::MainWindow *ui;
     PIDConfig* pidconfig;

@@ -149,6 +149,7 @@ void sim_handler::resetuj_symulacje() {
             seria->clear();
         }
     }
+    for(auto& x: tab_osi_x){ x->setRange(0, zakres_osi_x); }
 }
 
 void sim_handler::test_czasowy(){
@@ -178,4 +179,9 @@ void sim_handler::krok(){
         zwieksz_zakres_osi_x(czas);
         aktualny_czas_wykresu += zakres_osi_x / 2;
     }
+}
+
+void sim_handler::zapisz_konfiguracje(){ //menedzer->zapisz_konfiguracje();
+}
+void sim_handler::wczytaj_konfiguracje(){ //menedzer->zastosuj_konfiguracje();
 }
