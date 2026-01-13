@@ -2,23 +2,23 @@
 Generator::Generator(double okres, double A, double S, double P, Generator::Sygnaly sygnal)
     : m_S(S), m_sygnal(sygnal), m_okres(okres)
 {
-    setWypelnienie(P);
-    setAmplituda(A);
+    set_wypelnienie(P);
+    set_amplituda(A);
 }
-void Generator::setAmplituda(double nowaAmplituda) {
+void Generator::set_amplituda(double nowaAmplituda) {
     m_A = nowaAmplituda;
     if (m_A < 0.0) m_A = 0.0;
 }
-void Generator::setWypelnienie(double noweWypelnienie) {
+void Generator::set_wypelnienie(double noweWypelnienie) {
     m_P = noweWypelnienie;
     if (m_P > 1.0)
         m_P = 1.0;
     else if (m_P < 0.0)
         m_P = 0.0;
 }
-void Generator::setSygnal(Generator::Sygnaly nowySygnal){ m_sygnal = nowySygnal; }
-void Generator::setStalaSkladowa(double nowaStala){ m_S = nowaStala; }
-void Generator::setOkres(double okres){ m_okres = okres; }
+void Generator::set_sygnal(Generator::Sygnaly nowySygnal){ m_sygnal = nowySygnal; }
+void Generator::set_stala_skladowa(double nowaStala){ m_S = nowaStala; }
+void Generator::set_okres(double okres){ m_okres = okres; }
 double Generator::get_okres() const{ return m_okres; }
 
 double Generator::generuj(int T) {

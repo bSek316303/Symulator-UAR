@@ -195,5 +195,6 @@ int ModelARX::get_opoznienie() const
 }
 void ModelARX::resetuj(){
     std::fill(bufor_sterujacy.begin(), bufor_sterujacy.end(), 0.0);
-    std::fill(bufor_sterujacy.begin(), bufor_sterujacy.end(), 0.0);}
+    std::fill(bufor_sterujacy.begin(), bufor_sterujacy.end(), 0.0);
+}
 

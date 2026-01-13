@@ -25,25 +25,21 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
     ui->spnbx_taktowanie->setRange(50, 1000);
 }
-MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, class sim_handler* simhandler, QWidget *parent)
+MainWindow::MainWindow(class menedzer* menedzer, class sim_handler* simhandler, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    if (menedzer == nullptr) qDebug() << "nullptr!";
     ui->setupUi(this);
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    // Asocjacja abstrakcji.
-    pidconfig = pidcfg;
-    arxconfig = arxcfg;
-    genconfig = gencfg;
     sim_handler = simhandler;
 
     //QMenu.
     QMenu *menu_plik = menuBar()->addMenu("Plik");
     QAction *akcja_wczytaj = menu_plik->addAction("Wczytaj konfiguracje");
     QAction *akcja_zapisz = menu_plik->addAction("Zapisz konfiguracje");
-    connect(akcja_wczytaj, &QAction::triggered, this, &MainWindow::on_wczytaj_konfiguracje_clicked);
-    connect(akcja_zapisz, &QAction::triggered, this, &MainWindow::on_zapisz_konfiguracje_clicked);
+    //connect(akcja_wczytaj, &QAction::triggered, this, &MainWindow::on_wczytaj_konfiguracje_clicked);
+    //connect(akcja_zapisz, &QAction::triggered, this, &MainWindow::on_zapisz_konfiguracje_clicked);
 
     // Typ sygnalu generatora.
     ui->comboBox_typ_sygnalu->blockSignals(true);
@@ -135,27 +131,49 @@ void MainWindow::on_btn_nastawy_arx_clicked()
     arx_dialog *okno = new arx_dialog(this);
     okno->setAttribute(Qt::WA_DeleteOnClose);
     connect(okno, &arx_dialog::accepted, this, [this, okno]() {
-        arxconfig->set_a(okno->get_wsp_a());
-        arxconfig->set_b(okno->get_wsp_b());
-        arxconfig->set_opoznienie(okno->get_opoznienie());
-        arxconfig->set_zaklocenie(okno->get_zaklocenie());
+        menedzer->set_parametry_arx(okno->get_wsp_a(), okno->get_wsp_b());
+        menedzer->set_opoznienie_ARX(okno->get_opoznienie());
+        menedzer->set_szum(okno->get_zaklocenie(), true);
     });
     okno->show();
 }
 // Przyciski PID.
-void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) { pidconfig->set_kp(arg1); }
-void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1) { pidconfig->set_ti(arg1); }
-void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1){ pidconfig->set_td(arg1); }
-void MainWindow::on_btn_resetuj_pamiec_calki_clicked() { pidconfig->powiadom_o_resecie_pamieci_calki(); }
-void MainWindow::on_btn_reset_pamieci_rozniczki_clicked() { pidconfig->powiadom_o_resecie_pamieci_rozniczki(); }
-void MainWindow::on_rdio_w_calce_toggled(bool checked) { if(checked) pidconfig->set_licz_calke(1); }
-void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) pidconfig->set_licz_calke(0); }
+void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) {
+    if (!menedzer) {
+        qDebug() << "menedzer nie istnieje!";
+        return;
+    }
+    menedzer->set_parametry_pid(arg1, ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());
+}
+void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1) {
+    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), arg1, ui->spnbx_stala_rozniczkowania->value());
+}
+void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1){
+    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), ui->spnbx_stal_calkowania->value(), arg1);
+}
+void MainWindow::on_btn_resetuj_pamiec_calki_clicked() { menedzer->resetuj_pamiec_calki(); }
+void MainWindow::on_btn_reset_pamieci_rozniczki_clicked() { menedzer->resetuj_pamiec_rozniczki(); }
+void MainWindow::on_rdio_w_calce_toggled(bool checked) { qDebug() << "mainwindow"; if(checked) menedzer->set_pid_tryb(1); }
+void MainWindow::on_rdio_poza_calka_toggled(bool checked){ qDebug() << "mainwindow"; if(checked) menedzer->set_pid_tryb(0); }
 
 // Przyciski Generator.
-void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) { genconfig->set_a(arg1); }
-void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) { genconfig->set_s(arg1); }
-void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) { genconfig->set_p(arg1); }
-void MainWindow::on_spnbx_okres_valueChanged(double arg1) { genconfig->set_okres(arg1); }
+//double amplituda, double stala_skladowa, double okres, double wypelnienie
+void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) {
+    qDebug() << "mainwindow";
+    menedzer->set_parametry_generator(arg1, ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
+    qDebug() << "koniec mainwindow";
+}
+void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) {
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), arg1, ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
+}
+void MainWindow::on_spnbx_okres_valueChanged(double arg1) {
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), arg1, ui->spnbx_wypelnienie->value());
+}
+void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) {
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), arg1);
+}
+void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { menedzer->set_sygnal(index); }
+
 void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
     if (arg1 > 1000) arg1 = 1000;
     else if (arg1 < 50) arg1 = 50;
@@ -166,8 +184,10 @@ void MainWindow::on_btn_stop_clicked() { sim_handler->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { sim_handler->zacznij_symulacje(); }
 void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
 void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
-void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { genconfig->set_syg(index); }
-
-void MainWindow::on_wczytaj_konfiguracje_clicked(){ sim_handler->wczytaj_konfiguracje(); }
-void MainWindow::on_zapisz_konfiguracje_clicked(){ sim_handler->zapisz_konfiguracje(); }
+/*
+void MainWindow::on_wczytaj_konfiguracje_clicked(){ //menedzer->wczytajKonfiguracje();
+}
+void MainWindow::on_zapisz_konfiguracje_clicked(){ //menedzer->zapisz_konfiguracje();
+}
+*/
 

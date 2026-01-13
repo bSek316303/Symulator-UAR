@@ -2,9 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "pidconfig.h"
-#include "arxconfig.h"
-#include "genconfig.h"
+#include "menedzer.h"
 #include "sim_handler.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,22 +16,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, sim_handler* simhandler, QWidget *parent = nullptr);
+    MainWindow(menedzer* menedzer, class sim_handler* simhandler, QWidget *parent = nullptr);
     ~MainWindow();
-    PIDConfig* get_pid() {
-        return pidconfig;
-    }
-    ARXConfig* get_arx(){
-        return arxconfig;
-    }
-    GENConfig* get_gen(){
-        return genconfig;
-    }
-    sim_handler* get_sim_handler() {
-        return sim_handler;
-    }
     void set_wartosci_domyslne();
-
+    void set_menedzer(menedzer* m){ menedzer = m; }
 private slots:
     void on_btn_nastawy_arx_clicked();
 
@@ -71,16 +57,14 @@ private slots:
 
     void on_comboBox_typ_sygnalu_currentIndexChanged(int index);
 
-    void on_zapisz_konfiguracje_clicked();
+    //void on_zapisz_konfiguracje_clicked();
 
-    void on_wczytaj_konfiguracje_clicked();
+    //void on_wczytaj_konfiguracje_clicked();
 
 
 private:
     Ui::MainWindow *ui;
-    PIDConfig* pidconfig;
-    ARXConfig* arxconfig;
-    GENConfig* genconfig;
+    menedzer* menedzer;
     sim_handler* sim_handler;
 };
 #endif // MAINWINDOW_H

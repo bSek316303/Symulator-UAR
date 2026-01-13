@@ -3,56 +3,38 @@
 #include "qglobal.h"
 
 // USTAWIANIE PARAMETRÓW.
-void menedzer::set_parametry_pid(Config& cfg){
-    try {
-        auto* pid = dynamic_cast<PIDConfig*>(&cfg);
-        m_uar.get_regulator().set_kp(pid->get_kp());
-        m_uar.get_regulator().set_ti(pid->get_ti());
-        m_uar.get_regulator().set_td(pid->get_td());
-        m_uar.get_regulator().set_licz_calke(RegulatorPID::LiczCalke(pid->get_licz_calke()));
-    } catch (const std::bad_cast&) {
-        qDebug() << "castowanie na zły typ pliku w set_parametry_pid!";
-    }
-}
 
-void menedzer::set_parametry_arx(Config& cfg){
-    try {
-        auto* arx = dynamic_cast<ARXConfig*>(&cfg);
-        m_uar.get_ARX().set_A(arx->get_a());
-        m_uar.get_ARX().set_B(arx->get_b());
-        m_uar.get_ARX().set_opoznienie(arx->get_opoznienie());
-        m_uar.get_ARX().set_szum(arx->get_szum());
-    } catch (const std::bad_cast&) {
-        qDebug() << "castowanie na zły typ pliku w set_parametry_arx!";
-    }
-}
+// ARX
+void menedzer::set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B){ m_uar.set_parametry_arx(A, B); }
+void menedzer::set_szum(double szum, bool czy_wlaczony){ m_uar.set_szum(szum); }
+void menedzer::set_opoznienie_ARX(int opoznienie) { m_uar.set_opoznienie(opoznienie); }
 
-void menedzer::set_parametry_generator(Config& cfg){
-    try {
-        auto* gen = dynamic_cast<GENConfig*>(&cfg);
-        m_gen.setAmplituda(gen->get_a());
-        m_gen.setWypelnienie(gen->get_p());
-        m_gen.setStalaSkladowa(gen->get_s());
-        m_gen.setOkres(gen->get_okres());
-        m_gen.setSygnal(Generator::Sygnaly(gen->get_syg()));
-    } catch (const std::bad_cast&) {
-        qDebug() << "castowanie na zły typ pliku w set_parametry_generator!";
-    }
+// PID
+void menedzer::set_parametry_pid(double kp, double ti, double td){ m_uar.set_parametry_pid(kp, ti, td); }
+void menedzer::set_pid_tryb(int index) {
+    qDebug() << "menedzer";
+    m_uar.set_licz_calke(RegulatorPID::LiczCalke(index));
 }
+void menedzer::resetuj_pamiec_calki(){ m_uar.resetuj_pamiec_calki(); }
+void menedzer::resetuj_pamiec_rozniczki(){ m_uar.resetuj_pamiec_rozniczki(); }
 
-menedzer::menedzer(ProstyUAR uar, Generator gen, PIDConfig* pid_cfg, ARXConfig* arx_cfg, GENConfig* gen_cfg)
+// Generator
+void menedzer::set_parametry_generator(double amplituda, double stala_skladowa, double okres, double wypelnienie){
+    qDebug() << "menedzer";
+    m_gen.set_amplituda(amplituda);
+    m_gen.set_stala_skladowa(stala_skladowa);
+    m_gen.set_okres(okres);
+    m_gen.set_wypelnienie(wypelnienie);
+    qDebug() << "koniec menedzera";
+}
+void menedzer::set_sygnal(int index) { m_gen.set_sygnal(Generator::Sygnaly(index)); }
+
+// Symulacja
+void set_taktowanie(double taktowanie_p);
+
+menedzer::menedzer(ProstyUAR& uar, Generator& gen)
     : m_uar(uar), m_gen(gen)
-{
-    // Ustawienie abstrakcji do wspólpracy z GUI.
-    pid_cfg->set_obserwator(std::bind(&menedzer::set_parametry_pid, this, std::placeholders::_1));
-    pid_cfg->set_obserwator_calki(std::bind(&menedzer::resetuj_pamiec_calki, this));
-    pid_cfg->set_obserwator_rozniczki(std::bind(&menedzer::resetuj_pamiec_rozniczki, this));
-    arx_cfg->set_obserwator(std::bind(&menedzer::set_parametry_arx, this, std::placeholders::_1));
-    gen_cfg->set_obserwator(std::bind(&menedzer::set_parametry_generator, this, std::placeholders::_1));
-}
-
-void menedzer::resetuj_pamiec_calki() { m_uar.get_regulator().resetuj_pamiec_calki(); }
-void menedzer::resetuj_pamiec_rozniczki() { m_uar.get_regulator().resetuj_pamiec_rozniczki(); }
+{}
 
 dane_do_wykresow menedzer::krok_wykresu(double interwal){
     // Symulacja
@@ -164,25 +146,17 @@ QVector<double> menedzer::Json_to_Wektor(const QJsonArray& tablica_json)
 // {
 //     taktowanie = taktowanie_p;
 // }
-void menedzer::set_okres(double okres_p)
-{
-    okres = okres_p;
-}
-
 double menedzer::get_taktowanie()
 {
     return taktowanie;
 }
-double menedzer::get_okres()
-{
-    return okres;
-}
+
 
 QJsonObject menedzer::menedzer_to_json()
 {
     QJsonObject menedzer;
     menedzer["Taktowanie_ms"] = this->get_taktowanie();
-    menedzer["Okres_rzeczywisty_s"] = this->get_okres();
+    menedzer["Okres_rzeczywisty_s"] = this->m_gen.get_okres();
     return menedzer;
 }
 

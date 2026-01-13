@@ -1,11 +1,7 @@
 #pragma once
 #include "ProstyUAR.h"
 #include "Generator.h"
-#include "config.h"
 #include "obsluga_pliku.h"
-#include "pidconfig.h"
-#include "arxconfig.h"
-#include "genconfig.h"
 #include "qcoreapplication.h"
 #include "qdir.h"
 #include "testy_setterow.h"
@@ -31,29 +27,34 @@ private:
     ProstyUAR m_uar;
     Generator m_gen;
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
-    void set_parametry_pid(Config& cfg);
-    void set_parametry_arx(Config& cfg);
-    void set_parametry_generator(Config& cfg);
     double taktowanie;
     double okres;
 
 public:
-    explicit menedzer(ProstyUAR uar, Generator gen, PIDConfig* pid_cfg, ARXConfig* arx_cfg, GENConfig* gen_cfg);
-    void resetuj_pamiec_calki();
-    void resetuj_pamiec_rozniczki();
+    explicit menedzer(ProstyUAR& uar, Generator& gen);
     dane_do_wykresow krok_wykresu(double interwal);
     void resetuj();
-    void set_parametry_ARX(const std::vector<double>& A, const std::vector<double>& B);
+
+    // ARX
+    void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B);
     void set_ograniczenia_sterowania_ARX(bool wlaczone, double min, double max) ;
     void set_ograniaczenia_wyjscia_ARX(bool wlaczone, double min, double max);
     void set_szum(double szum, bool czy_wlaczony);
     void set_opoznienie_ARX(int opoznienie_p);
-    void set_parametry_PID(double Kp, double Ti, double Td);
-    void set_pid_tryb(RegulatorPID::LiczCalke mode);
+    // PID
+    void set_parametry_pid(double kp, double ti, double td);
+    void set_pid_tryb(int index);
+    void resetuj_pamiec_calki();
+    void resetuj_pamiec_rozniczki();
+
+    // Generator
+    void set_parametry_generator(double amplituda, double stala_skladowa, double okres, double wypelnienie);
+    void set_sygnal(int index);
+
+    // Symulacja
     void set_taktowanie(double taktowanie_p);
-    void set_okres(double okres_p);
     double get_taktowanie();
-    double get_okres();
+
     QJsonObject menedzer_to_json();
     QJsonObject Model_ARX_to_Json(const ModelARX& model_arx) const
     {
@@ -144,12 +145,11 @@ public:
         if (obiekt_danych.contains("PID") && obiekt_danych["PID"].isObject()) {
             QJsonObject pid_json = obiekt_danych["PID"].toObject();
 
-            set_parametry_PID(
+            set_parametry_pid(
                 pid_json["Kp"].toDouble(),
                 pid_json["Ti"].toDouble(),
                 pid_json["Td"].toDouble()
                 );
-
         }
 
         if (obiekt_danych.contains("ARX") && obiekt_danych["ARX"].isObject()) {
@@ -164,7 +164,7 @@ public:
                 std::vector<double> wektor_A(wektor_A_qt.begin(), wektor_A_qt.end());
                 std::vector<double> wektor_B(wektor_B_qt.begin(), wektor_B_qt.end());
 
-                set_parametry_ARX(wektor_A, wektor_B);
+                set_parametry_arx(wektor_A, wektor_B);
             }
             set_szum(
                 arx_json["szum"].toDouble(),
@@ -190,7 +190,7 @@ public:
             QJsonObject uar_json = obiekt_danych["Parametry_Symulacji"].toObject();
 
             this->set_taktowanie(uar_json["Taktowanie_ms"].toDouble());
-            this->set_okres(uar_json["Okres_rzeczywisty_s"].toDouble());
+            this->m_gen.set_okres(uar_json["Okres_rzeczywisty_s"].toDouble());
         }
     }
     void zastosuj_konfiguracje()

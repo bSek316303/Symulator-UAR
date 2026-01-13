@@ -14,11 +14,11 @@ public:
     int i = 0;
 public:
     Generator(double okres, double A, double S, double P = 0.0, Generator::Sygnaly sygnal = Generator::Sygnaly::prostokatny);
-    void setAmplituda(double nowaAmplituda);
-    void setWypelnienie(double noweWypelnienie);
-    void setSygnal(Generator::Sygnaly nowySygnal);
-    void setStalaSkladowa(double nowaStala);
-    void setOkres(double okres);
+    void set_amplituda(double nowaAmplituda);
+    void set_wypelnienie(double noweWypelnienie);
+    void set_sygnal(Generator::Sygnaly nowySygnal);
+    void set_stala_skladowa(double nowaStala);
+    void set_okres(double okres);
     double get_okres() const;
     double generuj(int T);
     void resetuj();

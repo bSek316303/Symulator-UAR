@@ -1,11 +1,12 @@
 #pragma once
 #include "regulatorPID.h"
 #include "modelARX.h"
+#include <cassert>
 
 class ProstyUAR {
     double m_ostatni_syg_wy;
     RegulatorPID m_regulator;
-    ModelARX m_ARX;
+    ModelARX m_arx;
     double m_uchyb;
     double m_syg_ster;
 public:
@@ -19,7 +20,23 @@ public:
     double get_uchyb();
     double get_syg_ster();
     void resetuj();
-    void set_taktowanie(double taktowanie);
-    void set_okres(double okres);
 
+    // PID
+    void set_parametry_pid(double kp, double ti, double td){
+        m_regulator.set_kp(kp);
+        m_regulator.set_ti(ti);
+        m_regulator.set_td(td);
+    }
+    void set_licz_calke(RegulatorPID::LiczCalke mode) { m_regulator.set_licz_calke(mode); }
+    void resetuj_pamiec_calki(){ m_regulator.resetuj_pamiec_calki(); }
+    void resetuj_pamiec_rozniczki(){ m_regulator.resetuj_pamiec_rozniczki(); }
+
+    //ARX
+    void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B){
+        assert(A.size() == B.size()); // KUBA CZY TAK MA BYĆ?
+        m_arx.set_A(A);
+        m_arx.set_B(B);
+    }
+    void set_opoznienie(double opoznienie){ m_arx.set_opoznienie(opoznienie); }
+    void set_szum(double szum){ m_arx.set_szum(szum); }
 };
