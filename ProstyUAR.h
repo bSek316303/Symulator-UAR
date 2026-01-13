@@ -19,4 +19,7 @@ public:
     double get_uchyb();
     double get_syg_ster();
     void resetuj();
+    void set_taktowanie(double taktowanie);
+    void set_okres(double okres);
+
 };

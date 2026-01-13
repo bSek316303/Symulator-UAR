@@ -2,10 +2,17 @@
 #include "ProstyUAR.h"
 #include "Generator.h"
 #include "config.h"
+#include "obsluga_pliku.h"
 #include "pidconfig.h"
 #include "arxconfig.h"
 #include "genconfig.h"
+#include "qcoreapplication.h"
+#include "qdir.h"
 #include "testy_setterow.h"
+#include "qjsonarray.h"
+#include <QJsonObject>
+#include <qvector>
+#include <QJsonDocument>
 
 
 struct dane_do_wykresow{
@@ -23,14 +30,173 @@ class menedzer {
 private:
     ProstyUAR m_uar;
     Generator m_gen;
+    QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
     void set_parametry_pid(Config& cfg);
     void set_parametry_arx(Config& cfg);
     void set_parametry_generator(Config& cfg);
+    double taktowanie;
+    double okres;
+
 public:
     explicit menedzer(ProstyUAR uar, Generator gen, PIDConfig* pid_cfg, ARXConfig* arx_cfg, GENConfig* gen_cfg);
     void resetuj_pamiec_calki();
     void resetuj_pamiec_rozniczki();
     dane_do_wykresow krok_wykresu(double interwal);
     void resetuj();
+    void set_parametry_ARX(const std::vector<double>& A, const std::vector<double>& B);
+    void set_ograniczenia_sterowania_ARX(bool wlaczone, double min, double max) ;
+    void set_ograniaczenia_wyjscia_ARX(bool wlaczone, double min, double max);
+    void set_szum(double szum, bool czy_wlaczony);
+    void set_opoznienie_ARX(int opoznienie_p);
+    void set_parametry_PID(double Kp, double Ti, double Td);
+    void set_pid_tryb(RegulatorPID::LiczCalke mode);
+    void set_taktowanie(double taktowanie_p);
+    void set_okres(double okres_p);
+    double get_taktowanie();
+    double get_okres();
+    QJsonObject menedzer_to_json();
+    QJsonObject Model_ARX_to_Json(const ModelARX& model_arx) const
+    {
+        QJsonObject obiekt_ARX;
+        QJsonArray wektor_A;
+        QJsonArray wektor_B;
+
+        for(double wartosc: model_arx.get_A()) wektor_A.append(wartosc);
+        for(double wartosc: model_arx.get_B()) wektor_B.append(wartosc);
+
+        obiekt_ARX["Wektor_A"] = wektor_A;
+        obiekt_ARX["Wektor_B"] = wektor_B;
+        obiekt_ARX["Czy_wlaczony_szum"] = model_arx.get_czy_wlaczony_szum();
+        obiekt_ARX["szum"] = model_arx.get_szum();
+        obiekt_ARX["Opoznienie"] = model_arx.get_opoznienie();
+        obiekt_ARX["Ograniczenie_sterowania"] = model_arx.get_ograniczenie_sterowania();
+        obiekt_ARX["Sterowanie_min"] = model_arx.get_sterowanie_min();
+        obiekt_ARX["Sterowanie_max"] = model_arx.get_sterowanie_max();
+        obiekt_ARX["Ograniczenie_wyjscia"] = model_arx.get_ograniczenie_wyjscia();
+        obiekt_ARX["Wyjscie_min"] = model_arx.get_wyjscie_min();
+        obiekt_ARX["Wyjscie_max"] = model_arx.get_wyjscie_max();
+        return obiekt_ARX;
+    }
+    QJsonObject RegulatorPID_to_Json(const RegulatorPID& Regulator_PID) const
+    {
+        QJsonObject regulator_pid;
+
+        regulator_pid["Kp"] = Regulator_PID.getKp();
+        regulator_pid["Ti"] = Regulator_PID.getTi();
+        regulator_pid["Td"] = Regulator_PID.getTd();
+
+        return regulator_pid;
+    }
+    void zapisz_konfiguracje()
+    {
+        QJsonObject arx_json = Model_ARX_to_Json(m_uar.get_ARX());
+        QJsonObject pid_json = RegulatorPID_to_Json(m_uar.get_regulator());
+        QJsonObject menedzer_json = menedzer_to_json();
+
+        QJsonObject glowny_obiekt;
+
+        glowny_obiekt["Parametry_Symulacji"] = menedzer_json;
+        glowny_obiekt["ARX"] = arx_json;
+        glowny_obiekt["PID"] = pid_json;
+
+        QJsonDocument dokument(glowny_obiekt);
+
+        QByteArray jsonData = dokument.toJson(QJsonDocument::Indented);
+
+        QString sciezka = QCoreApplication::applicationDirPath() + "/konfiguracja.json";
+
+        QFile plik(sciezka);
+
+        if (!plik.open(QIODevice::WriteOnly)) {
+            qCritical() << "Nie mozna otworzyc pliku do zapisu!";
+            return;
+        }
+        plik.write(jsonData);
+        plik.close();
+    }
+    QJsonDocument wczytajKonfiguracje()
+    {
+        QFile plik("default_config.json");
+
+        if(!plik.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            qDebug() <<"Nie mozna otworzyc pliku" << plik.error();
+        }
+        QByteArray dane_json = plik.readAll();
+        plik.close();
+        if (dane_json.isEmpty()) {
+            qDebug() << "Plik JSON jest pusty.";
+        }
+        QJsonDocument dane;
+        dane = QJsonDocument::fromJson(dane_json);
+        return dane;
+    }
+
+    void wczytaj_konfiguracje(const QJsonDocument& dane_json)
+    {
+        if (dane_json.isNull() || !dane_json.isObject()) {
+            qDebug() << "Błąd: Dokument JSON jest pusty lub nie jest głównym obiektem.";
+            return;
+        }
+
+        QJsonObject obiekt_danych = dane_json.object();
+
+        if (obiekt_danych.contains("PID") && obiekt_danych["PID"].isObject()) {
+            QJsonObject pid_json = obiekt_danych["PID"].toObject();
+
+            set_parametry_PID(
+                pid_json["Kp"].toDouble(),
+                pid_json["Ti"].toDouble(),
+                pid_json["Td"].toDouble()
+                );
+
+        }
+
+        if (obiekt_danych.contains("ARX") && obiekt_danych["ARX"].isObject()) {
+            QJsonObject arx_json = obiekt_danych["ARX"].toObject();
+
+            if (arx_json.contains("Wektor_A") && arx_json["Wektor_A"].isArray() &&
+                arx_json.contains("Wektor_B") && arx_json["Wektor_B"].isArray())
+            {
+                QVector<double> wektor_A_qt = Json_to_Wektor(arx_json["Wektor_A"].toArray());
+                QVector<double> wektor_B_qt = Json_to_Wektor(arx_json["Wektor_B"].toArray());
+
+                std::vector<double> wektor_A(wektor_A_qt.begin(), wektor_A_qt.end());
+                std::vector<double> wektor_B(wektor_B_qt.begin(), wektor_B_qt.end());
+
+                set_parametry_ARX(wektor_A, wektor_B);
+            }
+            set_szum(
+                arx_json["szum"].toDouble(),
+                arx_json["Czy_wlaczony_szum"].toBool()
+                );
+
+            set_opoznienie_ARX(arx_json["Opoznienie"].toInt());
+
+            set_ograniczenia_sterowania_ARX(
+                arx_json["Ograniczenie_sterowania"].toBool(),
+                arx_json["Sterowanie_min"].toDouble(),
+                arx_json["Sterowanie_max"].toDouble()
+                );
+
+            set_ograniaczenia_wyjscia_ARX(
+                arx_json["Ograniczenie_wyjscia"].toBool(),
+                arx_json["Wyjscie_min"].toDouble(),
+                arx_json["Wyjscie_max"].toDouble()
+                );
+        }
+
+        if (obiekt_danych.contains("Parametry_Symulacji") && obiekt_danych["Parametry_Symulacji"].isObject()) {
+            QJsonObject uar_json = obiekt_danych["Parametry_Symulacji"].toObject();
+
+            this->set_taktowanie(uar_json["Taktowanie_ms"].toDouble());
+            this->set_okres(uar_json["Okres_rzeczywisty_s"].toDouble());
+        }
+    }
+    void zastosuj_konfiguracje()
+    {
+        QJsonDocument dane = this->wczytajKonfiguracje();
+        this->wczytaj_konfiguracje(dane);
+    }
 };
 

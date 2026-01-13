@@ -1,96 +1,87 @@
-#include "obsluga_pliku.h"
-#include "main.h"
-/*
+// #include "obsluga_pliku.h"
+// #include "main.h"
 
-Obsluga_pliku::Obsluga_pliku() {}
 
-QJsonObject Obsluga_pliku::Model_ARX_to_Json(const ModelARX& model_arx) const
-{
-    QJsonObject obiekt_ARX;
-    QJsonArray wektor_A;
-    QJsonArray wektor_B;
+// Obsluga_pliku::Obsluga_pliku() {}
 
-    for(double wartosc: model_arx.get_A()) wektor_A.append(wartosc);
-    for(double wartosc: model_arx.get_B()) wektor_B.append(wartosc);
+// QJsonObject Obsluga_pliku::Model_ARX_to_Json(const ModelARX& model_arx) const
+// {
+//     QJsonObject obiekt_ARX;
+//     QJsonArray wektor_A;
+//     QJsonArray wektor_B;
 
-    obiekt_ARX["Wektor_A"] = wektor_A;
-    obiekt_ARX["Wektor_B"] = wektor_B;
-    obiekt_ARX["Czy_wlaczony_szum"] = model_arx.get_czy_wlaczony_szum();
-    obiekt_ARX["szum"] = model_arx.get_szum();
-    obiekt_ARX["Opoznienie"] = model_arx.get_opoznienie();
-    obiekt_ARX["Ograniczenie_sterowania"] = model_arx.get_ograniczenie_sterowania();
-    obiekt_ARX["Sterowanie_min"] = model_arx.get_sterowanie_min();
-    obiekt_ARX["Sterowanie_max"] = model_arx.get_sterowanie_max();
-    obiekt_ARX["Ograniczenie_wyjscia"] = model_arx.get_ograniczenie_wyjscia();
-    obiekt_ARX["Wyjscie_min"] = model_arx.get_wyjscie_min();
-    obiekt_ARX["Wyjscie_max"] = model_arx.get_wyjscie_max();
-    return obiekt_ARX;
-}
+//     for(double wartosc: model_arx.get_A()) wektor_A.append(wartosc);
+//     for(double wartosc: model_arx.get_B()) wektor_B.append(wartosc);
 
-QJsonObject Obsluga_pliku::RegulatorPID_to_Json(const RegulatorPID& Regulator_PID) const
-{
-    QJsonObject regulator_pid;
+//     obiekt_ARX["Wektor_A"] = wektor_A;
+//     obiekt_ARX["Wektor_B"] = wektor_B;
+//     obiekt_ARX["Czy_wlaczony_szum"] = model_arx.get_czy_wlaczony_szum();
+//     obiekt_ARX["szum"] = model_arx.get_szum();
+//     obiekt_ARX["Opoznienie"] = model_arx.get_opoznienie();
+//     obiekt_ARX["Ograniczenie_sterowania"] = model_arx.get_ograniczenie_sterowania();
+//     obiekt_ARX["Sterowanie_min"] = model_arx.get_sterowanie_min();
+//     obiekt_ARX["Sterowanie_max"] = model_arx.get_sterowanie_max();
+//     obiekt_ARX["Ograniczenie_wyjscia"] = model_arx.get_ograniczenie_wyjscia();
+//     obiekt_ARX["Wyjscie_min"] = model_arx.get_wyjscie_min();
+//     obiekt_ARX["Wyjscie_max"] = model_arx.get_wyjscie_max();
+//     return obiekt_ARX;
+// }
 
-    regulator_pid["Kp"] = Regulator_PID.getKp();
-    regulator_pid["Ti"] = Regulator_PID.getTi();
-    regulator_pid["Td"] = Regulator_PID.getTd();
+// QJsonObject Obsluga_pliku::RegulatorPID_to_Json(const RegulatorPID& Regulator_PID) const
+// {
+//     QJsonObject regulator_pid;
 
-    return regulator_pid;
-}
+//     regulator_pid["Kp"] = Regulator_PID.getKp();
+//     regulator_pid["Ti"] = Regulator_PID.getTi();
+//     regulator_pid["Td"] = Regulator_PID.getTd();
 
-QJsonObject Obsluga_pliku::ProstyUAR_to_Json(const ProstyUAR& prosty_uar) const
-{
-    QJsonObject obiekt_UAR;
-    obiekt_UAR["Taktowanie_ms"] = prosty_uar.get_taktowanie();
-    obiekt_UAR["Okres_rzeczywisty_s"] = prosty_uar.get_okres();
-    return obiekt_UAR;
-}
+//     return regulator_pid;
+// }
+// void Obsluga_pliku::zapiszKonfiguracje(const menedzer& menedzer_p ,const ModelARX& arx,const RegulatorPID& pid)const
+// {
+//     QJsonObject arx_json = Model_ARX_to_Json(arx);
+//     QJsonObject pid_json = RegulatorPID_to_Json(pid);
+//     QJsonObject menedzer_json = menedzer_
 
-void Obsluga_pliku::zapiszKonfiguracje(const ProstyUAR& uar,const ModelARX& arx,const RegulatorPID& pid)const
-{
-    QJsonObject UAR_json = ProstyUAR_to_Json(uar);
-    QJsonObject arx_json = Model_ARX_to_Json(arx);
-    QJsonObject pid_json = RegulatorPID_to_Json(pid);
+//     QJsonObject glowny_obiekt;
 
-    QJsonObject glowny_obiekt;
+//     glowny_obiekt["Parametry_Symulacji"] = menedzer_p;
+//     glowny_obiekt["ARX"] = arx_json;
+//     glowny_obiekt["PID"] = pid_json;
 
-    glowny_obiekt["Parametry_Symulacji"] = UAR_json;
-    glowny_obiekt["ARX"] = arx_json;
-    glowny_obiekt["PID"] = pid_json;
+//     QJsonDocument dokument(glowny_obiekt);
 
-    QJsonDocument dokument(glowny_obiekt);
+//     QByteArray jsonData = dokument.toJson(QJsonDocument::Indented);
 
-    QByteArray jsonData = dokument.toJson(QJsonDocument::Indented);
+//     QString sciezka = QCoreApplication::applicationDirPath() + "/konfiguracja.json";
 
-    QString sciezka = QCoreApplication::applicationDirPath() + "/konfiguracja.json";
+//     QFile plik(sciezka);
 
-    QFile plik(sciezka);
+//     if (!plik.open(QIODevice::WriteOnly)) {
+//         qCritical() << "Nie mozna otworzyc pliku do zapisu!";
+//         return;
+//     }
+//     plik.write(jsonData);
+//     plik.close();
+// }
+// QJsonDocument Obsluga_pliku::wczytajKonfiguracje()
+// {
+//     QFile plik("default_config.json");
 
-    if (!plik.open(QIODevice::WriteOnly)) {
-        qCritical() << "Nie mozna otworzyc pliku do zapisu!";
-        return;
-    }
-    plik.write(jsonData);
-    plik.close();
-}
-QJsonDocument Obsluga_pliku::wczytajKonfiguracje()
-{
-    QFile plik("default_config.json");
+//     if(!plik.open(QIODevice::ReadOnly | QIODevice::Text))
+//     {
+//         qDebug() <<"Nie mozna otworzyc pliku" << plik.error();
+//     }
+//     QByteArray dane_json = plik.readAll();
+//     plik.close();
+//     if (dane_json.isEmpty()) {
+//         qDebug() << "Plik JSON jest pusty.";
+//     }
+//     QJsonDocument dane;
+//     dane = QJsonDocument::fromJson(dane_json);
+//     return dane;
+// }
 
-    if(!plik.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug() <<"Nie mozna otworzyc pliku" << plik.error();
-    }
-    QByteArray dane_json = plik.readAll();
-    plik.close();
-    if (dane_json.isEmpty()) {
-        qDebug() << "Plik JSON jest pusty.";
-    }
-    QJsonDocument dane;
-    dane = QJsonDocument::fromJson(dane_json);
-    return dane;
-}
-*/
 
 
 

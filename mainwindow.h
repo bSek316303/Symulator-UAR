@@ -71,12 +71,13 @@ private slots:
 
     void on_comboBox_typ_sygnalu_currentIndexChanged(int index);
 
+    void on_zapisz_btn_clicked();
+
 private:
     Ui::MainWindow *ui;
     PIDConfig* pidconfig;
     ARXConfig* arxconfig;
     GENConfig* genconfig;
     sim_handler* sim_handler;
-
 };
 #endif // MAINWINDOW_H

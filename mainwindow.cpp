@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "arx_dialog.h"
 #include "ui_mainwindow.h"
+#include "menedzer.h"
 #include "fabryka_wykresow.h"
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChartView>
@@ -162,4 +163,10 @@ void MainWindow::on_btn_start_clicked() { sim_handler->zacznij_symulacje(); }
 void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
 void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
 void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { genconfig->set_syg(index); }
+
+
+void MainWindow::on_zapisz_btn_clicked()
+{
+   // menedzer->zapiszKonfiguracje();
+}
 
