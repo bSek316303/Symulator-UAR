@@ -57,10 +57,6 @@ private slots:
 
     void on_spnbx_wypelnienie_valueChanged(double arg1);
 
-    void on_rdiobtn_square_toggled(bool checked);
-
-    void on_rdiobtn_sin_toggled(bool checked);
-
     void on_spnbx_taktowanie_valueChanged(int arg1);
 
     void on_spnbx_okres_valueChanged(double arg1);
@@ -72,6 +68,8 @@ private slots:
     void on_btn_reset_clicked();
 
     void on_spnbx_czas_wykresu_valueChanged(int arg1);
+
+    void on_comboBox_typ_sygnalu_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;

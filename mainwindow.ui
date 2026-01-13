@@ -172,18 +172,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="rdiobtn_square">
-            <property name="text">
-             <string>Prostokątny</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="rdiobtn_sin">
-            <property name="text">
-             <string>Sinusoidalny</string>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="comboBox_typ_sygnalu"/>
           </item>
          </layout>
         </item>

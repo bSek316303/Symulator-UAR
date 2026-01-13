@@ -17,8 +17,6 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_stala_skladowa->setValue(POCZ_S);
     if(POCZ_LICZ_CALKE) ui->rdio_w_calce->setChecked(true);
     else ui->rdio_poza_calka->setChecked(true);
-    if(POCZ_SYGNAL) ui->rdiobtn_square->setChecked(true);
-    else ui->rdiobtn_sin->setChecked(true);
     ui->spnbx_czas_wykresu->setValue(POCZ_ZAKRES_X);
     ui->spnbx_czas_wykresu->setRange(5, 500);
     ui->spnbx_okres->setValue(POCZ_OKRES);
@@ -39,8 +37,14 @@ MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, 
     genconfig = gencfg;
     sim_handler = simhandler;
 
-    // Tworzenie wykresów.
+    // Typ sygnalu generatora.
+    ui->comboBox_typ_sygnalu->blockSignals(true);
+    ui->comboBox_typ_sygnalu->addItem("Sinusoidalny");
+    ui->comboBox_typ_sygnalu->addItem("Prostokątny");
+    ui->comboBox_typ_sygnalu->setCurrentIndex(POCZ_SYGNAL);
+    ui->comboBox_typ_sygnalu->blockSignals(false);
 
+    // Tworzenie wykresów.
     konfiguracjaWykresu uar_cfg;
     uar_cfg.tytul = "wykres generatora i UAR";
     uar_cfg.serie = { "Generator", "UAR" };
@@ -111,7 +115,7 @@ MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, 
     ui->chart_layout->addWidget(widok_pid,3);
 
     // Wartości MIN/MAX
-    ui->spnbx_taktowanie->setMinimum(10);
+    ui->spnbx_taktowanie->setMinimum(50);
     ui->spnbx_taktowanie->setMaximum(1000);
 }
 
@@ -146,18 +150,7 @@ void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) pidconfig
 void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) { genconfig->set_a(arg1); }
 void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) { genconfig->set_s(arg1); }
 void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) { genconfig->set_p(arg1); }
-void MainWindow::on_rdiobtn_square_toggled(bool checked) {
-    if(checked) genconfig->set_syg(1);
-    ui->rdiobtn_sin->setChecked(false);
-}
-void MainWindow::on_rdiobtn_sin_toggled(bool checked) {
-    if(checked) genconfig->set_syg(0);
-    ui->rdiobtn_square->setChecked(false);
-}
-void MainWindow::on_spnbx_okres_valueChanged(double arg1) {
-    genconfig->set_okres(arg1);
-}
-
+void MainWindow::on_spnbx_okres_valueChanged(double arg1) { genconfig->set_okres(arg1); }
 void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
     if (arg1 > 1000) arg1 = 1000;
     else if (arg1 < 10) arg1 = 10;
@@ -168,4 +161,5 @@ void MainWindow::on_btn_stop_clicked() { sim_handler->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { sim_handler->zacznij_symulacje(); }
 void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
 void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
+void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { genconfig->set_syg(index); }
 
