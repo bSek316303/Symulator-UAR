@@ -12,7 +12,7 @@ class ProstyUAR {
 public:
     ProstyUAR(double Kp, double Ti, double Td, RegulatorPID::LiczCalke sposob,
               const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p);
-    ProstyUAR(ModelARX arx, RegulatorPID regulator);
+    ProstyUAR(ModelARX& arx, RegulatorPID& regulator);
     double symuluj(double sygWe);
     RegulatorPID& get_regulator();
     ModelARX& get_ARX();

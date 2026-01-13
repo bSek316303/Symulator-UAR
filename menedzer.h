@@ -4,31 +4,35 @@
 #include "obsluga_pliku.h"
 #include "qcoreapplication.h"
 #include "qdir.h"
-#include "sim_handler.h"
 #include "testy_setterow.h"
 #include "qjsonarray.h"
 #include <QJsonObject>
 #include <qvector>
 #include <QJsonDocument>
 
+
+struct dane_do_wykresow{
+    double uar;
+    double gen;
+    double uchyb;
+    double ster;
+    double p;
+    double i;
+    double d;
+};
+
 class menedzer {
     friend class Testy_setterow;
 private:
     ProstyUAR m_uar;
     Generator m_gen;
-    sim_handler sim_handler;
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
     double taktowanie;
     double okres;
 
-    double zakres_osi_x;
-    double aktualny_czas_wykresu;
-    double czas;
-    QTimer* stoper;
-
 public:
-    explicit menedzer(ProstyUAR uar, Generator gen, class sim_handler simhandler);
-    dane_do_wykresow krok_wykresu();
+    explicit menedzer(ProstyUAR& uar, Generator& gen);
+    dane_do_wykresow krok_wykresu(double interwal);
     void resetuj();
 
     // ARX
@@ -50,10 +54,6 @@ public:
     // Symulacja
     void set_taktowanie(double taktowanie_p);
     double get_taktowanie();
-    void zacznij_symulacje();
-    void zakoncz_symulacje();
-    void resetuj_symulacje();
-    void set_zakres_osi();
 
     QJsonObject menedzer_to_json();
     QJsonObject Model_ARX_to_Json(const ModelARX& model_arx) const

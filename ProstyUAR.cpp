@@ -3,7 +3,7 @@
 ProstyUAR::ProstyUAR(double Kp, double Ti, double Td, RegulatorPID::LiczCalke sposob, const std::vector<double>& A_p, const std::vector<double>& B_p, int opoznienie_p, double szum_p)
     : m_ostatni_syg_wy(0.0), m_regulator(Kp, Ti, Td, sposob), m_arx(A_p, B_p, opoznienie_p, szum_p)
 {}
-ProstyUAR::ProstyUAR(ModelARX arx, RegulatorPID regulator)
+ProstyUAR::ProstyUAR(ModelARX& arx, RegulatorPID& regulator)
     : m_regulator(regulator), m_arx(arx)
 {}
 double ProstyUAR::symuluj(double syg_we) {

@@ -1,6 +1,4 @@
 #include "Generator.h"
-#include "qdebug.h"
-#include "qglobal.h"
 Generator::Generator(double okres, double A, double S, double P, Generator::Sygnaly sygnal)
     : m_S(S), m_sygnal(sygnal), m_okres(okres)
 {
@@ -10,7 +8,6 @@ Generator::Generator(double okres, double A, double S, double P, Generator::Sygn
 void Generator::set_amplituda(double nowaAmplituda) {
     m_A = nowaAmplituda;
     if (m_A < 0.0) m_A = 0.0;
-    qDebug() << m_A;
 }
 void Generator::set_wypelnienie(double noweWypelnienie) {
     m_P = noweWypelnienie;
