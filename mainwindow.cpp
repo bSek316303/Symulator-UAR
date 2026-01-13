@@ -168,14 +168,6 @@ void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
 void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
 void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { genconfig->set_syg(index); }
 
-<<<<<<< HEAD
-
-void MainWindow::on_zapisz_btn_clicked()
-{
-   // menedzer->zapiszKonfiguracje();
-}
-=======
 void MainWindow::on_wczytaj_konfiguracje_clicked(){ sim_handler->wczytaj_konfiguracje(); }
 void MainWindow::on_zapisz_konfiguracje_clicked(){ sim_handler->zapisz_konfiguracje(); }
->>>>>>> c6255763ca7bc2bea758582c9a5e722534261237
 

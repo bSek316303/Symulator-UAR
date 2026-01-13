@@ -71,13 +71,10 @@ private slots:
 
     void on_comboBox_typ_sygnalu_currentIndexChanged(int index);
 
-<<<<<<< HEAD
-    void on_zapisz_btn_clicked();
-=======
     void on_zapisz_konfiguracje_clicked();
 
     void on_wczytaj_konfiguracje_clicked();
->>>>>>> c6255763ca7bc2bea758582c9a5e722534261237
+
 
 private:
     Ui::MainWindow *ui;
