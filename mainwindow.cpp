@@ -119,10 +119,7 @@ MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, 
     ui->spnbx_taktowanie->setMaximum(1000);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+MainWindow::~MainWindow() { delete ui; }
 
 // Przycisk ARX.
 void MainWindow::on_btn_nastawy_arx_clicked()

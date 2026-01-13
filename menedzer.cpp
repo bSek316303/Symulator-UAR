@@ -1,29 +1,43 @@
 #include "menedzer.h"
+#include "qdebug.h"
+#include "qglobal.h"
 
 // USTAWIANIE PARAMETRÓW.
 void menedzer::set_parametry_pid(Config& cfg){
-    auto* pid = dynamic_cast<PIDConfig*>(&cfg);
-    m_uar.get_regulator().set_kp(pid->get_kp());
-    m_uar.get_regulator().set_ti(pid->get_ti());
-    m_uar.get_regulator().set_td(pid->get_td());
-    m_uar.get_regulator().set_licz_calke(RegulatorPID::LiczCalke(pid->get_licz_calke()));
+    try {
+        auto* pid = dynamic_cast<PIDConfig*>(&cfg);
+        m_uar.get_regulator().set_kp(pid->get_kp());
+        m_uar.get_regulator().set_ti(pid->get_ti());
+        m_uar.get_regulator().set_td(pid->get_td());
+        m_uar.get_regulator().set_licz_calke(RegulatorPID::LiczCalke(pid->get_licz_calke()));
+    } catch (const std::bad_cast&) {
+        qDebug() << "castowanie na zły typ pliku w set_parametry_pid!";
+    }
 }
 
 void menedzer::set_parametry_arx(Config& cfg){
-    auto* arx = dynamic_cast<ARXConfig*>(&cfg);
-    m_uar.get_ARX().set_A(arx->get_a());
-    m_uar.get_ARX().set_B(arx->get_b());
-    m_uar.get_ARX().set_opoznienie(arx->get_opoznienie());
-    m_uar.get_ARX().set_szum(arx->get_szum());
+    try {
+        auto* arx = dynamic_cast<ARXConfig*>(&cfg);
+        m_uar.get_ARX().set_A(arx->get_a());
+        m_uar.get_ARX().set_B(arx->get_b());
+        m_uar.get_ARX().set_opoznienie(arx->get_opoznienie());
+        m_uar.get_ARX().set_szum(arx->get_szum());
+    } catch (const std::bad_cast&) {
+        qDebug() << "castowanie na zły typ pliku w set_parametry_arx!";
+    }
 }
 
 void menedzer::set_parametry_generator(Config& cfg){
-    auto* gen = dynamic_cast<GENConfig*>(&cfg);
-    m_gen.setAmplituda(gen->get_a());
-    m_gen.setWypelnienie(gen->get_p());
-    m_gen.setStalaSkladowa(gen->get_s());
-    m_gen.setOkres(gen->get_okres());
-    m_gen.setSygnal(Generator::Sygnaly(gen->get_syg()));
+    try {
+        auto* gen = dynamic_cast<GENConfig*>(&cfg);
+        m_gen.setAmplituda(gen->get_a());
+        m_gen.setWypelnienie(gen->get_p());
+        m_gen.setStalaSkladowa(gen->get_s());
+        m_gen.setOkres(gen->get_okres());
+        m_gen.setSygnal(Generator::Sygnaly(gen->get_syg()));
+    } catch (const std::bad_cast&) {
+        qDebug() << "castowanie na zły typ pliku w set_parametry_generator!";
+    }
 }
 
 menedzer::menedzer(ProstyUAR uar, Generator gen, PIDConfig* pid_cfg, ARXConfig* arx_cfg, GENConfig* gen_cfg)
