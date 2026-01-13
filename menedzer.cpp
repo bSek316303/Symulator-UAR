@@ -12,7 +12,6 @@ void menedzer::set_opoznienie_ARX(int opoznienie) { m_uar.set_opoznienie(opoznie
 // PID
 void menedzer::set_parametry_pid(double kp, double ti, double td){ m_uar.set_parametry_pid(kp, ti, td); }
 void menedzer::set_pid_tryb(int index) {
-    qDebug() << "menedzer";
     m_uar.set_licz_calke(RegulatorPID::LiczCalke(index));
 }
 void menedzer::resetuj_pamiec_calki(){ m_uar.resetuj_pamiec_calki(); }
@@ -20,19 +19,17 @@ void menedzer::resetuj_pamiec_rozniczki(){ m_uar.resetuj_pamiec_rozniczki(); }
 
 // Generator
 void menedzer::set_parametry_generator(double amplituda, double stala_skladowa, double okres, double wypelnienie){
-    qDebug() << "menedzer";
     m_gen.set_amplituda(amplituda);
     m_gen.set_stala_skladowa(stala_skladowa);
     m_gen.set_okres(okres);
     m_gen.set_wypelnienie(wypelnienie);
-    qDebug() << "koniec menedzera";
 }
 void menedzer::set_sygnal(int index) { m_gen.set_sygnal(Generator::Sygnaly(index)); }
 
 // Symulacja
 void set_taktowanie(double taktowanie_p);
 
-menedzer::menedzer(ProstyUAR& uar, Generator& gen)
+menedzer::menedzer(ProstyUAR uar, Generator gen)
     : m_uar(uar), m_gen(gen)
 {}
 

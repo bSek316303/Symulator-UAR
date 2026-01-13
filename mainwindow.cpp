@@ -22,16 +22,16 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_czas_wykresu->setRange(5, 500);
     ui->spnbx_okres->setValue(POCZ_OKRES);
     ui->spnbx_okres->setMinimum(0.0);
-    ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
     ui->spnbx_taktowanie->setRange(50, 1000);
+    ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
-MainWindow::MainWindow(class menedzer* menedzer, class sim_handler* simhandler, QWidget *parent)
+MainWindow::MainWindow(class menedzer* menedzer_p, class sim_handler* simhandler, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    if (menedzer == nullptr) qDebug() << "nullptr!";
     ui->setupUi(this);
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    menedzer = menedzer_p;
     sim_handler = simhandler;
 
     //QMenu.
@@ -118,9 +118,7 @@ MainWindow::MainWindow(class menedzer* menedzer, class sim_handler* simhandler, 
     ui->chart_layout->addWidget(widok_ster,3);
     ui->chart_layout->addWidget(widok_pid,3);
 
-    // Wartości MIN/MAX
-    ui->spnbx_taktowanie->setMinimum(50);
-    ui->spnbx_taktowanie->setMaximum(1000);
+    set_wartosci_domyslne();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -139,10 +137,6 @@ void MainWindow::on_btn_nastawy_arx_clicked()
 }
 // Przyciski PID.
 void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) {
-    if (!menedzer) {
-        qDebug() << "menedzer nie istnieje!";
-        return;
-    }
     menedzer->set_parametry_pid(arg1, ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());
 }
 void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1) {
@@ -153,15 +147,13 @@ void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1){
 }
 void MainWindow::on_btn_resetuj_pamiec_calki_clicked() { menedzer->resetuj_pamiec_calki(); }
 void MainWindow::on_btn_reset_pamieci_rozniczki_clicked() { menedzer->resetuj_pamiec_rozniczki(); }
-void MainWindow::on_rdio_w_calce_toggled(bool checked) { qDebug() << "mainwindow"; if(checked) menedzer->set_pid_tryb(1); }
-void MainWindow::on_rdio_poza_calka_toggled(bool checked){ qDebug() << "mainwindow"; if(checked) menedzer->set_pid_tryb(0); }
+void MainWindow::on_rdio_w_calce_toggled(bool checked) { if(checked) menedzer->set_pid_tryb(1); }
+void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) menedzer->set_pid_tryb(0); }
 
 // Przyciski Generator.
 //double amplituda, double stala_skladowa, double okres, double wypelnienie
 void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) {
-    qDebug() << "mainwindow";
     menedzer->set_parametry_generator(arg1, ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
-    qDebug() << "koniec mainwindow";
 }
 void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) {
     menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), arg1, ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());

@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(menedzer* menedzer, class sim_handler* simhandler, QWidget *parent = nullptr);
+    MainWindow(menedzer* menedzer_p, class sim_handler* simhandler, QWidget *parent = nullptr);
     ~MainWindow();
     void set_wartosci_domyslne();
     void set_menedzer(menedzer* m){ menedzer = m; }

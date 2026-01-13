@@ -31,7 +31,7 @@ private:
     double okres;
 
 public:
-    explicit menedzer(ProstyUAR& uar, Generator& gen);
+    explicit menedzer(ProstyUAR uar, Generator gen);
     dane_do_wykresow krok_wykresu(double interwal);
     void resetuj();
 

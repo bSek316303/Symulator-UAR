@@ -10,8 +10,8 @@ int main (int argc, char *argv[]){
     Generator gen(POCZ_OKRES, POCZ_AMP, POCZ_S, POCZ_P, Generator::Sygnaly(POCZ_SYGNAL));
     menedzer menedzer(uar, gen);
     sim_handler simhandler;
+    simhandler.set_menedzer(&menedzer);
     MainWindow w(&menedzer, &simhandler);
-    //w.set_wartosci_domyslne();
     w.show();
     return a.exec();
 }
