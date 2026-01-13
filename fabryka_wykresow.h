@@ -16,7 +16,6 @@ struct konfiguracjaWykresu {
 class fabryka_wykresow {
 public:
     static std::tuple<QChart*, std::vector<QLineSeries*>, QValueAxis*, QValueAxis*> stworz_wykres(const konfiguracjaWykresu& cfg);
-
 private:
     static QLineSeries* stworz_serie(const QString& nazwa_serii);
     static std::pair<QValueAxis*, QValueAxis*> ustaw_osie(QChart* wykres, const QString& xOpis, const QString& y0pis);

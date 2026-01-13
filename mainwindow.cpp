@@ -23,7 +23,7 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_okres->setValue(POCZ_OKRES);
     ui->spnbx_okres->setMinimum(0.0);
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
-    ui->spnbx_taktowanie->setRange(10, 1000);
+    ui->spnbx_taktowanie->setRange(50, 1000);
 }
 MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, class sim_handler* simhandler, QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +37,13 @@ MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, 
     arxconfig = arxcfg;
     genconfig = gencfg;
     sim_handler = simhandler;
+
+    //QMenu.
+    QMenu *menu_plik = menuBar()->addMenu("Plik");
+    QAction *akcja_wczytaj = menu_plik->addAction("Wczytaj konfiguracje");
+    QAction *akcja_zapisz = menu_plik->addAction("Zapisz konfiguracje");
+    connect(akcja_wczytaj, &QAction::triggered, this, &MainWindow::on_wczytaj_konfiguracje_clicked);
+    connect(akcja_zapisz, &QAction::triggered, this, &MainWindow::on_zapisz_konfiguracje_clicked);
 
     // Typ sygnalu generatora.
     ui->comboBox_typ_sygnalu->blockSignals(true);
@@ -120,10 +127,7 @@ MainWindow::MainWindow(PIDConfig* pidcfg, ARXConfig* arxcfg, GENConfig* gencfg, 
     ui->spnbx_taktowanie->setMaximum(1000);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+MainWindow::~MainWindow() { delete ui; }
 
 // Przycisk ARX.
 void MainWindow::on_btn_nastawy_arx_clicked()
@@ -154,7 +158,7 @@ void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) { genconfig->set
 void MainWindow::on_spnbx_okres_valueChanged(double arg1) { genconfig->set_okres(arg1); }
 void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
     if (arg1 > 1000) arg1 = 1000;
-    else if (arg1 < 10) arg1 = 10;
+    else if (arg1 < 50) arg1 = 50;
     sim_handler->set_interwal(arg1);
 }
 
@@ -164,9 +168,14 @@ void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
 void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
 void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { genconfig->set_syg(index); }
 
+<<<<<<< HEAD
 
 void MainWindow::on_zapisz_btn_clicked()
 {
    // menedzer->zapiszKonfiguracje();
 }
+=======
+void MainWindow::on_wczytaj_konfiguracje_clicked(){ sim_handler->wczytaj_konfiguracje(); }
+void MainWindow::on_zapisz_konfiguracje_clicked(){ sim_handler->zapisz_konfiguracje(); }
+>>>>>>> c6255763ca7bc2bea758582c9a5e722534261237
 

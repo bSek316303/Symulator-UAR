@@ -43,6 +43,9 @@ public:
 
     void test_czasowy();
     void krok();
+
+    void zapisz_konfiguracje();
+    void wczytaj_konfiguracje();
 };
 
 #endif // SIM_HANDLER_H
