@@ -7,6 +7,7 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QValueAxis>
 #include <QPainter>
+#include <QDebug>
 
 void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_wzmocnienie->setValue(POCZ_KP);
@@ -124,7 +125,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, class sim_handler* simhandler
 MainWindow::~MainWindow() { delete ui; }
 
 // Przycisk ARX.
-void MainWindow::on_btn_nastawy_arx_clicked()
+void MainWindow::on_btn_nastawy_arx_clicked()//DZIALA XD
 {
     arx_dialog *okno = new arx_dialog(this);
     okno->setAttribute(Qt::WA_DeleteOnClose);
@@ -132,6 +133,20 @@ void MainWindow::on_btn_nastawy_arx_clicked()
         menedzer->set_parametry_arx(okno->get_wsp_a(), okno->get_wsp_b());
         menedzer->set_opoznienie_ARX(okno->get_opoznienie());
         menedzer->set_szum(okno->get_zaklocenie(), true);
+        if(okno->get_ograniczenie_sterowania()){
+            menedzer->set_ograniczenia_sterowania_ARX(okno->get_ograniczenie_sterowania(), okno->get_ograniczenie_sterowania_dol(), okno->get_ograniczenie_sterowania_gora());
+        }
+        else{
+            menedzer->set_ograniczenia_ster_ARX(okno->get_ograniczenie_sterowania());
+        }
+        if(okno->get_ograniczenie_wyjscia()){
+            menedzer->set_ograniaczenia_wyjscia_ARX(okno->get_ograniczenie_wyjscia(), okno->get_ograniczenie_wyjscia_dol(), okno->get_ograniczenie_wyjscia_gora());
+        }
+        else{
+            menedzer->set_ograniczenia_wyj_ARX(okno->get_ograniczenie_wyjscia());
+        }
+        // std::cout<< okno->get_ograniczenie_sterowania()<< okno->get_ograniczenie_sterowania_dol() <<okno->get_ograniczenie_sterowania_gora() << std::endl;
+        // std::cout<< okno->get_ograniczenie_wyjscia()<< okno->get_ograniczenie_wyjscia_dol() <<okno->get_ograniczenie_wyjscia_gora() << std::endl;
     });
     okno->show();
 }

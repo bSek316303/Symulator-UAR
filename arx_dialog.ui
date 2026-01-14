@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>376</height>
+    <width>430</width>
+    <height>534</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>450</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Nastawy ARX</string>
@@ -163,7 +169,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="opoznienie_input"/>
+          <widget class="QSpinBox" name="opoznienie_input">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -190,7 +200,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="zaklocenie_input"/>
+          <widget class="QDoubleSpinBox" name="zaklocenie_input">
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -206,6 +220,105 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QCheckBox" name="ograniczenia_sterowania_checked">
+           <property name="text">
+            <string>Ograniczenia sterowania</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Górna granica</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="gorna_sterowanie">
+           <property name="value">
+            <double>10.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Dolna granica</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="dolna_sterowanie">
+           <property name="minimum">
+            <double>-9999999.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>-10.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ograniczenia_wyjscia_checked">
+         <property name="text">
+          <string>Ograniczenia wyjścia</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Górna granica</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="gorna_wyjscie">
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>10.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Dolna Granica</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="dolna_wyjscie">
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>-10.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QPushButton" name="ok_arx">

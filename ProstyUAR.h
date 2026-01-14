@@ -32,11 +32,13 @@ public:
     void resetuj_pamiec_rozniczki(){ m_regulator.resetuj_pamiec_rozniczki(); }
 
     //ARX
-    void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B){
-        assert(A.size() == B.size()); // KUBA CZY TAK MA BYĆ?
+    void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B)
+    {
         m_arx.set_A(A);
         m_arx.set_B(B);
     }
     void set_opoznienie(double opoznienie){ m_arx.set_opoznienie(opoznienie); }
     void set_szum(double szum){ m_arx.set_szum(szum); }
+    void set_ograniczenie_ster(bool wlaczone) {m_arx.set_ograniczenie_sterowania(wlaczone);}
+    void set_ograniczenie_wyj(bool wlaczone) {m_arx.set_ograniczenie_wyjscia(wlaczone);}
 };

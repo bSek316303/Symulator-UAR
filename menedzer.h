@@ -37,8 +37,20 @@ public:
 
     // ARX
     void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B);
-    void set_ograniczenia_sterowania_ARX(bool wlaczone, double min, double max) ;
-    void set_ograniaczenia_wyjscia_ARX(bool wlaczone, double min, double max);
+    void set_ograniczenia_sterowania_ARX(bool wlaczone, double min, double max)
+    {
+        m_uar.get_ARX().set_ograniczenie_sterowania(wlaczone);
+        m_uar.get_ARX().set_sterowanie_min(min);
+        m_uar.get_ARX().set_sterowanie_max(max);
+    };
+    void set_ograniaczenia_wyjscia_ARX(bool wlaczone, double min, double max)
+    {
+        m_uar.get_ARX().set_ograniczenie_wyjscia(wlaczone);
+        m_uar.get_ARX().set_wyjscie_min(min);
+        m_uar.get_ARX().set_wyjscie_max(max);
+    }
+    void set_ograniczenia_ster_ARX(bool wlaczone);
+    void set_ograniczenia_wyj_ARX(bool wlaczone);
     void set_szum(double szum, bool czy_wlaczony);
     void set_opoznienie_ARX(int opoznienie_p);
     // PID
