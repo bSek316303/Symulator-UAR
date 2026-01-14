@@ -32,17 +32,13 @@ ModelARX::ModelARX(const std::vector<double>& A_p, const std::vector<double>& B_
     //idx_ster = 0;
     //idx_wyjscie = 0;
 }
-void ModelARX::set_ograniczenie_sterowania(bool czy_wlaczone, double sterowanie_min_p, double sterowanie_max_p)
+void ModelARX::set_ograniczenie_sterowania(bool czy_wlaczone)
 {
     ograniczenie_sterowania = czy_wlaczone;
-    sterowanie_min = sterowanie_min_p;
-    sterowanie_max = sterowanie_max_p;
 }
-void ModelARX::set_ograniczenie_wyjscia(bool czy_wlaczone, double wyjscie_min_p, double wyjscie_max_p)
+void ModelARX::set_ograniczenie_wyjscia(bool czy_wlaczone)
 {
     ograniczenie_wyjscia = czy_wlaczone;
-    wyjscie_min = wyjscie_min_p;
-    wyjscie_max = wyjscie_max_p;
 }
 void ModelARX::set_wyjscie_max(double wyjscie_max_p)
 {

@@ -7,6 +7,10 @@ arx_dialog::arx_dialog(QWidget *parent)
     , ui(new Ui::arx_dialog)
 {
     ui->setupUi(this);
+    ui->gorna_sterowanie->setEnabled(false);
+    ui->dolna_sterowanie->setEnabled(false);
+    ui->gorna_wyjscie->setEnabled(false);
+    ui->dolna_wyjscie->setEnabled(false);
 }
 
 arx_dialog::~arx_dialog()
@@ -90,4 +94,57 @@ void arx_dialog::on_zaklocenie_input_valueChanged(double arg1)
     zaklocenia = arg1;
 }
 
+void arx_dialog::on_ograniczenia_sterowania_checked_stateChanged(int arg1)
+{
+    ograniczenie_sterowania = (arg1 == Qt::Checked);
+    if(arg1 == 0)
+    {
+        ui->gorna_sterowanie->setEnabled(false);
+        ui->dolna_sterowanie->setEnabled(false);
+    }
+    if(arg1 == 2)
+    {
+        ui->gorna_sterowanie->setEnabled(true);
+        ui->dolna_sterowanie->setEnabled(true);
+    }
+}
+
+void arx_dialog::on_ograniczenia_wyjscia_checked_stateChanged(int arg1)
+{
+    ograniczenie_wyjscia = (arg1 == Qt::Checked);
+    if(arg1 == 0)
+    {
+        ui->gorna_wyjscie->setEnabled(false);
+        ui->dolna_wyjscie->setEnabled(false);
+    }
+    if(arg1 == 2)
+    {
+        ui->gorna_wyjscie->setEnabled(true);
+        ui->dolna_wyjscie->setEnabled(true);
+    }
+}
+
+
+void arx_dialog::on_gorna_sterowanie_valueChanged(double arg1)
+{
+    ograniczenie_sterowania_gora = arg1;
+}
+
+
+void arx_dialog::on_dolna_sterowanie_valueChanged(double arg1)
+{
+    ograniczenie_sterowania_dol = arg1;
+}
+
+
+void arx_dialog::on_gorna_wyjscie_valueChanged(double arg1)
+{
+    ograniczenie_wyjscia_gora = arg1;
+}
+
+
+void arx_dialog::on_dolna_wyjscie_valueChanged(double arg1)
+{
+    ograniczenie_wyjscia_dol = arg1;
+}
 
