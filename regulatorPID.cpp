@@ -36,7 +36,7 @@ double RegulatorPID::symuluj(double sygWe) { // Sposob na testy -> jezeli chcemy
     m_last_D = m_Td * (sygWe - m_poprzedni_syg_we);
     m_poprzedni_syg_we = sygWe;
     //calka
-    if (ZeroweTi()) return m_last_P + m_last_I;
+    if (ZeroweTi()) return m_last_P + m_last_D;
     if (m_sposob == LiczCalke::Wew) {
         m_wartosci += sygWe / m_Ti;
         m_last_I = m_wartosci;
