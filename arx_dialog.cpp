@@ -17,7 +17,32 @@ arx_dialog::~arx_dialog()
 {
     delete ui;
 }
+void arx_dialog::ustaw_dane(std::vector<double> a_wsp, std::vector<double> b_wsp, bool ograniczenie_sterowania, bool ograniczenie_wyjscia, double szum, int opoznienie, double ster_gora, double ster_dol, double wyj_gora, double wyj_dol)
+{
+    wsp_a = a_wsp;
+    wsp_b = b_wsp;
+    this->opoznienie = opoznienie;
+    this->zaklocenia = szum;
+    ui->dolna_sterowanie->setValue(ster_dol);
+    ui->gorna_sterowanie->setValue(ster_gora);
+    ui->dolna_wyjscie->setValue(wyj_dol);
+    ui->gorna_wyjscie->setValue(wyj_gora);
+    ui->ograniczenia_sterowania_checked->setChecked(ograniczenie_sterowania);
+    ui->ograniczenia_wyjscia_checked->setChecked(ograniczenie_wyjscia);
+    ui->opoznienie_input->setValue(opoznienie);
+    ui->zaklocenie_input->setValue(zaklocenia);
 
+    for(int i = 0; i < a_wsp.size(); i++)
+    {
+        QString pom = QString::number(a_wsp[i]);
+        ui->widok_a->append(pom + ",");
+    }
+    for(int i = 0; i < b_wsp.size(); i++)
+    {
+        QString pom = QString::number(b_wsp[i]);
+        ui->widok_b->append(pom + ",");
+    }
+}
 
 void arx_dialog::on_a_confirm_clicked()
 {

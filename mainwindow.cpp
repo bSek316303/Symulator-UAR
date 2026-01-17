@@ -39,8 +39,8 @@ MainWindow::MainWindow(class menedzer* menedzer_p, class sim_handler* simhandler
     QMenu *menu_plik = menuBar()->addMenu("Plik");
     QAction *akcja_wczytaj = menu_plik->addAction("Wczytaj konfiguracje");
     QAction *akcja_zapisz = menu_plik->addAction("Zapisz konfiguracje");
-    //connect(akcja_wczytaj, &QAction::triggered, this, &MainWindow::on_wczytaj_konfiguracje_clicked);
-    //connect(akcja_zapisz, &QAction::triggered, this, &MainWindow::on_zapisz_konfiguracje_clicked);
+    connect(akcja_wczytaj, &QAction::triggered, menedzer, &menedzer::zastosuj_konfiguracje);
+    connect(akcja_zapisz, &QAction::triggered, menedzer, &menedzer::zapisz_konfiguracje);
 
     // Typ sygnalu generatora.
     ui->comboBox_typ_sygnalu->blockSignals(true);
@@ -148,8 +148,13 @@ void MainWindow::on_btn_nastawy_arx_clicked()//DZIALA XD
         // std::cout<< okno->get_ograniczenie_sterowania()<< okno->get_ograniczenie_sterowania_dol() <<okno->get_ograniczenie_sterowania_gora() << std::endl;
         // std::cout<< okno->get_ograniczenie_wyjscia()<< okno->get_ograniczenie_wyjscia_dol() <<okno->get_ograniczenie_wyjscia_gora() << std::endl;
     });
+    connect(menedzer, &menedzer::wyslij_dane_do_arx_dialog ,okno, &arx_dialog::ustaw_dane);
+
+    menedzer->wyslij_arx();
     okno->show();
+
 }
+
 // Przyciski PID.
 void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) {
     menedzer->set_parametry_pid(arg1, ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());

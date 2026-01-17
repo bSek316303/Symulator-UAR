@@ -31,10 +31,13 @@ void menedzer::set_sygnal(int index) { m_gen.set_sygnal(Generator::Sygnaly(index
 // Symulacja
 void set_taktowanie(double taktowanie_p);
 
-menedzer::menedzer(ProstyUAR uar, Generator gen)
-    : m_uar(uar), m_gen(gen)
+menedzer::menedzer(ProstyUAR uar, Generator gen, QObject* parent)
+    : QObject(parent), m_uar(uar), m_gen(gen)
 {}
-
+void menedzer::set_taktowanie(double taktowanie_p)
+{
+    taktowanie = taktowanie_p;
+}
 dane_do_wykresow menedzer::krok_wykresu(double interwal){
     // Symulacja
     double wart_zad = m_gen.generuj(interwal);
@@ -66,6 +69,22 @@ QVector<double> menedzer::Json_to_Wektor(const QJsonArray& tablica_json)
         }
     }
     return wektor;
+}
+void menedzer::wyslij_arx()
+{
+
+    emit wyslij_dane_do_arx_dialog(
+        m_uar.get_ARX().get_A(),
+        m_uar.get_ARX().get_B(),
+        m_uar.get_ARX().get_ograniczenie_sterowania(),
+        m_uar.get_ARX().get_ograniczenie_wyjscia(),
+        m_uar.get_ARX().get_szum(),
+        m_uar.get_ARX().get_opoznienie(),
+        m_uar.get_ARX().get_sterowanie_max(),
+        m_uar.get_ARX().get_sterowanie_min(),
+        m_uar.get_ARX().get_wyjscie_max(),
+        m_uar.get_ARX().get_wyjscie_min()
+        );
 }
 // void menedzer::wczytaj_konfiguracje(const QJsonDocument& dane_json)
 // {

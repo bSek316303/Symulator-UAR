@@ -48,6 +48,8 @@ public:
     {
         return ograniczenie_wyjscia_gora;
     }
+public slots:
+    void ustaw_dane(std::vector<double> a_wsp, std::vector<double> b_wsp, bool ograniczenie_sterowania, bool ograniczenie_wyjscia, double szum, int opoznienie, double ster_gora, double ster_dol, double wyj_gora, double wyj_dol);
 
 private slots:
     void on_a_confirm_clicked();

@@ -9,8 +9,9 @@
 #include <QJsonObject>
 #include <qvector>
 #include <QJsonDocument>
+#include <QMetaType>
 
-
+Q_DECLARE_METATYPE(std::vector<double>)
 struct dane_do_wykresow{
     double uar;
     double gen;
@@ -21,7 +22,8 @@ struct dane_do_wykresow{
     double d;
 };
 
-class menedzer {
+class menedzer: public QObject {
+    Q_OBJECT
     friend class Testy_setterow;
 private:
     ProstyUAR m_uar;
@@ -29,11 +31,11 @@ private:
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
     double taktowanie;
     double okres;
-
 public:
-    explicit menedzer(ProstyUAR uar, Generator gen);
+    explicit menedzer(ProstyUAR uar, Generator gen, QObject* parent = nullptr);
     dane_do_wykresow krok_wykresu(double interwal);
     void resetuj();
+    void wyslij_arx();
 
     // ARX
     void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B);
@@ -100,6 +102,11 @@ public:
 
         return regulator_pid;
     }
+
+    ProstyUAR& get_m_uar()
+    {
+        return m_uar;
+    }
     void zapisz_konfiguracje()
     {
         QJsonObject arx_json = Model_ARX_to_Json(m_uar.get_ARX());
@@ -129,7 +136,7 @@ public:
     }
     QJsonDocument wczytajKonfiguracje()
     {
-        QFile plik("default_config.json");
+        QFile plik("konfiguracja.json");
 
         if(!plik.open(QIODevice::ReadOnly | QIODevice::Text))
         {
@@ -210,5 +217,9 @@ public:
         QJsonDocument dane = this->wczytajKonfiguracje();
         this->wczytaj_konfiguracje(dane);
     }
+signals:
+    void wyslij_dane_do_arx_dialog(std::vector<double> a_wsp, std::vector<double> b_wsp, bool ograniczenie_sterowania, bool ograniczenie_wyjscia, double szum, int opoznienie, double ster_gora, double ster_dol, double wyj_gora, double wyj_dol);
+
+
 };
 
