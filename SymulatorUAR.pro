@@ -18,7 +18,6 @@ SOURCES += \
     menedzer.cpp \
     menedzerUAR.cpp \
     modelARX.cpp \
-    obsluga_pliku.cpp \
     regulatorPID.cpp \
     sim_handler.cpp \
     testy.cpp \
@@ -34,7 +33,6 @@ HEADERS += \
     menedzer.h \
     menedzerUAR.h \
     modelARX.h \
-    obsluga_pliku.h \
     regulatorPID.h \
     sim_handler.h \
     stale.h \
