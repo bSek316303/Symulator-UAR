@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "menedzer.h"
-#include "sim_handler.h"
+#include "skalowanie_wykresow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(menedzer* menedzer_p, class sim_handler* simhandler, QWidget *parent = nullptr);
+    MainWindow(menedzer* menedzer_p, QWidget *parent = nullptr);
     ~MainWindow();
     void set_wartosci_domyslne();
     void set_menedzer(menedzer* m){ menedzer = m; }
@@ -65,6 +65,5 @@ private slots:
 private:
     Ui::MainWindow *ui;
     menedzer* menedzer;
-    sim_handler* sim_handler;
 };
 #endif // MAINWINDOW_H

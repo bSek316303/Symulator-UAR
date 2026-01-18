@@ -4,23 +4,18 @@
 #include "obsluga_pliku.h"
 #include "qcoreapplication.h"
 #include "qdir.h"
+#include "qlineseries.h"
+#include "qtimer.h"
+#include "qvalueaxis.h"
 #include "testy_setterow.h"
 #include "qjsonarray.h"
 #include <QJsonObject>
 #include <qvector>
 #include <QJsonDocument>
 #include <QMetaType>
+#include "skalowanie_wykresow.h"
 
 Q_DECLARE_METATYPE(std::vector<double>)
-struct dane_do_wykresow{
-    double uar;
-    double gen;
-    double uchyb;
-    double ster;
-    double p;
-    double i;
-    double d;
-};
 
 class menedzer: public QObject {
     Q_OBJECT
@@ -29,15 +24,41 @@ private:
     ProstyUAR m_uar;
     Generator m_gen;
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
-    double taktowanie;
-    double okres;
+
+    QTimer* stoper;
+    std::vector<QLineSeries*> tab_serii;
+    std::vector<QChart*> tab_wykresow;
+    std::vector<QValueAxis*> tab_osi_x;
+    std::vector<QValueAxis*> tab_osi_y;
+    std::vector<double> tab_max;
+    std::vector<double> tab_min;
+    double czas;
+    double zakres_osi_x;
+    double aktualny_czas_wykresu;
+    skalowanie_wykresow skalowanie;
 public:
     explicit menedzer(ProstyUAR uar, Generator gen, QObject* parent = nullptr);
-    dane_do_wykresow krok_wykresu(double interwal);
-    void resetuj();
+    void krok();
     void wyslij_arx();
 
+    // PRZYGOTOWANIE SYMULACJI
+
+    void dodaj_serie(QLineSeries* seria);
+    void dodaj_wykres(QChart* wykres);
+    void dodaj_os_x(QValueAxis* os);
+    void dodaj_os_y(QValueAxis* os);
+    void set_interwal(int interwal);
+    void set_czas_wykresu(double nowy_czas);
+    void zwieksz_zakres_osi_x(double czas);
+
+    // SYMULACJA
+
+    void zacznij_symulacje();
+    void zakoncz_symulacje();
+    void resetuj_symulacje();
+
     // ARX
+
     void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B);
     void set_ograniczenia_sterowania_ARX(bool wlaczone, double min, double max)
     {
@@ -64,10 +85,6 @@ public:
     // Generator
     void set_parametry_generator(double amplituda, double stala_skladowa, double okres, double wypelnienie);
     void set_sygnal(int index);
-
-    // Symulacja
-    void set_taktowanie(double taktowanie_p);
-    double get_taktowanie();
 
     QJsonObject menedzer_to_json();
     QJsonObject Model_ARX_to_Json(const ModelARX& model_arx) const
@@ -208,7 +225,7 @@ public:
         if (obiekt_danych.contains("Parametry_Symulacji") && obiekt_danych["Parametry_Symulacji"].isObject()) {
             QJsonObject uar_json = obiekt_danych["Parametry_Symulacji"].toObject();
 
-            this->set_taktowanie(uar_json["Taktowanie_ms"].toDouble());
+            stoper->setInterval(uar_json["Taktowanie_ms"].toDouble());
             this->m_gen.set_okres(uar_json["Okres_rzeczywisty_s"].toDouble());
         }
     }

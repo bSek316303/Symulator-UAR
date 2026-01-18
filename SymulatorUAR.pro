@@ -19,7 +19,7 @@ SOURCES += \
     menedzerUAR.cpp \
     modelARX.cpp \
     regulatorPID.cpp \
-    sim_handler.cpp \
+    skalowanie_wykresow.cpp \
     testy.cpp \
     testy_setterow.cpp \
     testy_symulacji.cpp
@@ -34,7 +34,7 @@ HEADERS += \
     menedzerUAR.h \
     modelARX.h \
     regulatorPID.h \
-    sim_handler.h \
+    skalowanie_wykresow.h \
     stale.h \
     testy.h \
     testy_setterow.h \
