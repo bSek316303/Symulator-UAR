@@ -32,27 +32,27 @@ void skalowanie_wykresow::skaluj_wykresy_po_appendzie(dane_do_wykresow dane){
 
     // Wykres 2
     double dane_min_max = dane.uchyb;
-    if((*tab_min)[1] > min_dane){
-        if(min_dane < 0) (*tab_min)[1] = min_dane * 1.15;
-        else (*tab_min)[1] = min_dane * 0.85;
+    if((*tab_min)[1] > dane_min_max){
+        if(dane_min_max < 0) (*tab_min)[1] = dane_min_max * 1.15;
+        else (*tab_min)[1] = dane_min_max * 0.85;
         (*tab_osi_y)[1]->setMin((*tab_min)[1]);
     }
-    if((*tab_max)[1] < max_dane){
-        if(max_dane > 0) (*tab_max)[1] = max_dane * 1.15;
-        else (*tab_max)[1] = max_dane * 0.85;
+    else if((*tab_max)[1] < dane_min_max){
+        if(dane_min_max > 0) (*tab_max)[1] = dane_min_max * 1.15;
+        else (*tab_max)[1] = dane_min_max * 0.85;
         (*tab_osi_y)[1]->setMax((*tab_max)[1]);
     }
 
     // Wykres 3
     dane_min_max = dane.ster;
-    if((*tab_min)[2] > min_dane){
-        if(min_dane < 0) (*tab_min)[2] = min_dane * 1.15;
-        else (*tab_min)[2] = min_dane * 0.85;
+    if((*tab_min)[2] > dane_min_max){
+        if(dane_min_max < 0) (*tab_min)[2] = dane_min_max * 1.15;
+        else (*tab_min)[2] = dane_min_max * 0.85;
         (*tab_osi_y)[2]->setMin((*tab_min)[2]);
     }
-    if((*tab_max)[2] < max_dane){
-        if(max_dane > 0) (*tab_max)[2] = max_dane * 1.15;
-        else (*tab_max)[2] = max_dane * 0.85;
+    else if((*tab_max)[2] < dane_min_max){
+        if(dane_min_max > 0) (*tab_max)[2] = dane_min_max * 1.15;
+        else (*tab_max)[2] = dane_min_max * 0.85;
         (*tab_osi_y)[2]->setMax((*tab_max)[2]);
     }
 

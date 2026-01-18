@@ -41,6 +41,8 @@ menedzer::menedzer(ProstyUAR uar, Generator gen, QObject* parent)
 }
 
 void menedzer::krok() {
+    auto start = std::chrono::high_resolution_clock::now();
+
     czas += static_cast<double>(stoper->interval()) / 1000.0;
     double wart_zad = m_gen.generuj(stoper->interval());
     double syg_wy = m_uar.symuluj(wart_zad);
@@ -67,6 +69,10 @@ void menedzer::krok() {
         zwieksz_zakres_osi_x(czas);
         aktualny_czas_wykresu += zakres_osi_x / 2;
     }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto czas = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    qDebug() << "Czas: " << czas.count() << " ms\n";
 }
 
 QVector<double> menedzer::Json_to_Wektor(const QJsonArray& tablica_json)
