@@ -26,14 +26,13 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_taktowanie->setRange(50, 1000);
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
-MainWindow::MainWindow(class menedzer* menedzer_p, class sim_handler* simhandler, QWidget *parent)
+MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     menedzer = menedzer_p;
-    sim_handler = simhandler;
 
     //QMenu.
     QMenu *menu_plik = menuBar()->addMenu("Plik");
@@ -55,48 +54,48 @@ MainWindow::MainWindow(class menedzer* menedzer_p, class sim_handler* simhandler
     uar_cfg.serie = { "Generator", "UAR" };
     auto paczka = fabryka_wykresow::stworz_wykres(uar_cfg);
     for(auto* x: std::get<1>(paczka)){
-        sim_handler->dodaj_serie(x);
+        menedzer->dodaj_serie(x);
     }
     QChart* wykres_uar = std::get<0>(paczka);
-    sim_handler->dodaj_wykres(wykres_uar);
-    sim_handler->dodaj_os_x(std::get<2>(paczka));
-    sim_handler->dodaj_os_y(std::get<3>(paczka));
+    menedzer->dodaj_wykres(wykres_uar);
+    menedzer->dodaj_os_x(std::get<2>(paczka));
+    menedzer->dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu uchyb_cfg;
     uchyb_cfg.tytul = "wykres uchybu";
     uchyb_cfg.serie.append("Uchyb");
     paczka = fabryka_wykresow::stworz_wykres(uchyb_cfg);
     for(auto* x: std::get<1>(paczka)){
-        sim_handler->dodaj_serie(x);
+        menedzer->dodaj_serie(x);
     }
     QChart* wykres_uchyb = std::get<0>(paczka);
-    sim_handler->dodaj_wykres(wykres_uchyb);
-    sim_handler->dodaj_os_x(std::get<2>(paczka));
-    sim_handler->dodaj_os_y(std::get<3>(paczka));
+    menedzer->dodaj_wykres(wykres_uchyb);
+    menedzer->dodaj_os_x(std::get<2>(paczka));
+    menedzer->dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu ster_cfg;
     ster_cfg.tytul = "wykres wartosci sterujacej";
     ster_cfg.serie.append("serie");
     paczka = fabryka_wykresow::stworz_wykres(ster_cfg);
     for(auto* x: std::get<1>(paczka)){
-        sim_handler->dodaj_serie(x);
+        menedzer->dodaj_serie(x);
     }
     QChart* wykres_ster = std::get<0>(paczka);
-    sim_handler->dodaj_wykres(wykres_ster);
-    sim_handler->dodaj_os_x(std::get<2>(paczka));
-    sim_handler->dodaj_os_y(std::get<3>(paczka));
+    menedzer->dodaj_wykres(wykres_ster);
+    menedzer->dodaj_os_x(std::get<2>(paczka));
+    menedzer->dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu pid_cfg;
     pid_cfg.tytul = "wykres PID";
     pid_cfg.serie = { "P", "I", "D" };
     paczka = fabryka_wykresow::stworz_wykres(pid_cfg);
     for(auto* x: std::get<1>(paczka)){
-        sim_handler->dodaj_serie(x);
+        menedzer->dodaj_serie(x);
     }
     QChart* wykres_pid = std::get<0>(paczka);
-    sim_handler->dodaj_wykres(wykres_pid);
-    sim_handler->dodaj_os_x(std::get<2>(paczka));
-    sim_handler->dodaj_os_y(std::get<3>(paczka));
+    menedzer->dodaj_wykres(wykres_pid);
+    menedzer->dodaj_os_x(std::get<2>(paczka));
+    menedzer->dodaj_os_y(std::get<3>(paczka));
 
     // Widoki wykresów.
     QChartView* widok_uar = new QChartView(wykres_uar);
@@ -189,13 +188,13 @@ void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { menedz
 void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
     if (arg1 > 1000) arg1 = 1000;
     else if (arg1 < 50) arg1 = 50;
-    sim_handler->set_interwal(arg1);
+    menedzer->set_interwal(arg1);
 }
 
-void MainWindow::on_btn_stop_clicked() { sim_handler->zakoncz_symulacje(); }
-void MainWindow::on_btn_start_clicked() { sim_handler->zacznij_symulacje(); }
-void MainWindow::on_btn_reset_clicked() { sim_handler->resetuj_symulacje(); }
-void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { sim_handler->set_czas_wykresu(arg1); }
+void MainWindow::on_btn_stop_clicked() { menedzer->zakoncz_symulacje(); }
+void MainWindow::on_btn_start_clicked() { menedzer->zacznij_symulacje(); }
+void MainWindow::on_btn_reset_clicked() { menedzer->resetuj_symulacje(); }
+void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { menedzer->set_czas_wykresu(arg1); }
 /*
 void MainWindow::on_wczytaj_konfiguracje_clicked(){ //menedzer->wczytajKonfiguracje();
 }

@@ -8,7 +8,6 @@ fabryka_wykresow::stworz_wykres(const konfiguracjaWykresu& cfg) {
     wykres->legend()->setVisible(true);
     wykres->legend()->setAlignment(Qt::AlignBottom);
 
-    // Test
     wykres->legend()->setVisible(false);
     wykres->setTitle("");
 

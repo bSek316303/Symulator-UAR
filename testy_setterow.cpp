@@ -26,7 +26,7 @@ bool Testy_setterow::test_resetu_pamieci_roznicznki(){
         Generator gen(1, 5, 1, 1, Generator::Sygnaly(1));
 
         menedzer test_menedzer(uar, gen);
-        for(int i = 0; i < 3; i++) test_menedzer.krok_wykresu(i);
+        for(int i = 0; i < 3; i++) test_menedzer.krok();
         test_menedzer.resetuj_pamiec_rozniczki();
         if(test_menedzer.m_uar.get_regulator().m_poprzedni_syg_we == 0.0) return true;
         return false;
@@ -41,7 +41,7 @@ bool Testy_setterow::test_resetu_pamieci_calki(){
        Generator gen(1, 5, 1, 1, Generator::Sygnaly(1));
 
         menedzer test_menedzer(uar, gen);
-        for(int i = 0; i < 3; i++) test_menedzer.krok_wykresu(i);
+        for(int i = 0; i < 3; i++) test_menedzer.krok();
         test_menedzer.resetuj_pamiec_calki();
         if(test_menedzer.m_uar.get_regulator().m_wartosci == 0.0) return true;
         return false;
