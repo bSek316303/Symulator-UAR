@@ -16,7 +16,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menedzer.cpp \
-    menedzerUAR.cpp \
     modelARX.cpp \
     regulatorPID.cpp \
     sim_handler.cpp \
@@ -31,7 +30,6 @@ HEADERS += \
     fabryka_wykresow.h \
     mainwindow.h \
     menedzer.h \
-    menedzerUAR.h \
     modelARX.h \
     regulatorPID.h \
     sim_handler.h \
