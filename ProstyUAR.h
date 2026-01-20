@@ -34,6 +34,7 @@ public:
     //ARX
     void set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B)
     {
+
         m_arx.set_A(A);
         m_arx.set_B(B);
     }

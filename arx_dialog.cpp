@@ -1,7 +1,7 @@
 #include "arx_dialog.h"
 #include "modelARX.h"
 #include "ui_arx_dialog.h"
-
+#include <QMessageBox>
 arx_dialog::arx_dialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::arx_dialog)
@@ -106,7 +106,15 @@ double arx_dialog::get_zaklocenie()
 
 void arx_dialog::on_ok_arx_clicked()
 {
-    this->accept();
+    if(wsp_a.size() < 3 || wsp_b.size() < 3)
+    {
+        QMessageBox::information(this,"Informacja", "Wektor wspolczynnikow nie może zawierać mniej niż 3 elementy");
+    }
+    else
+    {
+        this->accept();
+    }
+
 }
 
 void arx_dialog::on_opoznienie_input_valueChanged(double arg1)
