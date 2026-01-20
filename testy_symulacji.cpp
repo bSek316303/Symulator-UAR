@@ -7,24 +7,33 @@ Testy_symulacji::Testy_symulacji() {}
 
 std::vector<Testy_symulacji::Test> Testy_symulacji::testy = {
     // model ARX
-    {"brak pobudzenia", Testy_symulacji::test_brakPobudzenia},
-    {"skok jednostkowy 1", Testy_symulacji::test_skokJednostkowy_1},
-    {"skok jednostkowy 2", Testy_symulacji::test_skokJednostkowy_2},
-    {"skok jednostkowy 3", Testy_symulacji::test_skokJednostkowy_3},
+     {"brak pobudzenia", Testy_symulacji::test_brakPobudzenia},
+     {"skok jednostkowy 1", Testy_symulacji::test_skokJednostkowy_1},
+     {"skok jednostkowy 2", Testy_symulacji::test_skokJednostkowy_2},
+     {"skok jednostkowy 3", Testy_symulacji::test_skokJednostkowy_3},
+     {"test poprawnosci seterow", Testy_symulacji::test_poprawnosciSetterow},
+     {"test opozneinia", Testy_symulacji::test_opoznieniaTransportowego},
+     {"test ograniczenia wyjscia", Testy_symulacji::test_ograniczeniaWyjscia},
+     {"test odpowiedzi skokowej", Testy_symulacji::test_odpowiedziSkokowej},
+    {"test opoznienie wlasne", Testy_symulacji::test_ARX_opoznienie_wlasne},
 
-    // regulator PID
-    {"P brak pobudzenia", Testy_symulacji::test_P_brakPobudzenia},
-    {"P skok jednostkowy", Testy_symulacji::test_P_skokJednostkowy},
-    {"PI skok 1", Testy_symulacji::test_PI_skokJednostkowy_1},
-    {"PI skok 2", Testy_symulacji::test_PI_skokJednostkowy_2},
-    {"PID skok", Testy_symulacji::test_PID_skokJednostkowy},
-    {"PI skok 3", Testy_symulacji::test_PI_skokJednostkowy_3},
+     // regulator PID
+     {"P brak pobudzenia", Testy_symulacji::test_P_brakPobudzenia},
+     {"P skok jednostkowy", Testy_symulacji::test_P_skokJednostkowy},
+     {"PI skok 1", Testy_symulacji::test_PI_skokJednostkowy_1},
+     {"PI skok 2", Testy_symulacji::test_PI_skokJednostkowy_2},
+     {"PID skok", Testy_symulacji::test_PID_skokJednostkowy},
+     {"PI skok 3", Testy_symulacji::test_PI_skokJednostkowy_3},
 
-    // UAR
-    {"UAR1 brak", Testy_symulacji::test_UAR_1_brakPobudzenia},
-    {"UAR1 PID", Testy_symulacji::test_UAR_1_skokJednostkowyPID},
-    {"UAR2 PID", Testy_symulacji::test_UAR_2_skokJednostkowyPID},
-    {"UAR3 PID", Testy_symulacji::test_UAR_3_skokJednostkowyPID}
+    //UAR
+    //{"UAR1 brak", Testy_symulacji::test_UAR_1_brakPobudzenia},
+    //{"UAR1 PID", Testy_symulacji::test_UAR_1_skokJednostkowyPID},
+    //{"UAR2 PID", Testy_symulacji::test_UAR_2_skokJednostkowyPID},
+    //{"UAR3 PID", Testy_symulacji::test_UAR_3_skokJednostkowyPID},
+    {"test  odpowiedzi na skok", Testy_symulacji::test_UAR_odpowiedzNaSkok},
+    {"test  eliminacja uchybu", Testy_symulacji::test_UAR_eliminacjaUchybu},
+    {"test  z opoznieniem", Testy_symulacji::test_UAR_zOpoznieniem},
+    {"test  getery stanu", Testy_symulacji::test_UAR_getteryStanu}
 };
 
 std::vector<std::string> Testy_symulacji::wykonaj_testy() {
