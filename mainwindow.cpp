@@ -51,7 +51,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     // Tworzenie wykresów.
     konfiguracjaWykresu uar_cfg;
     uar_cfg.tytul = "wykres generatora i UAR";
-    uar_cfg.serie = { "Generator", "UAR" };
+    uar_cfg.serie = { "GEN", "UAR" };
     auto paczka = fabryka_wykresow::stworz_wykres(uar_cfg);
     for(auto* x: std::get<1>(paczka)){
         menedzer->dodaj_serie(x);
