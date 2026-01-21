@@ -240,7 +240,6 @@ void MainWindow::zwieksz_zakres_osi_x(double czas){
     //skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
 }
 void MainWindow::set_czas_wykresu(double nowy_czas){
-    qDebug() << nowy_czas;
     if(nowy_czas < menedzer->get_czas()) for(auto& x : tab_osi_x) x->setRange(x->max() - nowy_czas, x->max());
     else for(auto& x : tab_osi_x) x->setRange(0, nowy_czas);
 }
