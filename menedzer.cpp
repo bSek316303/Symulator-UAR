@@ -94,6 +94,7 @@ QJsonObject menedzer::menedzer_to_json()
 
 void menedzer::set_interwal(int time_in_ms){ stoper->setInterval(time_in_ms); }
 int menedzer::get_interwal() const { return stoper->interval(); }
+double menedzer::get_czas() const { return czas; }
 
 // SYMULACJA
 

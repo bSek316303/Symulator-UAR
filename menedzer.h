@@ -41,6 +41,7 @@ public:
 
     void set_interwal(int interwal);
     int get_interwal() const;
+    double get_czas() const;
 
     // SYMULACJA
 

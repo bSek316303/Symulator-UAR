@@ -71,10 +71,10 @@ void skalowanie_wykresow::skaluj_wykresy_po_appendzie(dane_do_wykresow dane){
     }
 }
 
-void skalowanie_wykresow::skaluj_wykresy_przy_resizie(double min_range, double max_range){
+void skalowanie_wykresow::skaluj_wykresy_w_zakresie(double min_range, double max_range){
     for(int i = 0; i < tab_wykresow->size(); i++){
-        (*tab_min)[i] = static_cast<double>(INT_MAX);
-        (*tab_max)[i] = static_cast<double>(INT_MIN);
+        (*tab_min)[i] = std::numeric_limits<double>::max();
+        (*tab_max)[i] = std::numeric_limits<double>::min();
 
         for (QAbstractSeries *abstractSeries : (*tab_wykresow)[i]->series()) {
             QLineSeries *seria = qobject_cast<QLineSeries*>(abstractSeries);
@@ -98,22 +98,5 @@ void skalowanie_wykresow::skaluj_wykresy_przy_resizie(double min_range, double m
         else (*tab_osi_y)[i]->setMin((*tab_min)[i] * 1.15);
         if((*tab_max)[i] > 0) (*tab_osi_y)[i]->setMax((*tab_max)[i] * 1.15);
         else (*tab_osi_y)[i]->setMax((*tab_max)[i] * 0.85);
-    }
-}
-
-void skalowanie_wykresow::set_czas_wykresu(double nowy_czas, double* zakres_osi_x, double* aktualny_czas_wykresu, double czas) {
-    *zakres_osi_x = nowy_czas;
-    if(czas == 0.0) for(auto& x: *tab_osi_x) x->setRange(0, *zakres_osi_x);
-    else {
-        if(czas - *zakres_osi_x < 0) {
-            for(auto& x: *tab_osi_x) x->setRange(0.0, *zakres_osi_x);
-            skaluj_wykresy_przy_resizie(0.0, *zakres_osi_x);
-            *aktualny_czas_wykresu = *zakres_osi_x;
-        } else {
-            for(auto& x: *tab_osi_x){ x->setRange(czas - *zakres_osi_x / 2, czas + *zakres_osi_x / 2);
-                skaluj_wykresy_przy_resizie(czas - *zakres_osi_x / 2, czas + *zakres_osi_x / 2);
-                *aktualny_czas_wykresu = (double)x->max();
-            }
-        }
     }
 }

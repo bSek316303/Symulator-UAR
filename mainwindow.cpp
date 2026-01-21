@@ -190,16 +190,12 @@ void MainWindow::on_btn_nastawy_arx_clicked()//DZIALA XD
 
 }
 
-
 void MainWindow::on_btn_resetuj_pamiec_calki_clicked() { menedzer->resetuj_pamiec_calki(); }
 void MainWindow::on_btn_reset_pamieci_rozniczki_clicked() { menedzer->resetuj_pamiec_rozniczki(); }
 void MainWindow::on_rdio_w_calce_toggled(bool checked) { if(checked) menedzer->set_pid_tryb(1); }
 void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) menedzer->set_pid_tryb(0); }
 
-
 void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { menedzer->set_sygnal(index); }
-
-
 
 void MainWindow::on_btn_stop_clicked() { menedzer->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { menedzer->zacznij_symulacje(); }
@@ -244,7 +240,9 @@ void MainWindow::zwieksz_zakres_osi_x(double czas){
     //skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
 }
 void MainWindow::set_czas_wykresu(double nowy_czas){
-    //skalowanie.set_czas_wykresu(nowy_czas, &zakres_osi_x, nowy_czas);
+    qDebug() << nowy_czas;
+    if(nowy_czas < menedzer->get_czas()) for(auto& x : tab_osi_x) x->setRange(x->max() - nowy_czas, x->max());
+    else for(auto& x : tab_osi_x) x->setRange(0, nowy_czas);
 }
 
 // PRZYCISKI
