@@ -75,7 +75,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
 
     konfiguracjaWykresu ster_cfg;
     ster_cfg.tytul = "wykres wartosci sterujacej";
-    ster_cfg.serie.append("serie");
+    ster_cfg.serie.append("Ster.  ");
     paczka = fabryka_wykresow::stworz_wykres(ster_cfg);
     for(auto* x: std::get<1>(paczka)){
         menedzer->dodaj_serie(x);
