@@ -26,15 +26,38 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_taktowanie->setRange(50, 1000);
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
+
+void MainWindow::append(dane_do_wykresow dane, double czas){
+    skalowanie.skaluj_wykresy_po_appendzie(dane);
+    tab_serii[0]->append(czas, dane.uar);
+    tab_serii[1]->append(czas, dane.gen);
+    tab_serii[2]->append(czas, dane.uchyb);
+    tab_serii[3]->append(czas, dane.ster);
+    tab_serii[4]->append(czas, dane.p);
+    tab_serii[5]->append(czas, dane.i);
+    tab_serii[6]->append(czas, dane.d);
+
+    if(czas >= aktualny_czas_wykresu) {
+        zwieksz_zakres_osi_x(czas);
+        aktualny_czas_wykresu += zakres_osi_x / 2;
+    }
+}
+
 MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , skalowanie(), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     menedzer = menedzer_p;
+    menedzer->set_wyjscie_kroku(std::bind(&MainWindow::append, this, std::placeholders::_1, std::placeholders::_2));
 
-    //QMenu.
+    // SYMULACJA.
+    zakres_osi_x = POCZ_ZAKRES_X;
+    aktualny_czas_wykresu = zakres_osi_x;
+    skalowanie.setup(&tab_serii, &tab_wykresow, &tab_osi_x, &tab_osi_y, &tab_max, &tab_min);
+
+    // QMenu.
     QMenu *menu_plik = menuBar()->addMenu("Plik");
     QAction *akcja_wczytaj = menu_plik->addAction("Wczytaj konfiguracje");
     QAction *akcja_zapisz = menu_plik->addAction("Zapisz konfiguracje");
@@ -51,51 +74,55 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     // Tworzenie wykresów.
     konfiguracjaWykresu uar_cfg;
     uar_cfg.tytul = "wykres generatora i UAR";
-    uar_cfg.serie = { "GEN", "UAR" };
+    uar_cfg.serie = { "UAR", "GEN" };
     auto paczka = fabryka_wykresow::stworz_wykres(uar_cfg);
     for(auto* x: std::get<1>(paczka)){
-        menedzer->dodaj_serie(x);
+        x->useOpenGL();
+        dodaj_serie(x);
     }
     QChart* wykres_uar = std::get<0>(paczka);
-    menedzer->dodaj_wykres(wykres_uar);
-    menedzer->dodaj_os_x(std::get<2>(paczka));
-    menedzer->dodaj_os_y(std::get<3>(paczka));
+    dodaj_wykres(wykres_uar);
+    dodaj_os_x(std::get<2>(paczka));
+    dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu uchyb_cfg;
     uchyb_cfg.tytul = "wykres uchybu";
     uchyb_cfg.serie.append("Uchyb");
     paczka = fabryka_wykresow::stworz_wykres(uchyb_cfg);
     for(auto* x: std::get<1>(paczka)){
-        menedzer->dodaj_serie(x);
+        x->useOpenGL();
+        dodaj_serie(x);
     }
     QChart* wykres_uchyb = std::get<0>(paczka);
-    menedzer->dodaj_wykres(wykres_uchyb);
-    menedzer->dodaj_os_x(std::get<2>(paczka));
-    menedzer->dodaj_os_y(std::get<3>(paczka));
+    dodaj_wykres(wykres_uchyb);
+    dodaj_os_x(std::get<2>(paczka));
+    dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu ster_cfg;
     ster_cfg.tytul = "wykres wartosci sterujacej";
     ster_cfg.serie.append("Ster.  ");
     paczka = fabryka_wykresow::stworz_wykres(ster_cfg);
     for(auto* x: std::get<1>(paczka)){
-        menedzer->dodaj_serie(x);
+        x->useOpenGL();
+        dodaj_serie(x);
     }
     QChart* wykres_ster = std::get<0>(paczka);
-    menedzer->dodaj_wykres(wykres_ster);
-    menedzer->dodaj_os_x(std::get<2>(paczka));
-    menedzer->dodaj_os_y(std::get<3>(paczka));
+    dodaj_wykres(wykres_ster);
+    dodaj_os_x(std::get<2>(paczka));
+    dodaj_os_y(std::get<3>(paczka));
 
     konfiguracjaWykresu pid_cfg;
     pid_cfg.tytul = "wykres PID";
     pid_cfg.serie = { "P", "I", "D" };
     paczka = fabryka_wykresow::stworz_wykres(pid_cfg);
     for(auto* x: std::get<1>(paczka)){
-        menedzer->dodaj_serie(x);
+        x->useOpenGL();
+        dodaj_serie(x);
     }
     QChart* wykres_pid = std::get<0>(paczka);
-    menedzer->dodaj_wykres(wykres_pid);
-    menedzer->dodaj_os_x(std::get<2>(paczka));
-    menedzer->dodaj_os_y(std::get<3>(paczka));
+    dodaj_wykres(wykres_pid);
+    dodaj_os_x(std::get<2>(paczka));
+    dodaj_os_y(std::get<3>(paczka));
 
     // Widoki wykresów.
     QChartView* widok_uar = new QChartView(wykres_uar);
@@ -104,9 +131,21 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     QChartView* widok_pid = new QChartView(wykres_pid);
 
     widok_uar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widok_uar->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontAdjustForAntialiasing);
+    widok_uar->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontSavePainterState);
+    widok_uar->setOptimizationFlags(QGraphicsView::OptimizationFlag::IndirectPainting);
     widok_uchyb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widok_uchyb->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontAdjustForAntialiasing);
+    widok_uchyb->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontSavePainterState);
+    widok_uchyb->setOptimizationFlags(QGraphicsView::OptimizationFlag::IndirectPainting);
     widok_ster->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widok_ster->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontAdjustForAntialiasing);
+    widok_ster->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontSavePainterState);
+    widok_ster->setOptimizationFlags(QGraphicsView::OptimizationFlag::IndirectPainting);
     widok_pid->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widok_pid->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontAdjustForAntialiasing);
+    widok_pid->setOptimizationFlags(QGraphicsView::OptimizationFlag::DontSavePainterState);
+    widok_pid->setOptimizationFlags(QGraphicsView::OptimizationFlag::IndirectPainting);
 
     widok_uar->setRenderHint(QPainter::Antialiasing);
     widok_uchyb->setRenderHint(QPainter::Antialiasing);
@@ -194,12 +233,46 @@ void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
 
 void MainWindow::on_btn_stop_clicked() { menedzer->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { menedzer->zacznij_symulacje(); }
-void MainWindow::on_btn_reset_clicked() { menedzer->resetuj_symulacje(); }
-void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { menedzer->set_czas_wykresu(arg1); }
+void MainWindow::on_btn_reset_clicked() {
+    menedzer->resetuj_symulacje();
+    for(auto &wykres: tab_wykresow){
+        for (QAbstractSeries *abstractSeries : wykres->series()) {
+            QLineSeries *seria = qobject_cast<QLineSeries*>(abstractSeries);
+            if (!seria) continue;
+            seria->clear();
+        }
+    }
+    for(auto& x: tab_osi_x){ x->setRange(0, zakres_osi_x); }
+    aktualny_czas_wykresu = zakres_osi_x;
+}
+void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { set_czas_wykresu(arg1); }
 /*
 void MainWindow::on_wczytaj_konfiguracje_clicked(){ //menedzer->wczytajKonfiguracje();
 }
 void MainWindow::on_zapisz_konfiguracje_clicked(){ //menedzer->zapisz_konfiguracje();
 }
 */
+
+void MainWindow::dodaj_serie(QLineSeries* seria){ tab_serii.push_back(seria); }
+void MainWindow::dodaj_wykres(QChart* wykres) {
+    tab_wykresow.push_back(wykres);
+    tab_max.push_back(std::numeric_limits<double>::min());
+    tab_min.push_back(std::numeric_limits<double>::max());
+}
+void MainWindow::dodaj_os_x(QValueAxis* os) {
+    tab_osi_x.push_back(os);
+    os->setRange(0, zakres_osi_x);
+}
+void MainWindow::dodaj_os_y(QValueAxis* os) {
+    tab_osi_y.push_back(os);
+    os->setRange(-10, 10);
+}
+
+void MainWindow::zwieksz_zakres_osi_x(double czas){
+    for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x / 2,czas + zakres_osi_x / 2); }
+    skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
+}
+void MainWindow::set_czas_wykresu(double nowy_czas){
+    skalowanie.set_czas_wykresu(nowy_czas, &zakres_osi_x, &aktualny_czas_wykresu, nowy_czas);
+}
 

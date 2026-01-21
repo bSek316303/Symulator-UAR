@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QMetaType>
 #include "skalowanie_wykresow.h"
+#include <functional>
 
 Q_DECLARE_METATYPE(std::vector<double>)
 
@@ -26,30 +27,19 @@ private:
     QVector<double> Json_to_Wektor(const QJsonArray& dane_json);
 
     QTimer* stoper;
-    std::vector<QLineSeries*> tab_serii;
-    std::vector<QChart*> tab_wykresow;
-    std::vector<QValueAxis*> tab_osi_x;
-    std::vector<QValueAxis*> tab_osi_y;
-    std::vector<double> tab_max;
-    std::vector<double> tab_min;
     double czas;
-    double zakres_osi_x;
-    double aktualny_czas_wykresu;
-    skalowanie_wykresow skalowanie;
+    std::function<void(dane_do_wykresow, double)> to_append;
 public:
     explicit menedzer(ProstyUAR uar, Generator gen, QObject* parent = nullptr);
     void krok();
     void wyslij_arx();
 
+    void set_wyjscie_kroku(std::function<void(dane_do_wykresow, double)> to_append_arg){ to_append = to_append_arg; }
+
     // PRZYGOTOWANIE SYMULACJI
 
-    void dodaj_serie(QLineSeries* seria);
-    void dodaj_wykres(QChart* wykres);
-    void dodaj_os_x(QValueAxis* os);
-    void dodaj_os_y(QValueAxis* os);
+
     void set_interwal(int interwal);
-    void set_czas_wykresu(double nowy_czas);
-    void zwieksz_zakres_osi_x(double czas);
 
     // SYMULACJA
 

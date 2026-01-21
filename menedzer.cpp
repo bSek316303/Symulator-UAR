@@ -29,19 +29,15 @@ void menedzer::set_parametry_generator(double amplituda, double stala_skladowa, 
 void menedzer::set_sygnal(int index) { m_gen.set_sygnal(Generator::Sygnaly(index)); }
 
 menedzer::menedzer(ProstyUAR uar, Generator gen, QObject* parent)
-    : QObject(parent), m_uar(uar), m_gen(gen), skalowanie()
+    : QObject(parent), m_uar(uar), m_gen(gen)
 {
     stoper = new QTimer(this);
     stoper->setInterval(POCZ_TAKTOWANIE);
     connect(stoper, &QTimer::timeout, this, &menedzer::krok);
-    zakres_osi_x = POCZ_ZAKRES_X;
-    aktualny_czas_wykresu = zakres_osi_x;
     czas = 0.0;
-    skalowanie.setup(&tab_serii, &tab_wykresow, &tab_osi_x, &tab_osi_y, &tab_max, &tab_min);
 }
 
 void menedzer::krok() {
-    czas += static_cast<double>(stoper->interval()) / 1000.0;
     double wart_zad = m_gen.generuj(stoper->interval());
     double syg_wy = m_uar.symuluj(wart_zad);
     RegulatorPID& reg = m_uar.get_regulator();
@@ -54,19 +50,8 @@ void menedzer::krok() {
     dane.i = reg.get_ostatni_I();
     dane.d = reg.get_ostatni_D();
 
-    skalowanie.skaluj_wykresy_po_appendzie(dane);
-    tab_serii[0]->append(czas, dane.uar);
-    tab_serii[1]->append(czas, dane.gen);
-    tab_serii[2]->append(czas, dane.uchyb);
-    tab_serii[3]->append(czas, dane.ster);
-    tab_serii[4]->append(czas, dane.p);
-    tab_serii[5]->append(czas, dane.i);
-    tab_serii[6]->append(czas, dane.d);
-
-    if(czas >= aktualny_czas_wykresu) {
-        zwieksz_zakres_osi_x(czas);
-        aktualny_czas_wykresu += zakres_osi_x / 2;
-    }
+    to_append(dane, czas);
+    czas += static_cast<double>(stoper->interval()) / 1000.0;
 }
 
 QVector<double> menedzer::Json_to_Wektor(const QJsonArray& tablica_json)
@@ -107,27 +92,7 @@ QJsonObject menedzer::menedzer_to_json()
 
 // PRZYGOTOWANIE SYMULACJI
 
-void menedzer::dodaj_serie(QLineSeries* seria){ tab_serii.push_back(seria); }
-void menedzer::dodaj_wykres(QChart* wykres) {
-    tab_wykresow.push_back(wykres);
-    tab_max.push_back(std::numeric_limits<double>::min());
-    tab_min.push_back(std::numeric_limits<double>::max());
-}
-void menedzer::dodaj_os_x(QValueAxis* os) {
-    tab_osi_x.push_back(os);
-    os->setRange(0, zakres_osi_x);
-}
-void menedzer::dodaj_os_y(QValueAxis* os) {
-    tab_osi_y.push_back(os);
-    os->setRange(-10, 10);
-}
 void menedzer::set_interwal(int time_in_ms){ stoper->setInterval(time_in_ms); }
-
-void menedzer::zwieksz_zakres_osi_x(double czas){
-    for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x / 2,czas + zakres_osi_x / 2); }
-    skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
-}
-void menedzer::set_czas_wykresu(double nowy_czas){ skalowanie.set_czas_wykresu(nowy_czas, &zakres_osi_x, &aktualny_czas_wykresu, &czas);}
 
 // SYMULACJA
 
@@ -138,13 +103,4 @@ void menedzer::resetuj_symulacje(){
     czas = 0.0;
     m_uar.resetuj();
     m_gen.resetuj();
-    for(auto &wykres: tab_wykresow){
-        for (QAbstractSeries *abstractSeries : wykres->series()) {
-            QLineSeries *seria = qobject_cast<QLineSeries*>(abstractSeries);
-            if (!seria) continue;
-            seria->clear();
-        }
-    }
-    for(auto& x: tab_osi_x){ x->setRange(0, zakres_osi_x); }
-    aktualny_czas_wykresu = zakres_osi_x;
 }

@@ -36,7 +36,7 @@ public:
                std::vector<QValueAxis*>* tab_osi_y_arg,
                std::vector<double>* tab_max_arg,
                std::vector<double>* tab_min_arg);
-    void set_czas_wykresu(double nowy_czas, double* zakres_osi_x, double* aktualny_czas_wykresu, double* czas);
+    void set_czas_wykresu(double nowy_czas, double* zakres_osi_x, double* aktualny_czas_wykresu, double czas);
 };
 
 #endif // SKALOWANIE_WYKRESOW_H

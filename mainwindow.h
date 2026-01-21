@@ -14,12 +14,29 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+private:
+    std::vector<QLineSeries*> tab_serii;
+    std::vector<QChart*> tab_wykresow;
+    std::vector<QValueAxis*> tab_osi_x;
+    std::vector<QValueAxis*> tab_osi_y;
+    std::vector<double> tab_max;
+    std::vector<double> tab_min;
+    double zakres_osi_x;
+    double aktualny_czas_wykresu;
+    skalowanie_wykresow skalowanie;
 public:
     MainWindow(menedzer* menedzer_p, QWidget *parent = nullptr);
     ~MainWindow();
     void set_wartosci_domyslne();
     void set_menedzer(menedzer* m){ menedzer = m; }
+    void append(dane_do_wykresow dane, double czas);
+
+    void dodaj_serie(QLineSeries* seria);
+    void dodaj_wykres(QChart* wykres);
+    void dodaj_os_x(QValueAxis* os);
+    void dodaj_os_y(QValueAxis* os);
+    void set_czas_wykresu(double nowy_czas);
+    void zwieksz_zakres_osi_x(double czas);
 private slots:
     void on_btn_nastawy_arx_clicked();
 

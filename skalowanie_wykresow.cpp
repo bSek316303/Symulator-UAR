@@ -101,17 +101,17 @@ void skalowanie_wykresow::skaluj_wykresy_przy_resizie(double min_range, double m
     }
 }
 
-void skalowanie_wykresow::set_czas_wykresu(double nowy_czas, double* zakres_osi_x, double* aktualny_czas_wykresu, double* czas) {
+void skalowanie_wykresow::set_czas_wykresu(double nowy_czas, double* zakres_osi_x, double* aktualny_czas_wykresu, double czas) {
     *zakres_osi_x = nowy_czas;
-    if(*czas == 0.0) for(auto& x: *tab_osi_x) x->setRange(0, *zakres_osi_x);
+    if(czas == 0.0) for(auto& x: *tab_osi_x) x->setRange(0, *zakres_osi_x);
     else {
-        if(czas - zakres_osi_x < 0) {
+        if(czas - *zakres_osi_x < 0) {
             for(auto& x: *tab_osi_x) x->setRange(0.0, *zakres_osi_x);
             skaluj_wykresy_przy_resizie(0.0, *zakres_osi_x);
             *aktualny_czas_wykresu = *zakres_osi_x;
         } else {
-            for(auto& x: *tab_osi_x){ x->setRange(*czas - *zakres_osi_x / 2, *czas + *zakres_osi_x / 2);
-                skaluj_wykresy_przy_resizie(*czas - *zakres_osi_x / 2, *czas + *zakres_osi_x / 2);
+            for(auto& x: *tab_osi_x){ x->setRange(czas - *zakres_osi_x / 2, czas + *zakres_osi_x / 2);
+                skaluj_wykresy_przy_resizie(czas - *zakres_osi_x / 2, czas + *zakres_osi_x / 2);
                 *aktualny_czas_wykresu = (double)x->max();
             }
         }
