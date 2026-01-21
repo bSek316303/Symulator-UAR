@@ -54,7 +54,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <item>
-          <widget class="QDoubleSpinBox" name="a_input"/>
+          <widget class="QDoubleSpinBox" name="a_input">
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="a_confirm">
@@ -128,7 +135,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QDoubleSpinBox" name="b_input"/>
+          <widget class="QDoubleSpinBox" name="b_input">
+           <property name="minimum">
+            <double>-99.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="b_confirm">
@@ -202,7 +216,13 @@
          <item>
           <widget class="QDoubleSpinBox" name="zaklocenie_input">
            <property name="minimum">
-            <double>-99.000000000000000</double>
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
            </property>
           </widget>
          </item>
