@@ -37,10 +37,7 @@ void MainWindow::append(dane_do_wykresow dane, double czas){
     tab_serii[5]->append(czas, dane.i);
     tab_serii[6]->append(czas, dane.d);
 
-    if(czas >= aktualny_czas_wykresu) {
-        zwieksz_zakres_osi_x(czas);
-        aktualny_czas_wykresu += zakres_osi_x / 2;
-    }
+    if(czas >= zakres_osi_x) zwieksz_zakres_osi_x(czas);
 }
 
 MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
@@ -54,7 +51,6 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
 
     // SYMULACJA.
     zakres_osi_x = POCZ_ZAKRES_X;
-    aktualny_czas_wykresu = zakres_osi_x;
     skalowanie.setup(&tab_serii, &tab_wykresow, &tab_osi_x, &tab_osi_y, &tab_max, &tab_min);
 
     // QMenu.
@@ -194,42 +190,16 @@ void MainWindow::on_btn_nastawy_arx_clicked()//DZIALA XD
 
 }
 
-// Przyciski PID.
-void MainWindow::on_spnbx_wzmocnienie_valueChanged(double arg1) {
-    menedzer->set_parametry_pid(arg1, ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());
-}
-void MainWindow::on_spnbx_stal_calkowania_valueChanged(double arg1) {
-    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), arg1, ui->spnbx_stala_rozniczkowania->value());
-}
-void MainWindow::on_spnbx_stala_rozniczkowania_valueChanged(double arg1){
-    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), ui->spnbx_stal_calkowania->value(), arg1);
-}
+
 void MainWindow::on_btn_resetuj_pamiec_calki_clicked() { menedzer->resetuj_pamiec_calki(); }
 void MainWindow::on_btn_reset_pamieci_rozniczki_clicked() { menedzer->resetuj_pamiec_rozniczki(); }
 void MainWindow::on_rdio_w_calce_toggled(bool checked) { if(checked) menedzer->set_pid_tryb(1); }
 void MainWindow::on_rdio_poza_calka_toggled(bool checked){ if(checked) menedzer->set_pid_tryb(0); }
 
-// Przyciski Generator.
-//double amplituda, double stala_skladowa, double okres, double wypelnienie
-void MainWindow::on_spnbx_amplituda_valueChanged(double arg1) {
-    menedzer->set_parametry_generator(arg1, ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
-}
-void MainWindow::on_spnbx_stala_skladowa_valueChanged(double arg1) {
-    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), arg1, ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
-}
-void MainWindow::on_spnbx_okres_valueChanged(double arg1) {
-    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), arg1, ui->spnbx_wypelnienie->value());
-}
-void MainWindow::on_spnbx_wypelnienie_valueChanged(double arg1) {
-    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), arg1);
-}
+
 void MainWindow::on_comboBox_typ_sygnalu_currentIndexChanged(int index) { menedzer->set_sygnal(index); }
 
-void MainWindow::on_spnbx_taktowanie_valueChanged(int arg1){
-    if (arg1 > 1000) arg1 = 1000;
-    else if (arg1 < 50) arg1 = 50;
-    menedzer->set_interwal(arg1);
-}
+
 
 void MainWindow::on_btn_stop_clicked() { menedzer->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { menedzer->zacznij_symulacje(); }
@@ -243,15 +213,15 @@ void MainWindow::on_btn_reset_clicked() {
         }
     }
     for(auto& x: tab_osi_x){ x->setRange(0, zakres_osi_x); }
-    aktualny_czas_wykresu = zakres_osi_x;
 }
-void MainWindow::on_spnbx_czas_wykresu_valueChanged(int arg1) { set_czas_wykresu(arg1); }
 /*
 void MainWindow::on_wczytaj_konfiguracje_clicked(){ //menedzer->wczytajKonfiguracje();
 }
 void MainWindow::on_zapisz_konfiguracje_clicked(){ //menedzer->zapisz_konfiguracje();
 }
 */
+
+// LOGIKA WYKRESOW
 
 void MainWindow::dodaj_serie(QLineSeries* seria){ tab_serii.push_back(seria); }
 void MainWindow::dodaj_wykres(QChart* wykres) {
@@ -269,10 +239,70 @@ void MainWindow::dodaj_os_y(QValueAxis* os) {
 }
 
 void MainWindow::zwieksz_zakres_osi_x(double czas){
-    for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x / 2,czas + zakres_osi_x / 2); }
-    skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
+    int interwal = menedzer->get_interwal();
+    for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x,czas); }
+    //skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
 }
 void MainWindow::set_czas_wykresu(double nowy_czas){
-    skalowanie.set_czas_wykresu(nowy_czas, &zakres_osi_x, &aktualny_czas_wykresu, nowy_czas);
+    //skalowanie.set_czas_wykresu(nowy_czas, &zakres_osi_x, nowy_czas);
+}
+
+// PRZYCISKI
+
+// Przyciski PID
+void MainWindow::on_spnbx_wzmocnienie_editingFinished()
+{
+    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());
+}
+
+
+void MainWindow::on_spnbx_stal_calkowania_editingFinished()
+{
+    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());
+}
+
+
+void MainWindow::on_spnbx_stala_rozniczkowania_editingFinished()
+{
+    menedzer->set_parametry_pid(ui->spnbx_wzmocnienie->value(), ui->spnbx_stal_calkowania->value(), ui->spnbx_stala_rozniczkowania->value());
+}
+
+// Przyciski do ustawień symulacji
+void MainWindow::on_spnbx_czas_wykresu_editingFinished()
+{
+    set_czas_wykresu(ui->spnbx_czas_wykresu->value());
+}
+
+void MainWindow::on_spnbx_taktowanie_editingFinished()
+{
+    int arg1 = ui->spnbx_taktowanie->value();
+    if (arg1 > 1000) arg1 = 1000;
+    else if (arg1 < 50) arg1 = 50;
+    menedzer->set_interwal(arg1);
+}
+
+
+// Przyciski Generator
+//double amplituda, double stala_skladowa, double okres, double wypelnienie
+void MainWindow::on_spnbx_amplituda_editingFinished()
+{
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
+}
+
+
+void MainWindow::on_spnbx_stala_skladowa_editingFinished()
+{
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
+}
+
+
+void MainWindow::on_spnbx_wypelnienie_editingFinished()
+{
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
+}
+
+void MainWindow::on_spnbx_okres_editingFinished()
+{
+    menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
 }
 

@@ -40,6 +40,7 @@ public:
 
 
     void set_interwal(int interwal);
+    int get_interwal() const;
 
     // SYMULACJA
 

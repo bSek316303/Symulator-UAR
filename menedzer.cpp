@@ -93,6 +93,7 @@ QJsonObject menedzer::menedzer_to_json()
 // PRZYGOTOWANIE SYMULACJI
 
 void menedzer::set_interwal(int time_in_ms){ stoper->setInterval(time_in_ms); }
+int menedzer::get_interwal() const { return stoper->interval(); }
 
 // SYMULACJA
 
