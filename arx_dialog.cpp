@@ -17,7 +17,7 @@ arx_dialog::~arx_dialog()
 {
     delete ui;
 }
-void arx_dialog::ustaw_dane(std::vector<double> a_wsp, std::vector<double> b_wsp, bool ograniczenie_sterowania, bool ograniczenie_wyjscia, double szum, int opoznienie, double ster_gora, double ster_dol, double wyj_gora, double wyj_dol)
+void arx_dialog::ustaw_dane(std::vector<double> a_wsp, std::vector<double> b_wsp, bool ograniczenie_sterowania, bool ograniczenie_wyjscia, double szum, int opoznienie_p, double ster_gora, double ster_dol, double wyj_gora, double wyj_dol)
 {
     wsp_a = a_wsp;
     wsp_b = b_wsp;
@@ -29,7 +29,7 @@ void arx_dialog::ustaw_dane(std::vector<double> a_wsp, std::vector<double> b_wsp
     ui->gorna_wyjscie->setValue(wyj_gora);
     ui->ograniczenia_sterowania_checked->setChecked(ograniczenie_sterowania);
     ui->ograniczenia_wyjscia_checked->setChecked(ograniczenie_wyjscia);
-    ui->opoznienie_input->setValue(opoznienie);
+    ui->opoznienie_input->setValue(opoznienie_p);
     ui->zaklocenie_input->setValue(zaklocenia);
 
     for(int i = 0; i < a_wsp.size(); i++)
@@ -94,7 +94,7 @@ std::vector<double> arx_dialog::get_wsp_b()
     return wsp_b;
 }
 
-double arx_dialog::get_opoznienie()
+int arx_dialog::get_opoznienie()
 {
     return opoznienie;
 }
@@ -119,7 +119,9 @@ void arx_dialog::on_ok_arx_clicked()
 
 void arx_dialog::on_opoznienie_input_valueChanged(double arg1)
 {
-    opoznienie = arg1;
+    int pom = int(arg1);
+    opoznienie = pom;
+    qDebug()<<pom;
 }
 
 void arx_dialog::on_zaklocenie_input_valueChanged(double arg1)
@@ -179,5 +181,12 @@ void arx_dialog::on_gorna_wyjscie_valueChanged(double arg1)
 void arx_dialog::on_dolna_wyjscie_valueChanged(double arg1)
 {
     ograniczenie_wyjscia_dol = arg1;
+}
+
+
+void arx_dialog::on_opoznienie_input_valueChanged(int arg1)
+{
+    opoznienie = arg1;
+    qDebug()<<arg1;
 }
 

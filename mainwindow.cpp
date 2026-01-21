@@ -146,6 +146,7 @@ void MainWindow::on_btn_nastawy_arx_clicked()//DZIALA XD
         }
         // std::cout<< okno->get_ograniczenie_sterowania()<< okno->get_ograniczenie_sterowania_dol() <<okno->get_ograniczenie_sterowania_gora() << std::endl;
         // std::cout<< okno->get_ograniczenie_wyjscia()<< okno->get_ograniczenie_wyjscia_dol() <<okno->get_ograniczenie_wyjscia_gora() << std::endl;
+        std::cout<< okno->get_opoznienie()<<std::endl;
     });
     connect(menedzer, &menedzer::wyslij_dane_do_arx_dialog ,okno, &arx_dialog::ustaw_dane);
 

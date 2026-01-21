@@ -22,7 +22,7 @@ public:
     void zastosuj_konfiguracje();
     std::vector<double> get_wsp_a();
     std::vector<double> get_wsp_b();
-    double get_opoznienie();
+    int get_opoznienie();
     double get_zaklocenie();
     bool get_ograniczenie_sterowania()
     {
@@ -78,14 +78,16 @@ private slots:
 
     void on_dolna_wyjscie_valueChanged(double arg1);
 
+    void on_opoznienie_input_valueChanged(int arg1);
+
 signals:
     void konfiguracja_zatwierdzona();
 private:
     Ui::arx_dialog *ui;
     std::vector<double> wsp_a;
     std::vector<double> wsp_b;
-    double opoznienie = 0;
-    double zaklocenia = 0;
+    int opoznienie = 0;
+    double zaklocenia = 0.0;
     bool ograniczenie_sterowania = false;
     bool ograniczenie_wyjscia = false;
     double ograniczenie_sterowania_dol= -10.0;
