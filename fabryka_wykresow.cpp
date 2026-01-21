@@ -4,15 +4,11 @@ std::tuple<QChart*, std::vector<QLineSeries*>, QValueAxis*, QValueAxis*>
 fabryka_wykresow::stworz_wykres(const konfiguracjaWykresu& cfg) {
     auto* wykres = new QChart();
     std::vector<QLineSeries*> tab_serii;
-    wykres->setTitle(cfg.tytul);
     wykres->legend()->setVisible(true);
-    wykres->legend()->setAlignment(Qt::AlignBottom);
-
-    wykres->legend()->setVisible(false);
-    wykres->setTitle("");
-
+    wykres->legend()->setAlignment(Qt::AlignLeft);
     wykres->setMargins(QMargins(0,0,0,0));
     wykres->setContentsMargins(0,0,0,0);
+
 
     // Ograniczenie: 1–3 serie
     if (cfg.serie.isEmpty() || cfg.serie.size() > 3)

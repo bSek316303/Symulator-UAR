@@ -8,7 +8,7 @@
 
 struct konfiguracjaWykresu {
     QString tytul;
-    QString xOpis;
+    QString xOpis= "CZAS [s]";
     QString yOpis;
     QVector<QString> serie; // od 1 do 3 serii
 };
