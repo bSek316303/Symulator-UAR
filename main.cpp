@@ -8,6 +8,7 @@
 int main (int argc, char *argv[]){
     QApplication a(argc, argv);
 
+#ifdef TEST
     // --- SEKCJA TESTÓW ---
     std::cout << "Uruchamianie testow jednostkowych..." << std::endl;
     Testy_symulacji tester;
@@ -25,7 +26,7 @@ int main (int argc, char *argv[]){
     // ---------------------
 
     qRegisterMetaType<std::vector<double>>("std::vector<double>");
-
+#endif
     ProstyUAR uar(POCZ_KP, POCZ_TI, POCZ_TD, RegulatorPID::LiczCalke(POCZ_LICZ_CALKE),
                   POCZ_A, POCZ_B, POCZ_OPOZNIENIE, POCZ_SZUM);
     Generator gen(POCZ_OKRES, POCZ_AMP, POCZ_S, POCZ_P, Generator::Sygnaly(POCZ_SYGNAL));
