@@ -80,6 +80,7 @@ private slots:
 
     void on_opoznienie_input_valueChanged(int arg1);
 
+
 signals:
     void konfiguracja_zatwierdzona();
 private:
@@ -94,7 +95,7 @@ private:
     double ograniczenie_sterowania_gora = 10.0;
     double ograniczenie_wyjscia_gora = 10.0;
     double ograniczenie_wyjscia_dol = -10.0;
-
+    void sprawdz_czy_sa_trzy_wsp();
 };
 
 #endif // ARX_DIALOG_H

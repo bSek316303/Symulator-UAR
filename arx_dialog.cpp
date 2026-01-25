@@ -106,15 +106,8 @@ double arx_dialog::get_zaklocenie()
 
 void arx_dialog::on_ok_arx_clicked()
 {
-    if(wsp_a.size() < 3 || wsp_b.size() < 3)
-    {
-        QMessageBox::information(this,"Informacja", "Wektor wspolczynnikow nie może zawierać mniej niż 3 elementy");
-    }
-    else
-    {
-        this->accept();
-    }
-
+    sprawdz_czy_sa_trzy_wsp();
+    this->accept();
 }
 
 void arx_dialog::on_opoznienie_input_valueChanged(double arg1)
@@ -190,3 +183,19 @@ void arx_dialog::on_opoznienie_input_valueChanged(int arg1)
     qDebug()<<arg1;
 }
 
+void arx_dialog::sprawdz_czy_sa_trzy_wsp()
+{
+    while (wsp_a.size() < 3)
+        wsp_a.push_back(0.0);
+
+    while (wsp_b.size() < 3)
+        wsp_b.push_back(0.0);
+
+    ui->widok_a->clear();
+    for (double v : wsp_a)
+        ui->widok_a->insertPlainText(QString::number(v) + ", ");
+
+    ui->widok_b->clear();
+    for (double v : wsp_b)
+        ui->widok_b->insertPlainText(QString::number(v) + ", ");
+}
