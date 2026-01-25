@@ -50,9 +50,7 @@ void arx_dialog::on_a_confirm_clicked()
     QString pom_value = QString::number(wsp) + ", ";
     ui->widok_a->insertPlainText(pom_value);
     wsp_a.push_back(wsp);
-    if (qAbs(wsp) < 0.00001) {
-        ui->a_input->setValue(0.0);
-    }
+
 }
 
 void arx_dialog::on_b_confirm_clicked()
@@ -61,9 +59,7 @@ void arx_dialog::on_b_confirm_clicked()
     QString pom_value = QString::number(wsp) + ", ";
     ui->widok_b->insertPlainText(pom_value);
     wsp_b.push_back(wsp);
-    if (qAbs(wsp) < 0.00001) {
-        ui->a_input->setValue(0.0);
-    }
+
 }
 
 void arx_dialog::on_remove_a_clicked()
@@ -205,3 +201,19 @@ void arx_dialog::sprawdz_czy_sa_trzy_wsp()
     for (double v : wsp_b)
         ui->widok_b->insertPlainText(QString::number(v) + ", ");
 }
+
+void arx_dialog::on_a_input_valueChanged(double arg1)
+{
+    if (qAbs(arg1) < 0.00001) {
+        ui->a_input->setValue(0.0);
+    }
+}
+
+
+void arx_dialog::on_b_input_valueChanged(double arg1)
+{
+    if (qAbs(arg1) < 0.00001) {
+        ui->b_input->setValue(0.0);
+    }
+}
+

@@ -81,6 +81,10 @@ private slots:
     void on_opoznienie_input_valueChanged(int arg1);
 
 
+    void on_a_input_valueChanged(double arg1);
+
+    void on_b_input_valueChanged(double arg1);
+
 signals:
     void konfiguracja_zatwierdzona();
 private:
