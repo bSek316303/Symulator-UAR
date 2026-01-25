@@ -1,4 +1,6 @@
 #include "Generator.h"
+#include "qdebug.h"
+#include "qglobal.h"
 Generator::Generator(double okres, double A, double S, double P, Generator::Sygnaly sygnal)
     : m_S(S), m_sygnal(sygnal), m_okres(okres)
 {
@@ -22,19 +24,26 @@ void Generator::set_okres(double okres){ m_okres = okres; }
 double Generator::get_okres() const{ return m_okres; }
 
 double Generator::generuj(int T) {
-    int okres_dyskretny = static_cast<int>(m_okres / (T / 1000.0));
+    double dt = T / 1000.0;
+    i += dt;
+
     double sygWy;
+
     if (m_sygnal == Sygnaly::sinusoidalny) {
-        sygWy = m_A * std::sin((i++ % okres_dyskretny) * 2.0 * M_PI / okres_dyskretny) + m_S;
+        double omega = 2.0 * M_PI / m_okres;
+        sygWy = m_A * std::sin(omega * i) + m_S;
     }
     else if (m_sygnal == Sygnaly::prostokatny) {
-        if (i++ % okres_dyskretny < m_P * okres_dyskretny) sygWy  = m_A + m_S;
-        else sygWy = m_S;
+        double faza = std::fmod(i, m_okres);
+        sygWy = (faza < m_P * m_okres) ? (m_A + m_S) : m_S;
     }
-    else throw std::invalid_argument("podano nieprawidlowy rodzaj sygnalu!");
-    if (i == 5*okres_dyskretny) i = 0; // Zabezpieczenie przed przepełnieniem i
+    else {
+        throw std::invalid_argument("podano nieprawidlowy rodzaj sygnalu!");
+    }
+
     return sygWy;
 }
+
 void Generator::resetuj(){
-    i = 0;
+    i = 0.0;
 }

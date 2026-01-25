@@ -11,7 +11,7 @@ public:
     double m_P;
     Generator::Sygnaly m_sygnal;
     double m_okres;
-    int i = 0;
+    double i = 0;
 public:
     Generator(double okres, double A, double S, double P = 0.0, Generator::Sygnaly sygnal = Generator::Sygnaly::prostokatny);
     void set_amplituda(double nowaAmplituda);
