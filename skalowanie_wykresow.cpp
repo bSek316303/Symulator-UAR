@@ -15,88 +15,50 @@ void skalowanie_wykresow::setup(std::vector<QLineSeries*>* tab_serii_arg,
     tab_min = tab_min_arg;
 }
 
-void skalowanie_wykresow::skaluj_wykresy_po_appendzie(dane_do_wykresow dane){
-    // Wykres 1
-    double min_dane = (dane.uar < dane.gen) ? dane.uar : dane.gen;
-    double max_dane = (dane.uar > dane.gen) ? dane.uar : dane.gen;
-    if((*tab_min)[0] > min_dane){
-        if(min_dane < 0) (*tab_min)[0] = min_dane * 1.15;
-        else (*tab_min)[0] = min_dane * 0.85;
-        (*tab_osi_y)[0]->setMin((*tab_min)[0]);
-    }
-    if((*tab_max)[0] < max_dane){
-        if(max_dane > 0) (*tab_max)[0] = max_dane * 1.15;
-        else (*tab_max)[0] = max_dane * 0.85;
-        (*tab_osi_y)[0]->setMax((*tab_max)[0]);
-    }
+void skalowanie_wykresow::skaluj_z_zakresu_x(double zakres_min, double zakres_max)
+{
+    for (int i = 0; i < tab_wykresow->size(); ++i) {
 
-    // Wykres 2
-    double dane_min_max = dane.uchyb;
-    if((*tab_min)[1] > dane_min_max){
-        if(dane_min_max < 0) (*tab_min)[1] = dane_min_max * 1.15;
-        else (*tab_min)[1] = dane_min_max * 0.85;
-        (*tab_osi_y)[1]->setMin((*tab_min)[1]);
-    }
-    else if((*tab_max)[1] < dane_min_max){
-        if(dane_min_max > 0) (*tab_max)[1] = dane_min_max * 1.15;
-        else (*tab_max)[1] = dane_min_max * 0.85;
-        (*tab_osi_y)[1]->setMax((*tab_max)[1]);
-    }
+        double minY = std::numeric_limits<double>::max();
+        double maxY = std::numeric_limits<double>::lowest();
 
-    // Wykres 3
-    dane_min_max = dane.ster;
-    if((*tab_min)[2] > dane_min_max){
-        if(dane_min_max < 0) (*tab_min)[2] = dane_min_max * 1.15;
-        else (*tab_min)[2] = dane_min_max * 0.85;
-        (*tab_osi_y)[2]->setMin((*tab_min)[2]);
-    }
-    else if((*tab_max)[2] < dane_min_max){
-        if(dane_min_max > 0) (*tab_max)[2] = dane_min_max * 1.15;
-        else (*tab_max)[2] = dane_min_max * 0.85;
-        (*tab_osi_y)[2]->setMax((*tab_max)[2]);
-    }
+        for (QAbstractSeries* abstractSeries : (*tab_wykresow)[i]->series()) {
 
-    // Wykres 4
-    max_dane = std::max({dane.p, dane.i, dane.d});
-    min_dane = std::min({dane.p, dane.i, dane.d});
-    if((*tab_min)[3] > min_dane){
-        if(min_dane < 0) (*tab_min)[3] = min_dane * 1.15;
-        else (*tab_min)[3] = min_dane * 0.85;
-        (*tab_osi_y)[3]->setMin((*tab_min)[3]);
-    }
-    if((*tab_max)[3] < max_dane){
-        if(max_dane > 0) (*tab_max)[3] = max_dane * 1.15;
-        else (*tab_max)[3] = max_dane * 0.85;
-        (*tab_osi_y)[3]->setMax((*tab_max)[3]);
-    }
-}
-
-void skalowanie_wykresow::skaluj_wykresy_w_zakresie(double min_range, double max_range){
-    for(int i = 0; i < tab_wykresow->size(); i++){
-        (*tab_min)[i] = std::numeric_limits<double>::max();
-        (*tab_max)[i] = std::numeric_limits<double>::min();
-
-        for (QAbstractSeries *abstractSeries : (*tab_wykresow)[i]->series()) {
-            QLineSeries *seria = qobject_cast<QLineSeries*>(abstractSeries);
+            QLineSeries* seria = qobject_cast<QLineSeries*>(abstractSeries);
             if (!seria) continue;
-            const auto &punkty = seria->pointsVector();
 
-            for (const auto &p : punkty) {
-                double argument = p.x();
-                double wartosc = p.y();
-                if (argument >= min_range && argument <= max_range) {
-                    if((*tab_min)[i] > wartosc){
-                        (*tab_min)[i] = wartosc;
-                    } else if((*tab_max)[i] < wartosc){
-                        (*tab_max)[i] = wartosc;
-                    }
-                }
+            const auto& pts = seria->pointsVector();
+
+            for (int k = pts.size() - 1; k >= 0; --k) {
+                const QPointF& p = pts[k];
+
+                if (p.x() > zakres_max) continue;
+                if (p.x() < zakres_min) break;
+
+                if (p.y() < minY) minY = p.y();
+                if (p.y() > maxY) maxY = p.y();
             }
         }
 
-        if((*tab_min)[i] > 0) (*tab_osi_y)[i]->setMin((*tab_min)[i] * 0.85);
-        else (*tab_osi_y)[i]->setMin((*tab_min)[i] * 1.15);
-        if((*tab_max)[i] > 0) (*tab_osi_y)[i]->setMax((*tab_max)[i] * 1.15);
-        else (*tab_osi_y)[i]->setMax((*tab_max)[i] * 0.85);
+        if (minY == std::numeric_limits<double>::max())
+            continue;
+
+        double zakresY = maxY - minY;
+        if (zakresY < 1e-9) zakresY = 1.0;
+
+        double margines = 0.1 * zakresY;
+
+        double nowyMin = minY - margines;
+        double nowyMax = maxY + margines;
+
+        if (std::abs((*tab_min)[i] - nowyMin) > 1e-6) {
+            (*tab_min)[i] = nowyMin;
+            (*tab_osi_y)[i]->setMin(nowyMin);
+        }
+
+        if (std::abs((*tab_max)[i] - nowyMax) > 1e-6) {
+            (*tab_max)[i] = nowyMax;
+            (*tab_osi_y)[i]->setMax(nowyMax);
+        }
     }
 }

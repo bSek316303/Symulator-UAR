@@ -20,7 +20,7 @@ void MainWindow::set_wartosci_domyslne(){
     if(POCZ_LICZ_CALKE) ui->rdio_w_calce->setChecked(true);
     else ui->rdio_poza_calka->setChecked(true);
     ui->spnbx_czas_wykresu->setValue(POCZ_ZAKRES_X);
-    ui->spnbx_czas_wykresu->setRange(5, 500);
+    ui->spnbx_czas_wykresu->setRange(5, 50);
     ui->spnbx_okres->setValue(POCZ_OKRES);
     ui->spnbx_okres->setMinimum(1.0);
     ui->spnbx_taktowanie->setRange(10, 1000);
@@ -28,7 +28,7 @@ void MainWindow::set_wartosci_domyslne(){
 }
 
 void MainWindow::append(dane_do_wykresow dane, double czas){
-    skalowanie.skaluj_wykresy_po_appendzie(dane);
+    skalowanie.skaluj_z_zakresu_x(czas-zakres_osi_x, czas);
     tab_serii[0]->append(czas, dane.uar);
     tab_serii[1]->append(czas, dane.gen);
     tab_serii[2]->append(czas, dane.uchyb);
@@ -36,7 +36,6 @@ void MainWindow::append(dane_do_wykresow dane, double czas){
     tab_serii[4]->append(czas, dane.p);
     tab_serii[5]->append(czas, dane.i);
     tab_serii[6]->append(czas, dane.d);
-
     if(czas >= zakres_osi_x) zwieksz_zakres_osi_x(czas);
 }
 
@@ -202,7 +201,7 @@ void MainWindow::on_btn_stop_clicked() { menedzer->zakoncz_symulacje(); }
 void MainWindow::on_btn_start_clicked() { menedzer->zacznij_symulacje(); }
 void MainWindow::on_btn_reset_clicked() {
     menedzer->resetuj_symulacje();
-    for(auto &wykres: tab_wykresow){
+    for(auto &wykres: tab_wykresow) {
         for (QAbstractSeries *abstractSeries : wykres->series()) {
             QLineSeries *seria = qobject_cast<QLineSeries*>(abstractSeries);
             if (!seria) continue;

@@ -26,9 +26,7 @@ private:
     std::vector<double>* tab_max;
     std::vector<double>* tab_min;
 public:
-
-    void skaluj_wykresy_po_appendzie(dane_do_wykresow dane);
-    void skaluj_wykresy_w_zakresie(double min_range, double max_range);
+    void skaluj_z_zakresu_x(double zakres_min, double zakres_max);
     skalowanie_wykresow();
     void setup(std::vector<QLineSeries*>* tab_serii_arg,
                std::vector<QChart*>* tab_wykresow_arg,
