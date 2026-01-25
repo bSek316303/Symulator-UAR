@@ -30,8 +30,8 @@ constexpr double POCZ_KP = 1.0;
 constexpr double POCZ_TI = 4.0;
 constexpr double POCZ_TD = 1.05;
 constexpr int POCZ_LICZ_CALKE = 0;
-const std::vector<double> POCZ_A = {0.7};
-const std::vector<double> POCZ_B = {0.2};
+const std::vector<double> POCZ_A = {0.7, 0.0, 0.0};
+const std::vector<double> POCZ_B = {0.2, 0.0, 0.0};
 constexpr int POCZ_OPOZNIENIE = 1;
 constexpr int POCZ_SZUM = 0;
 

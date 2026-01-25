@@ -6,6 +6,7 @@ fabryka_wykresow::stworz_wykres(const konfiguracjaWykresu& cfg) {
     std::vector<QLineSeries*> tab_serii;
     wykres->legend()->setVisible(true);
     wykres->legend()->setAlignment(Qt::AlignLeft);
+    wykres->legend()->setMinimumWidth(75);
     wykres->setMargins(QMargins(0,0,0,0));
     wykres->setContentsMargins(0,0,0,0);
 

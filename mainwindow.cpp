@@ -22,8 +22,8 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_czas_wykresu->setValue(POCZ_ZAKRES_X);
     ui->spnbx_czas_wykresu->setRange(5, 500);
     ui->spnbx_okres->setValue(POCZ_OKRES);
-    ui->spnbx_okres->setMinimum(0.0);
-    ui->spnbx_taktowanie->setRange(50, 1000);
+    ui->spnbx_okres->setMinimum(1.0);
+    ui->spnbx_taktowanie->setRange(10, 1000);
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
 
@@ -45,6 +45,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     , skalowanie(), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Symulator UAR");
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     menedzer = menedzer_p;
     menedzer->set_wyjscie_kroku(std::bind(&MainWindow::append, this, std::placeholders::_1, std::placeholders::_2));
@@ -70,7 +71,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     // Tworzenie wykresów.
     konfiguracjaWykresu uar_cfg;
     uar_cfg.tytul = "wykres generatora i UAR";
-    uar_cfg.serie = { "UAR", "GEN" };
+    uar_cfg.serie = { "UAR  ", "GEN  " };
     auto paczka = fabryka_wykresow::stworz_wykres(uar_cfg);
     for(auto* x: std::get<1>(paczka)){
         x->useOpenGL();
@@ -109,7 +110,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
 
     konfiguracjaWykresu pid_cfg;
     pid_cfg.tytul = "wykres PID";
-    pid_cfg.serie = { "P", "I", "D" };
+    pid_cfg.serie = { "P    ", "I    ", "D    " };
     paczka = fabryka_wykresow::stworz_wykres(pid_cfg);
     for(auto* x: std::get<1>(paczka)){
         x->useOpenGL();
