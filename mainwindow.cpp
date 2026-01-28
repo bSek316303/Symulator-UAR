@@ -274,7 +274,7 @@ void MainWindow::on_spnbx_taktowanie_editingFinished()
 {
     int arg1 = ui->spnbx_taktowanie->value();
     if (arg1 > 1000) arg1 = 1000;
-    else if (arg1 < 50) arg1 = 50;
+    else if (arg1 < 10) arg1 = 10;
     menedzer->set_interwal(arg1);
 }
 
