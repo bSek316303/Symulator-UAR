@@ -37,6 +37,7 @@ public:
     void dodaj_os_y(QValueAxis* os);
     void set_czas_wykresu(double nowy_czas);
     void zwieksz_zakres_osi_x();
+    void ustaw_dane_po_wczytaniu();
 private slots:
     void on_btn_nastawy_arx_clicked();
 

@@ -47,7 +47,25 @@ void MainWindow::append(dane_do_wykresow dane, double czas){
         usun_stare_punkty(tab_osi_x[0]->min() - 3.0);
     }
 }
+void MainWindow::ustaw_dane_po_wczytaniu() {
+    this->blockSignals(true);
 
+    auto gen = menedzer->get_generator();
+    ui->spnbx_amplituda->setValue(gen.get_amplituda());
+    ui->spnbx_okres->setValue(gen.get_okres());
+    ui->spnbx_stala_skladowa->setValue(gen.get_stala_skladowa());
+    ui->spnbx_wypelnienie->setValue(gen.get_wypelnienie());
+    ui->comboBox_typ_sygnalu->setCurrentIndex(gen.get_sygnal());
+
+    auto& reg = menedzer->get_m_uar().get_regulator();
+    ui->spnbx_wzmocnienie->setValue(reg.getKp());
+    ui->spnbx_stal_calkowania->setValue(reg.getTi());
+    ui->spnbx_stala_rozniczkowania->setValue(reg.getTd());
+
+    ui->spnbx_taktowanie->setValue(menedzer->get_interwal());
+
+    this->blockSignals(false);
+}
 MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     : QMainWindow(parent)
     , skalowanie(), ui(new Ui::MainWindow)
@@ -68,6 +86,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     QAction *akcja_zapisz = menu_plik->addAction("Zapisz konfiguracje");
     connect(akcja_wczytaj, &QAction::triggered, menedzer, &menedzer::zastosuj_konfiguracje);
     connect(akcja_zapisz, &QAction::triggered, menedzer, &menedzer::zapisz_konfiguracje);
+    connect(menedzer, &menedzer::dane_wczytane, this, &MainWindow::ustaw_dane_po_wczytaniu);
 
     // Typ sygnalu generatora.
     ui->comboBox_typ_sygnalu->blockSignals(true);
