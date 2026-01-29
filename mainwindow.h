@@ -29,13 +29,14 @@ public:
     void set_wartosci_domyslne();
     void set_menedzer(menedzer* m){ menedzer = m; }
     void append(dane_do_wykresow dane, double czas);
+    void usun_stare_punkty(double minX);
 
     void dodaj_serie(QLineSeries* seria);
     void dodaj_wykres(QChart* wykres);
     void dodaj_os_x(QValueAxis* os);
     void dodaj_os_y(QValueAxis* os);
     void set_czas_wykresu(double nowy_czas);
-    void zwieksz_zakres_osi_x(double czas);
+    void zwieksz_zakres_osi_x();
 private slots:
     void on_btn_nastawy_arx_clicked();
 
