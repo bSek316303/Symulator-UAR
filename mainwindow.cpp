@@ -250,12 +250,6 @@ void MainWindow::zwieksz_zakres_osi_x(){
     //skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
 }
 void MainWindow::set_czas_wykresu(double nowy_czas){
-    static int i = 0;
-    qDebug() << "zmiana: " << i++;
-    qDebug() << "min: " << tab_osi_x[0]->min();
-    qDebug() << "zakres osi x: " << zakres_osi_x;
-    qDebug() << "nowy czas: " << nowy_czas;
-    qDebug() << "przerwa";
     double lewa_krawedz_okna = tab_osi_x[0]->min();
     if(nowy_czas > zakres_osi_x) for (auto& x : tab_osi_x) x->setRange(lewa_krawedz_okna, lewa_krawedz_okna + nowy_czas);
     else {
