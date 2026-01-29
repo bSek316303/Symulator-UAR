@@ -47,3 +47,19 @@ double Generator::generuj(int T) {
 void Generator::resetuj(){
     i = 0.0;
 }
+double Generator::get_amplituda() const{
+    return m_A;
+}
+
+double Generator::get_wypelnienie() const{
+    return m_P;
+}
+int Generator::get_sygnal() const
+{
+    return (int)m_sygnal;
+}
+
+double Generator::get_stala_skladowa() const
+{
+    return m_S;
+};

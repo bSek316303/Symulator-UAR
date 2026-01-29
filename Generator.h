@@ -20,6 +20,10 @@ public:
     void set_stala_skladowa(double nowaStala);
     void set_okres(double okres);
     double get_okres() const;
+    double get_amplituda() const;
+    double get_wypelnienie() const;
+    int get_sygnal() const;
+    double get_stala_skladowa() const;
     double generuj(int T);
     void resetuj();
 };

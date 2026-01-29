@@ -27,6 +27,27 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
 
+void MainWindow::ustaw_dane_po_wczytaniu()
+{
+    this->blockSignals(true);
+
+    auto gen = menedzer->get_generator();
+    ui->spnbx_amplituda->setValue(gen.get_amplituda());
+    ui->spnbx_okres->setValue(gen.get_okres());
+    ui->spnbx_stala_skladowa->setValue(gen.get_stala_skladowa());
+    ui->spnbx_wypelnienie->setValue(gen.get_wypelnienie());
+    ui->comboBox_typ_sygnalu->setCurrentIndex(gen.get_sygnal());
+
+    auto& reg = menedzer->get_m_uar().get_regulator();
+    ui->spnbx_wzmocnienie->setValue(reg.getKp());
+    ui->spnbx_stal_calkowania->setValue(reg.getTi());
+    ui->spnbx_stala_rozniczkowania->setValue(reg.getTd());
+
+    ui->spnbx_taktowanie->setValue(menedzer->get_interwal());
+
+    this->blockSignals(false);
+}
+
 void MainWindow::append(dane_do_wykresow dane, double czas){
     skalowanie.skaluj_z_zakresu_x(czas-zakres_osi_x, czas);
     tab_serii[0]->append(czas, dane.uar);
@@ -48,6 +69,7 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     menedzer = menedzer_p;
     menedzer->set_wyjscie_kroku(std::bind(&MainWindow::append, this, std::placeholders::_1, std::placeholders::_2));
+    connect(menedzer, &menedzer::dane_wczytane, this, &MainWindow::ustaw_dane_po_wczytaniu);
 
     // SYMULACJA.
     zakres_osi_x = POCZ_ZAKRES_X;

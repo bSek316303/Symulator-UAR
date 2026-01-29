@@ -30,6 +30,13 @@ private:
     double czas;
     std::function<void(dane_do_wykresow, double)> to_append;
 public:
+
+
+
+    Generator get_generator() const
+    {
+        return m_gen;
+    }
     explicit menedzer(ProstyUAR uar, Generator gen, QObject* parent = nullptr);
     void krok();
     void wyslij_arx();
@@ -77,7 +84,16 @@ public:
     // Generator
     void set_parametry_generator(double amplituda, double stala_skladowa, double okres, double wypelnienie);
     void set_sygnal(int index);
-
+    QJsonObject Generator_to_json(const Generator &m_gen)
+    {
+        QJsonObject generator;
+        generator["Amplituda"] = m_gen.get_amplituda();
+        generator["Okres"] = m_gen.get_okres();
+        generator["Wypelnienie"] = m_gen.get_wypelnienie();
+        generator["Sygnal"] = m_gen.get_sygnal();
+        generator["Stala_skladowa"] = m_gen.get_stala_skladowa();
+        return generator;
+    }
     QJsonObject menedzer_to_json();
     QJsonObject Model_ARX_to_Json(const ModelARX& model_arx) const
     {
@@ -121,12 +137,13 @@ public:
         QJsonObject arx_json = Model_ARX_to_Json(m_uar.get_ARX());
         QJsonObject pid_json = RegulatorPID_to_Json(m_uar.get_regulator());
         QJsonObject menedzer_json = menedzer_to_json();
-
+        QJsonObject generator_json = Generator_to_json(m_gen);
         QJsonObject glowny_obiekt;
 
         glowny_obiekt["Parametry_Symulacji"] = menedzer_json;
         glowny_obiekt["ARX"] = arx_json;
         glowny_obiekt["PID"] = pid_json;
+        glowny_obiekt["Generator"] = generator_json;
 
         QJsonDocument dokument(glowny_obiekt);
 
@@ -169,6 +186,15 @@ public:
         }
 
         QJsonObject obiekt_danych = dane_json.object();
+
+        if (obiekt_danych.contains("Generator") && obiekt_danych["Generator"].isObject()) {
+            QJsonObject generator_json = obiekt_danych["Generator"].toObject();
+
+            set_parametry_generator(generator_json["Amplituda"].toDouble(), generator_json["Stala_skladowa"].toDouble(), generator_json["Okres"].toDouble(), generator_json["Wypelnienie"].toDouble());
+            set_sygnal(generator_json["Sygnal"].toInt());
+        }
+
+        //generator["Sygnal"] = m_gen.get_sygnal();
 
         if (obiekt_danych.contains("PID") && obiekt_danych["PID"].isObject()) {
             QJsonObject pid_json = obiekt_danych["PID"].toObject();
@@ -225,10 +251,11 @@ public:
     {
         QJsonDocument dane = this->wczytajKonfiguracje();
         this->wczytaj_konfiguracje(dane);
+        emit dane_wczytane();
     }
 signals:
     void wyslij_dane_do_arx_dialog(std::vector<double> a_wsp, std::vector<double> b_wsp, bool ograniczenie_sterowania, bool ograniczenie_wyjscia, double szum, int opoznienie, double ster_gora, double ster_dol, double wyj_gora, double wyj_dol);
-
+    void dane_wczytane();
 
 };
 
