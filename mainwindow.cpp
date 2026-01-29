@@ -8,6 +8,7 @@
 #include <QtCharts/QValueAxis>
 #include <QPainter>
 #include <QDebug>
+#include <chrono>
 
 void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_wzmocnienie->setValue(POCZ_KP);
@@ -27,25 +28,9 @@ void MainWindow::set_wartosci_domyslne(){
     ui->spnbx_taktowanie->setValue(POCZ_TAKTOWANIE);
 }
 
-void MainWindow::ustaw_dane_po_wczytaniu()
+void MainWindow::usun_stare_punkty(double minX)
 {
-    this->blockSignals(true);
-
-    auto gen = menedzer->get_generator();
-    ui->spnbx_amplituda->setValue(gen.get_amplituda());
-    ui->spnbx_okres->setValue(gen.get_okres());
-    ui->spnbx_stala_skladowa->setValue(gen.get_stala_skladowa());
-    ui->spnbx_wypelnienie->setValue(gen.get_wypelnienie());
-    ui->comboBox_typ_sygnalu->setCurrentIndex(gen.get_sygnal());
-
-    auto& reg = menedzer->get_m_uar().get_regulator();
-    ui->spnbx_wzmocnienie->setValue(reg.getKp());
-    ui->spnbx_stal_calkowania->setValue(reg.getTi());
-    ui->spnbx_stala_rozniczkowania->setValue(reg.getTd());
-
-    ui->spnbx_taktowanie->setValue(menedzer->get_interwal());
-
-    this->blockSignals(false);
+    for (auto* seria : tab_serii) while (seria->count() > 0 && seria->at(0).x() < minX) seria->remove(0);
 }
 
 void MainWindow::append(dane_do_wykresow dane, double czas){
@@ -57,7 +42,10 @@ void MainWindow::append(dane_do_wykresow dane, double czas){
     tab_serii[4]->append(czas, dane.p);
     tab_serii[5]->append(czas, dane.i);
     tab_serii[6]->append(czas, dane.d);
-    if(czas >= zakres_osi_x) zwieksz_zakres_osi_x(czas);
+    if(czas - (menedzer->get_interwal() / 1000) > tab_osi_x[0]->max()) {
+        zwieksz_zakres_osi_x();
+        usun_stare_punkty(tab_osi_x[0]->min() - 3.0);
+    }
 }
 
 MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
@@ -69,7 +57,6 @@ MainWindow::MainWindow(class menedzer* menedzer_p, QWidget *parent)
     ui->centralwidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     menedzer = menedzer_p;
     menedzer->set_wyjscie_kroku(std::bind(&MainWindow::append, this, std::placeholders::_1, std::placeholders::_2));
-    connect(menedzer, &menedzer::dane_wczytane, this, &MainWindow::ustaw_dane_po_wczytaniu);
 
     // SYMULACJA.
     zakres_osi_x = POCZ_ZAKRES_X;
@@ -256,14 +243,20 @@ void MainWindow::dodaj_os_y(QValueAxis* os) {
     os->setRange(-10, 10);
 }
 
-void MainWindow::zwieksz_zakres_osi_x(double czas){
-    int interwal = menedzer->get_interwal();
-    for(auto& x: tab_osi_x){ x->setRange(czas - zakres_osi_x,czas); }
+void MainWindow::zwieksz_zakres_osi_x(){
+    double interwal = static_cast<double>(menedzer->get_interwal()) / 1000.0;
+    qDebug() << interwal;
+    for(auto& x: tab_osi_x){ x->setRange(x->min() + interwal, x->max() + interwal); }
     //skalowanie.skaluj_wykresy_przy_resizie(czas - zakres_osi_x / 2, czas + zakres_osi_x / 2);
 }
 void MainWindow::set_czas_wykresu(double nowy_czas){
-    if(nowy_czas < menedzer->get_czas()) for(auto& x : tab_osi_x) x->setRange(x->max() - nowy_czas, x->max());
-    else for(auto& x : tab_osi_x) x->setRange(0, nowy_czas);
+    double lewa_krawedz_okna = tab_osi_x[0]->min();
+    if(nowy_czas > zakres_osi_x) for (auto& x : tab_osi_x) x->setRange(lewa_krawedz_okna, lewa_krawedz_okna + nowy_czas);
+    else {
+        double minX = (menedzer->get_czas() - nowy_czas > 0.0) ? menedzer->get_czas() - nowy_czas: 0.0;
+        for (auto& x : tab_osi_x) x->setRange(minX, minX + nowy_czas);
+    }
+    zakres_osi_x = nowy_czas;
 }
 
 // PRZYCISKI
@@ -324,4 +317,3 @@ void MainWindow::on_spnbx_okres_editingFinished()
 {
     menedzer->set_parametry_generator(ui->spnbx_amplituda->value(), ui->spnbx_stala_skladowa->value(), ui->spnbx_okres->value(), ui->spnbx_wypelnienie->value());
 }
-
