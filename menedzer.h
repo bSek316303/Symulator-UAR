@@ -29,6 +29,7 @@ private:
     QTimer* stoper;
     double czas;
     std::function<void(dane_do_wykresow, double)> to_append;
+    QString sciezka = QCoreApplication::applicationDirPath() + "/konfiguracja.json";
 public:
 
 
@@ -149,8 +150,6 @@ public:
 
         QByteArray jsonData = dokument.toJson(QJsonDocument::Indented);
 
-        QString sciezka = QCoreApplication::applicationDirPath() + "/konfiguracja.json";
-
         QFile plik(sciezka);
 
         if (!plik.open(QIODevice::WriteOnly)) {
@@ -162,7 +161,7 @@ public:
     }
     QJsonDocument wczytajKonfiguracje()
     {
-        QFile plik("konfiguracja.json");
+        QFile plik(sciezka);
 
         if(!plik.open(QIODevice::ReadOnly | QIODevice::Text))
         {
