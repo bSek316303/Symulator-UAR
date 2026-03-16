@@ -19,8 +19,8 @@ void skalowanie_wykresow::skaluj_z_zakresu_x(double zakres_min, double zakres_ma
 {
     for (int i = 0; i < tab_wykresow->size(); ++i) {
 
-        double minY = std::numeric_limits<double>::max();
-        double maxY = std::numeric_limits<double>::lowest();
+        double minY = std::numeric_limits<double>::lowest();
+        double maxY = std::numeric_limits<double>::max();
 
         for (QAbstractSeries* abstractSeries : (*tab_wykresow)[i]->series()) {
 
