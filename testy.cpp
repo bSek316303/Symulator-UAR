@@ -1,4 +1,5 @@
 #include "testy.h"
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 

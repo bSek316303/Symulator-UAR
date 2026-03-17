@@ -7,7 +7,7 @@
 // ARX
 void menedzer::set_parametry_arx(const std::vector<double>& A, const std::vector<double>& B){ m_uar.set_parametry_arx(A, B); }
 void menedzer::set_szum(double szum, bool czy_wlaczony){ m_uar.set_szum(szum); }
-void menedzer::set_opoznienie_ARX(int opoznienie) { m_uar.set_opoznienie(opoznienie); }
+void menedzer::set_opoznienie_ARX(int opoznienie) { m_uar.set_opoznienie(opoznienie + 10.0); }
 void menedzer::set_ograniczenia_ster_ARX(bool wlaczone){m_uar.set_ograniczenie_ster(wlaczone);}
 void menedzer::set_ograniczenia_wyj_ARX(bool wlaczone) {m_uar.set_ograniczenie_wyj(wlaczone);}
 

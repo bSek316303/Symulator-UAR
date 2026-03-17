@@ -2,7 +2,6 @@
 #define STALE_H
 #include <vector>
 //#define _USE_MATH_DEFINES
-#include <corecrt_math_defines.h>
 
 /*
 constexpr double POCZ_KP = 1.0;

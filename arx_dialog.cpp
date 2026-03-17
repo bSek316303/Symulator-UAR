@@ -109,7 +109,7 @@ double arx_dialog::get_zaklocenie()
 void arx_dialog::on_ok_arx_clicked()
 {
     sprawdz_czy_sa_trzy_wsp();
-    this->accept();
+    this->reject();
 }
 
 void arx_dialog::on_opoznienie_input_valueChanged(double arg1)
